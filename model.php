@@ -31,12 +31,6 @@ function get_all_posts()
     return $posts;
 }
 
-function get_answer_count()
-{
-    $link = open_database_connection();
-
-}
-
 function get_post_by_id($id)
 {
     $link = open_database_connection();
@@ -63,15 +57,17 @@ function get_answer_all_post($id)
     
 }
 
-function set_new_question($Name, $title, $question)
+function set_new_question($name, $title, $question)
 {
     $link = open_database_connection();
 
     $date = date("Y-m-d H:i:s");
     $sql = "INSERT INTO asuult 
-                (id, title, createdate, mainq, whoask, answer) 
-        VALUES (NULL, '$title' , '$date', '$question' , '$Name', 0 )";
+                (id, title, createdate, mainq, whoask, result) 
+        VALUES (NULL, '$title' , '$date', '$question' , '$name', 0 )";
+    var_dump($sql);
     $result = mysql_query($sql);
+    var_dump($result);
 
     close_database_connection($link);
 

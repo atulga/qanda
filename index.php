@@ -1,14 +1,20 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 require_once 'model.php';
 require_once 'controllers.php';
 
 $uri = $_SERVER['REQUEST_URI'];
+
 if (strpos($uri, '?')){
     $uri_filtered = strstr($uri, '?', true);
-}else{
+} else {
     $uri_filtered = $uri;
 }
+
+var_dump($uri);
+var_dump($uri_filtered);
 
 function has_get($param_name){
     return isset($_GET[$param_name]);
@@ -31,16 +37,24 @@ function uri_is($u){
     return $u == $uri_filtered;
 }
 
-if (uri_is('/qanda/index.php') || uri_is('/qanda/')){
+//echo post_param('questioner')." asuultiin
+//    garchih->".post_param('question_title')." asuult->".post_param('question');
+
+if ($uri == '/qanda/' || $uri == '/qanda/index.php' && !has_post('questioner')){
     list_action();
 
-} elseif (uri_is('/qanda/index.php/show') && has_get('id')){  
-    show_action(get_param('id');
+} elseif ($uri_filtered == '/qanda/index.php/show' && has_get('id')){  
+    show_action(get_param('id'));
 
-} elseif (uri_is('/qanda/index.php') && has_post('Name')){
-    ask_action(post_param('Name'), post_param('title'), post_param('question'));
-    
-} elseif (uri_is('/qanda/index.php/index.php') && has_post('answername')){
+} elseif ($uri_filtered == '/qanda/index.php' && has_post('questioner')){
+//    echo post_param('name').post_param('title').post_param('question');
+    ask_action(
+        post_param('questioner'),
+        post_param('question_title'),
+        post_param('question')
+    );
+
+} elseif ($uri_filtered == '/qanda/index.php/index.php' && has_post('answername')){
     answer_action(post_param('answername'), post_param('answer'), post_param('questionid'));
 }
 

@@ -11,17 +11,20 @@ function show_action($id)
     $answerpost = get_answer_all_post($id);
     require 'templates/show.php';
 }
-function ask_action($Name, $title, $question)
+
+function ask_action($name, $title, $question)
 {
-    set_new_question($Name, $title, $question);
-    list_action();
+    // save_question
+    set_new_question($name, $title, $question);
+    header('Location: /qanda/index.php');
+    exit();
 }
 
 function answer_action($answername, $answer, $questionid)
 {
     save_answer($answername, $answer, $questionid);
     header('Location: /qanda/index.php');
-    exit()
+    exit();
 }
 
 ?>

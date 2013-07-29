@@ -32,11 +32,11 @@
 <form method = "POST" action = "index.php">
 <tr>
     <td>Асуугчийн нэр:</td>
-    <td><input type="text" size="30" name="Name"></td>
+    <td><input type="text" size="30" name="questioner"></td>
 </tr>
 <tr>
     <td>Асуултын гарчиг:</td>
-    <td><input type="text" size="30" name="title" ></td>
+    <td><input type="text" size="30" name="question_title" ></td>
 </tr>
 <tr>
     <td colspan="2">Асуулт:</td>
