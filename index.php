@@ -13,9 +13,6 @@ if (strpos($uri, '?')){
     $uri_filtered = $uri;
 }
 
-var_dump($uri);
-var_dump($uri_filtered);
-
 function has_get($param_name){
     return isset($_GET[$param_name]);
 }
@@ -37,9 +34,6 @@ function uri_is($u){
     return $u == $uri_filtered;
 }
 
-//echo post_param('questioner')." asuultiin
-//    garchih->".post_param('question_title')." asuult->".post_param('question');
-
 if ($uri == '/qanda/' || $uri == '/qanda/index.php' && !has_post('questioner')){
     list_action();
 
@@ -55,7 +49,18 @@ if ($uri == '/qanda/' || $uri == '/qanda/index.php' && !has_post('questioner')){
     );
 
 } elseif ($uri_filtered == '/qanda/index.php/index.php' && has_post('answername')){
-    answer_action(post_param('answername'), post_param('answer'), post_param('questionid'));
+    answer_action(
+        post_param('answername'), 
+        post_param('answer'), 
+        post_param('questionid')
+    );
+} elseif ($uri_filtered == '/qanda/index.php' && (has_post('question') ||
+    has_post('resulted'))){
+    edit_question_action(
+        post_param('question'),
+        post_param('resulted'),
+        post_param('questionid')
+        );    
 }
 
 else {

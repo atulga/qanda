@@ -3,16 +3,25 @@
 <?php ob_start(); ?>
 
   <a href="/qanda/index.php">Буцах</a>
-
-  <h2><?php echo $post['title'] ?></h2>
-  
-  <div class="date"><?php echo "Үүссэн огноо:  ". $post['createdate']." Асуулт асуугч:".$post['whoask']   ?></div>
-  <div class="body">
-    <?php 
-        echo $post['mainq'];
-        $questionid = $post['id'];
-    ?>
+<form method="POST" action="index.php">
+  <h2><?php echo $post['title']; ?></h2>
+  <div class="date">
+        <?php echo "Үүссэн огноо:  ". $post['createdate']
+            ." Асуулт асуугч:".$post['whoask'];?>
+  <input type="checkbox" name="resulted" value="1">Хариултаа авсан эсэх
   </div>
+  <div class="body">
+    Асуулт:
+  <textarea rows="3" cols="60" name="question">
+<?php 
+    echo $post['mainq'];
+    $questionid = $post['id'];
+?>
+  </textarea>
+  </div>
+    <input type="hidden" name="post_id" value=".<?php echo $questionid ?>.">
+    <input type="submit" name="edit" value="Засах">
+</form>
   <table border="0">
   <hr>
   <h2>Хариултууд</h2>
@@ -26,6 +35,9 @@
     </tr>
     <tr>
         <td colspan="3"><?php echo $apost['answer'] ?></td>
+    </tr>
+    <tr>
+        <td colspan="3"><hr></td>
     </tr>
     <?php endforeach; ?>
   </table>

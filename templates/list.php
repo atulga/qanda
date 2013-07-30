@@ -20,8 +20,16 @@
       </a></td>
     <td><?php echo $post['whoask'] ?></td>
     <td><?php echo $post['createdate'] ?></td>
-    <td><?php echo $post['result'] ?></td>
-    <td><?php echo $post['hariult_count'] ?></td>
+    <td align="center">
+<?php 
+        if($post['result'] == "0"){
+            echo "Үгүй";
+        } else {
+            echo "Тийм";
+        }
+?>
+    </td>
+    <td align="center"><?php echo $post['hariult_count'] ?></td>
     </tr>
         <?php $i++;?>
     <?php endforeach; ?>

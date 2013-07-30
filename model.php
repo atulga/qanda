@@ -57,7 +57,7 @@ function get_answer_all_post($id)
     
 }
 
-function set_new_question($name, $title, $question)
+function save_question($name, $title, $question)
 {
     $link = open_database_connection();
 
@@ -71,6 +71,13 @@ function set_new_question($name, $title, $question)
 
     close_database_connection($link);
 
+}
+
+function edit_question ($question, $resulted, $questionid){
+    $link = open_database_connection();
+    $sql = "UPDATE asuult 
+            SET mainq = '$question', result = '$resulted'
+            WHERE 
 }
 
 function save_answer($name, $answer, $questionid)

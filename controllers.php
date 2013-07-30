@@ -14,10 +14,14 @@ function show_action($id)
 
 function ask_action($name, $title, $question)
 {
-    // save_question
-    set_new_question($name, $title, $question);
+    save_question($name, $title, $question);
     header('Location: /qanda/index.php');
     exit();
+}
+
+function edit_question_action($question, $resulted, $questionid){
+    edit_question($question, $resulted, $questionid);
+    header('Location: /qanda/index.php');    
 }
 
 function answer_action($answername, $answer, $questionid)
