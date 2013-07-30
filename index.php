@@ -53,13 +53,15 @@ if ($uri == '/qanda/' || $uri == '/qanda/index.php' && !has_post('questioner')){
     );
 } elseif ($uri_filtered == '/qanda/index.php/index.php' &&
     has_post('resulted') || has_post('question')){
-    var_dump(post_param('question'));
     edit_question_action(
         post_param('question'),
         post_param('resulted'),
         post_param('question_id')
         );    
-}
+} elseif ($uri_filtered =='/qanda/index.php/index.php' &&
+    has_post('answer_id_delete')){
+    delete_answer_action(post_param('answer_id_delete'));
+    }
 else {
     header('Status:404 Not Found');
     echo '<html><body><h2>File Not Found!</h2></body></html>';

@@ -34,6 +34,7 @@ if($post['result'] == "0"){?>
   <table border="0" >
     <?php
     foreach ($answerpost as $apost): ?>
+    <form method="POST" action="index.php">
     <tr>
         <td><?php echo $apost['whoanswer'] ?></td>
         <td></td>
@@ -44,8 +45,10 @@ if($post['result'] == "0"){?>
     </tr>
     <tr>
         <td colspan="2"><hr></td>
-        <td><input type="submit" name="answer_delete" value="Хариулт устгах"</td>
+            <input type="hidden" name="answer_id_delete" value="<?php echo $apost['id'] ?>">
+            <td><input type="submit" name="answer_delete" value="Хариулт устгах"></td>
     </tr>
+    </form>
     <?php endforeach; ?>
   </table>
 

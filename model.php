@@ -88,5 +88,15 @@ function save_answer($name, $answer, $questionid)
     $sql = "INSERT INTO hariult (id, answer, whoanswer, answerdate, asuultid)
         VALUES (NULL, '$answer', '$name', '$date', '$questionid')";
     mysql_query($sql);
+
+    close_database_connection($link);
 }
 
+function delete_answer($answer_id){
+    $link = open_database_connection();
+    
+    $sql = "DELETE FROM hariult WHERE id='$answer_id'";
+    $result = mysql_query($sql);
+
+    close_database_connection($link);
+}

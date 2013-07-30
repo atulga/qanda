@@ -31,4 +31,10 @@ function answer_action($answername, $answer, $questionid)
     exit();
 }
 
+function delete_answer_action($answer_id)
+{
+    delete_answer($answer_id);
+    header('Location: /qanda/index.php');
+    exit();
+}
 ?>
