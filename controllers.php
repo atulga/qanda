@@ -1,32 +1,43 @@
 <?php 
-function list_action()
+function question_list()
 {
-    $posts = get_all_posts();
+    $questions = show_all_question();
     require 'templates/list.php';
 }
 
-function show_action($id)
+function show_question($question_id)
 {
-    $post = get_post_by_id($id);
-    $answerpost = get_answer_all_post($id);
+    $question = show_question_by_id($question_id);
+    $answers = get_answers_by_question($question_id);
     require 'templates/show.php';
 }
 
-function ask_action($name, $title, $question)
+function add_question()
 {
-    save_question($name, $title, $question);
+    // TODO get the params in this function
+    question_add(
+        post_param('questioner'),
+        post_param('question_title'),
+        post_param('question')
+    );
     header('Location: /qanda/index.php');
     exit();
 }
 
-function edit_question_action($question, $resulted, $questionid){
+function edit_question_action($question, $resulted, $questionid)
+{
     edit_question($question, $resulted, $questionid);
-    header('Location: /qanda/index.php');    
+    header('Location: /qanda/index.php'); 
+    exit();
 }
 
-function answer_action($answername, $answer, $questionid)
+function add_answer()
 {
-    save_answer($answername, $answer, $questionid);
+    answer_add(
+        post_param('name'),
+        post_param('answer'),
+        post_param('question_id')
+    );
     header('Location: /qanda/index.php');
     exit();
 }
