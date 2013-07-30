@@ -8,7 +8,13 @@
   <div class="date">
         <?php echo "Үүссэн огноо:  ". $post['createdate']
             ." Асуулт асуугч:".$post['whoask'];?>
-  <input type="checkbox" name="resulted" value="1">Хариултаа авсан эсэх
+<?php 
+if($post['result'] == "0"){?>
+    <input type="checkbox" name="resulted" value="1">Хариултаа авсан эсэх
+<?php } else {?> 
+    <input type="checkbox" name="resulted" value="1" checked>Хариултаа авсан
+<?php } ?>
+
   </div>
   <div class="body">
     Асуулт:
@@ -19,7 +25,7 @@
 ?>
   </textarea>
   </div>
-    <input type="hidden" name="post_id" value=".<?php echo $questionid ?>.">
+    <input type="hidden" name="question_id" value="<?php echo $questionid ?>">
     <input type="submit" name="edit" value="Засах">
 </form>
   <table border="0">
@@ -37,7 +43,8 @@
         <td colspan="3"><?php echo $apost['answer'] ?></td>
     </tr>
     <tr>
-        <td colspan="3"><hr></td>
+        <td colspan="2"><hr></td>
+        <td><input type="submit" name="answer_delete" value="Хариулт устгах"</td>
     </tr>
     <?php endforeach; ?>
   </table>

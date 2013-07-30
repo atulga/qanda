@@ -12,7 +12,6 @@ if (strpos($uri, '?')){
 } else {
     $uri_filtered = $uri;
 }
-
 function has_get($param_name){
     return isset($_GET[$param_name]);
 }
@@ -33,7 +32,6 @@ function uri_is($u){
     global $uri_filtered;
     return $u == $uri_filtered;
 }
-
 if ($uri == '/qanda/' || $uri == '/qanda/index.php' && !has_post('questioner')){
     list_action();
 
@@ -41,7 +39,6 @@ if ($uri == '/qanda/' || $uri == '/qanda/index.php' && !has_post('questioner')){
     show_action(get_param('id'));
 
 } elseif ($uri_filtered == '/qanda/index.php' && has_post('questioner')){
-//    echo post_param('name').post_param('title').post_param('question');
     ask_action(
         post_param('questioner'),
         post_param('question_title'),
@@ -54,23 +51,18 @@ if ($uri == '/qanda/' || $uri == '/qanda/index.php' && !has_post('questioner')){
         post_param('answer'), 
         post_param('questionid')
     );
-} elseif ($uri_filtered == '/qanda/index.php' && (has_post('question') ||
-    has_post('resulted'))){
+} elseif ($uri_filtered == '/qanda/index.php/index.php' &&
+    has_post('resulted') || has_post('question')){
+    var_dump(post_param('question'));
     edit_question_action(
         post_param('question'),
         post_param('resulted'),
-        post_param('questionid')
+        post_param('question_id')
         );    
 }
-
 else {
-
     header('Status:404 Not Found');
     echo '<html><body><h2>File Not Found!</h2></body></html>';
 
 }
-
 ?>
-
-
-

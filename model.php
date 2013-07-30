@@ -65,19 +65,19 @@ function save_question($name, $title, $question)
     $sql = "INSERT INTO asuult 
                 (id, title, createdate, mainq, whoask, result) 
         VALUES (NULL, '$title' , '$date', '$question' , '$name', 0 )";
-    var_dump($sql);
     $result = mysql_query($sql);
-    var_dump($result);
 
     close_database_connection($link);
 
 }
 
-function edit_question ($question, $resulted, $questionid){
+function edit_question ($question, $r, $questionid){
+    
     $link = open_database_connection();
-    $sql = "UPDATE asuult 
-            SET mainq = '$question', result = '$resulted'
-            WHERE 
+    $sql = "UPDATE asuult SET mainq = '$question', result = '$r' WHERE id = '$questionid'";
+    $result = mysql_query($sql);
+
+    close_database_connection($link);
 }
 
 function save_answer($name, $answer, $questionid)
