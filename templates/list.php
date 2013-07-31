@@ -1,4 +1,4 @@
-<?php $title = 'Асуултууд' ?>
+<?php $title='Асуултууд' ?>
 
 <?php ob_start() ?>
 <table border="1">
@@ -15,7 +15,7 @@
 <?php foreach ($questions as $question){ ?>
 <tr>
     <td>
-        <a href="/qanda/index.php/show?id=<?php echo $question['id']; ?>">
+        <a href="/qanda/index.php/show?question_id=<?php echo $question['id']; ?>">
             <?php echo $question['title'] ?>
         </a>
     </td>
@@ -32,7 +32,7 @@
 <hr/>
 
 
-<form method = "POST" action = "index.php/question_add">
+<form method = "POST" action = "question_add">
     <table border="0">
     <tr>
         <td>Асуугчийн нэр:</td>
@@ -58,5 +58,5 @@
 </form>
 
 <?php $content = ob_get_clean() ?>
-    
+
 <?php include 'layout.php' ?>

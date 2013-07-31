@@ -14,22 +14,27 @@ if (strpos($uri, '?')){
     $uri_filtered = $uri;
 }
 
-if (uri_is('/qanda/') || uri_is('/qanda/index.php') && !has_post('questioner')){
+if ($uri_filtered == '/qanda/' ||
+    $uri_filtered == '/qanda/index.php'){
+    redirect('/qanda/index.php/');
+}
+
+function redirect($uri){
+    header('Location: '.$uri);
+    exit();
+}
+
+if (uri_is('/qanda/index.php/')){
     question_list();
-} elseif (uri_is('/qanda/index.php/show') && has_get('id')){
-    show_question(get_param('id'));
+} elseif (uri_is('/qanda/index.php/show') && has_get('question_id')){
+    question_show(get_param('question_id'));
 } elseif (uri_is('/qanda/index.php/question_add')){
-    add_question();
-} elseif (uri_is('/qanda/index.php/answer_add/answer_add')){
-    add_answer();
-} elseif ($uri_filtered == '/qanda/index.php/index.php' &&
-          has_post('resulted') || has_post('question')){
+    question_add();
+} elseif (uri_is('/qanda/index.php/answer_add')){
+    answer_add();
+} elseif (uri_is('/qanda/index.php/question_edit') && has_get('question_id')){
     // TODO change the URL to /qanda/index.php/save_question
-    edit_question_action(
-        post_param('question'),
-        post_param('resulted'),
-        post_param('question_id')
-    );
+    question_edit(get_param('question_id'));
 } elseif ($uri_filtered =='/qanda/index.php/index.php' &&
           has_post('answer_id_delete')){
     delete_answer_action(post_param('answer_id_delete'));
