@@ -18,7 +18,12 @@ function post_param($name){
 
 function uri_is($u){
     global $uri_filtered;
+    $u='/qanda/index.php'.$u;
     return $u == $uri_filtered;
 }
 
-
+function  redirect($uri)
+{
+    header('Location:'.$uri);
+    exit();
+}
