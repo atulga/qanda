@@ -14,7 +14,9 @@ function question_show_action($question_id)
 
 function question_add_action()
 {
-    if(post_param('question') != NULL){
+    /*
+    if(post_param('question') != NULL && post_param('questioner') != NULL){
+        $_SESSION['questioner']=post_param('questioner');
         add_question(
             post_param('questioner'),
             post_param('question_title'),
@@ -22,10 +24,16 @@ function question_add_action()
     );
     }
     redirect('/qanda/index.php');
-}
-
-function insert_question_action()
-{
+     */
+    $form = new QuestionForm();
+    if ($_POST){
+        $form->populate($_POST);
+        $has_errors = $form->validate();
+        if (!$has_errors){
+            //$form->save();
+            //redirect('/');
+        }
+    }
     require 'templates/ask_question.php';
 }
 

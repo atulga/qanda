@@ -1,10 +1,13 @@
 <?php
+session_start();
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require_once 'model.php';
 require_once 'controllers.php';
 require_once 'helpers.php';
+require_once 'forms.php';
 
 $uri=$_SERVER['REQUEST_URI'];
 
@@ -25,8 +28,6 @@ if (uri_is('/')){
     question_show_action(get_param('question_id'));
 } elseif (uri_is('/question_add')){
     question_add_action();
-} elseif (uri_is('/insert_question')){
-    insert_question_action();
 } elseif (uri_is('/answer_add')){
     answer_add_action();
 } elseif (uri_is('/question_edit') && has_get('question_id')){
@@ -43,4 +44,5 @@ if (uri_is('/')){
     header('Status:404 Not Found');
     echo '<html><body><h2>File Not Found!</h2></body></html>';
 }
+
 ?>

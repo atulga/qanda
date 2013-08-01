@@ -66,7 +66,9 @@
     <tr>
         <td>Хариулагчийн нэр:</td>
         <td>
-            <input type="text" name="name" size="30">
+        <input type="text" name="name" size="30" 
+            value="<?php if(isset($_SESSION['questioner'])) echo
+            $_SESSION['questioner']; ?>">
             <input type="hidden" name="question_id" value="<?php echo $question_id; ?>">
         </td>
     </tr>
