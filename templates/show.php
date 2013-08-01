@@ -1,7 +1,6 @@
 <?php $title = $question['title'] ?>
 
 <?php ob_start(); ?>
-
 <table border="0">
     <tr>
       <td colspan="2"><h2><?php echo $question['title']; ?></h2></td>
@@ -38,8 +37,12 @@
   <tr>
     <td><?php echo $answer['name'] ?></td>
     <td align="right">
-        <a href="best_answer?question_id=<?php echo $question['id'] ?>&answer_id=<?php echo $answer['id'] ?>">Зөв хариулт
+<?php if($answer['best'] == 1){ echo " *Зөв хариулт";
+} else { ?>
+        <a href="best_answer?question_id=<?php echo $question['id']
+?>&answer_id=<?php echo $answer['id'] ?>">Хариулт зөв үү?
         </a>
+<?php } ?>
     </td>
   </tr>
   <tr>
@@ -57,6 +60,7 @@
   </tr>
 <?php } ?>
 </table>
+<h2>Хариулт бичих</h2>
 <form method="POST" action="answer_add">
   <table border="0">
     <tr>

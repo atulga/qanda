@@ -46,7 +46,8 @@ function get_answers_by_question($question_id)
 {
     $link=open_database_connection();
     $question_id=mysql_escape_string($question_id);
-    $sql="SELECT * FROM hariult WHERE asuult_id = '$question_id'";
+    $sql="SELECT * FROM hariult WHERE asuult_id = '$question_id'
+          ORDER BY best DESC";
     $result=mysql_query($sql);
     $answers=array();
     while($row=mysql_fetch_assoc($result)){
@@ -88,8 +89,8 @@ function add_answer($name, $answer, $question_id)
     $answer=mysql_escape_string($answer);
     $question_id=mysql_escape_string($question_id);
     $date=date("Y-m-d H:i:s");
-    $sql="INSERT INTO hariult (id, answer, name, create_date, asuult_id)
-            VALUES (NULL, '$answer', '$name', '$date', '$question_id')";
+    $sql="INSERT INTO hariult (id, answer, name, create_date, asuult_id, best)
+            VALUES (NULL, '$answer', '$name', '$date', '$question_id', '0')";
     $result=mysql_query($sql);
     close_database_connection($link);
 }
@@ -128,6 +129,8 @@ function set_best_answer($question_id, $answer_id){
     $query="UPDATE asuult SET result='$answer_id'
             WHERE id='$question_id'";
     $result=mysql_query($query);
+    $query_best_answer="UPDATE hariult SET best='1' WHERE id='$answer_id'";
+    $result=mysql_query($query_best_answer);
     close_database_connection($link);
 }
 
