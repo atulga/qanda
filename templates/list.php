@@ -1,4 +1,4 @@
-<?php $title='Асуултууд' ?>
+<?php $title = 'Асуултууд' ?>
 
 <?php ob_start() ?>
 <table border="0">
@@ -29,6 +29,6 @@
 <?php } ?>
 </table>
 
-<?php $content=ob_get_clean() ?>
+<?php $content = ob_get_clean() ?>
 
 <?php include 'layout.php' ?>

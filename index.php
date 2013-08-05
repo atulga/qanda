@@ -12,9 +12,9 @@ require_once 'forms.php';
 $uri=$_SERVER['REQUEST_URI'];
 
 if (strpos($uri, '?')){
-    $uri_filtered=strstr($uri, '?', true);
+  $uri_filtered = strstr($uri, '?', true);
 } else {
-    $uri_filtered=$uri;
+  $uri_filtered = $uri;
 }
 
 if ($uri_filtered == '/qanda/' ||
@@ -23,26 +23,26 @@ if ($uri_filtered == '/qanda/' ||
 }
 
 if (uri_is('/')){
-    question_list_action();
+  question_list_action();
 } elseif (uri_is('/show') && has_get('question_id')){
-    question_show_action(get_param('question_id'));
+  question_show_action(get_param('question_id'));
 } elseif (uri_is('/question_add')){
-    question_add_action();
+  question_add_action();
 } elseif (uri_is('/answer_add')){
-    answer_add_action();
+  answer_add_action();
 } elseif (uri_is('/question_edit') && has_get('question_id')){
-    question_edit_action(get_param('question_id'));
+  question_edit_action(get_param('question_id'));
 } elseif (uri_is('/best_answer')){
-    set_best_answer_action();
+  set_best_answer_action();
 } elseif (uri_is('/delete_question')){
-    delete_question_action();
+  delete_question_action();
 } elseif (uri_is('/question_update')){
-    question_update_action();
+  question_update_action();
 } elseif (uri_is('/delete_answer')){
-    delete_answer_action();
+  delete_answer_action();
 } else {
-    header('Status:404 Not Found');
-    echo '<html><body><h2>File Not Found!</h2></body></html>';
+  header('Status:404 Not Found');
+  echo '<html><body><h2>File Not Found!</h2></body></html>';
 }
 
 ?>
