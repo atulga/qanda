@@ -71,7 +71,7 @@ function add_question($name, $title, $question)
     close_database_connection($link);
 }
 
-function question_update($title, $question, $question_id)
+function question_update($title, $question, $question_id = null)
 {
     $link=open_database_connection();
     $title=mysql_escape_string($title);

@@ -1,4 +1,4 @@
-<?php $title="Асуулт асуух хэсэг" ?>
+<?php $title = "Асуулт асуух хэсэг" ?>
 
 <?php ob_start() ?>
 <form method="POST" action="">
@@ -30,8 +30,7 @@
        </td>
     </tr>
     <tr>
-      <td>
-      </td>
+      <td> </td>
       <td>
         <i id='error_message'><?php echo $form->getError('question') ?></i>
       </td>
@@ -43,5 +42,5 @@
     </tr>
   </table>
 </form>
-<?php $content=ob_get_clean() ?>
+<?php $content = ob_get_clean() ?>
 <?php include 'layout.php' ?>
