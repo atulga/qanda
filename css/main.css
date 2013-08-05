@@ -1,6 +1,15 @@
 body{
+ margin:0px 0px;
+ padding:0px;
  background-color:#E0E6F8;
  font-family:verdana, helvetica, arial, sans-serif;
  font-size:12px;
 }
-
+#content{
+ width:700px;
+ margin:0px auto;
+ padding:15px;
+}
+#error_message{
+ color:#FE2E2E;
+}

@@ -5,8 +5,7 @@
 <?php foreach ($questions as $question){ ?>
   <tr>
     <td colspan="2">
-        <h3><a href="/qanda/index.php/show?question_id=
-            <?php echo $question['id']; ?>">
+        <h3><a href="/qanda/index.php/show?question_id=<?php echo $question['id']; ?>">
             <?php echo $question['title'] ?></a>
         </h3>
     </td>
@@ -16,14 +15,7 @@
     <td align="right"><?php echo $question['create_date'] ?></td>
   </tr>
   <tr>
-    <td colspan="2"><?php echo $question['question'] ?></td>
-  </tr>
-  <tr>
-    <td colspan="2" align="right">
-        <a href="show?question_id=<?php echo $question['id'] ?>">
-                Дэлгэрэнгүй
-        </a>
-    </td>
+    <td colspan="2"><?php echo nl2br($question['question']) ?></td>
   </tr>
   <tr>
     <td>Хариултаа авч чадсан эсэх:

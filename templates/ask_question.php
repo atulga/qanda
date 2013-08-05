@@ -2,42 +2,44 @@
 
 <?php ob_start() ?>
 <form method="POST" action="">
-    Name<br/>
-    <?php echo $form->getError('name') ?>
-    <input type="text" name="name" value="<?php echo $form->getName() ?>"/>
-    <br/>
-    Title<br/>
-    <input type="text" name="title" value="<?php echo $form->getTitle() ?>"/>
-    <br/>
-    Question<br/>
-    <textarea name="question"><?php echo $form->getQuestion() ?></textarea>
-    <br/>
-    <input type="submit"/>
-</form>
-
-<form method="POST" action="question_add">
   <table border="0">
     <tr>
-        <td align="right">Асуугчийн нэр:</td>
-        <td>
-          <input type="text" size="105" name="questioner" value="<?php if(isset($_SESSION['questioner'])) echo $_SESSION['questioner']; ?>">
-        </td>
+      <td align="right">Асуугчийн нэр:</td>
+      <td>
+        <input type="text" name="name"
+               value="<?php
+                          if(isset($_SESSION['name']))
+                              echo $_SESSION['name'];
+                          else echo $form->getName()
+                     ?>"
+        />
+        <i id='error_message'><?php echo $form->getError('name') ?></i>
+      </td>
     </tr>
     <tr>
-        <td align="right">Асуултын гарчиг:</td>
-        <td><input type="text" size="105" name="question_title" ></td>
+      <td align="right">Асуултын гарчиг:</td>
+      <td>
+        <input type="text" name="title" value="<?php echo $form->getTitle() ?>"/>
+        <i id='error_message'><?php echo $form->getError('title') ?></i>
+      </td>
     </tr>
     <tr>
-        <td align="right">Асуулт:</td>
-        <td>
-            <textarea rows="8" name="question" cols="80"></textarea>
-        </td>
+      <td align="right">Асуулт:</td>
+      <td>
+        <textarea rows="14" name="question" cols="60"><?php echo $form->getQuestion() ?></textarea>
+       </td>
     </tr>
+    <tr>
+      <td>
+      </td>
+      <td>
+        <i id='error_message'><?php echo $form->getError('question') ?></i>
+      </td>
     </tr>
-        <td></td>
-        <td>
-            <input type="submit" value="Илгээх" name="submit">
-        </td>
+      <td></td>
+      <td>
+          <input type="submit" value="Илгээх" name="submit">
+      </td>
     </tr>
   </table>
 </form>
