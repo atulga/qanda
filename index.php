@@ -27,11 +27,11 @@ if (uri_is('/')){
 } elseif (uri_is('/show') && has_get('question_id')){
   question_show_action(get_param('question_id'));
 } elseif (uri_is('/question_add')){
-  question_add_action();
+  question_action();
 } elseif (uri_is('/answer_add')){
   answer_add_action();
 } elseif (uri_is('/question_edit') && has_get('question_id')){
-  question_edit_action(get_param('question_id'));
+  question_action(get_param('question_id'));
 } elseif (uri_is('/best_answer')){
   set_best_answer_action();
 } elseif (uri_is('/delete_question')){
@@ -39,10 +39,11 @@ if (uri_is('/')){
 } elseif (uri_is('/question_update')){
   question_update_action();
 } elseif (uri_is('/delete_answer')){
-  delete_answer_action();
+    delete_answer_action();
 } else {
   header('Status:404 Not Found');
   echo '<html><body><h2>File Not Found!</h2></body></html>';
 }
+
 
 ?>

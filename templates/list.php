@@ -2,7 +2,7 @@
 
 <?php ob_start() ?>
 <table border="0">
-<?php foreach ($questions as $question){ ?>
+<?php foreach ($questions->getQuestions() as $question){ ?>
   <tr>
     <td colspan="2">
         <h3><a href="/qanda/index.php/show?question_id=<?php echo $question['id']; ?>">

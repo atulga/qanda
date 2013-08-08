@@ -92,7 +92,7 @@
     </tr>
     <tr>
       <td>
-        <input type="hidden" name="id" 
+        <input type="hidden" name="question_id" 
             value="<?php echo $question['id']; ?>"/>
       </td>
       <td>
