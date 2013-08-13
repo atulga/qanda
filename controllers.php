@@ -1,15 +1,16 @@
 <?php
+
 function question_list_action()
 {
-    $questions = new Question();
-    $questions->show_all();
+    $questions = Question::getQuestions();
     require 'templates/list.php';
 }
 
 function question_show_action($question_id)
 {
-    $question = get_question_by_id($question_id);
-    $answers = get_answers_by_question($question_id);
+    $question = Question::getById($question_id);
+    $answers = Answer::getAnswers($question_id);
+    
     $form_answer = new AnswerForm();
     if ($_POST){
         $form_answer->populate($_POST);
@@ -58,7 +59,9 @@ function delete_answer_action()
 
 function set_best_answer_action()
 {
-    set_best_answer(get_param('question_id'), get_param('answer_id'));
+//    set_best_answer(get_param('question_id'), get_param('answer_id'));
+    $answer = new Answer();
+    $answer->best($_GET['question_id'],$_GET['answer_id']);
     redirect('show?question_id='.get_param('question_id'));
 }
 

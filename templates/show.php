@@ -1,27 +1,28 @@
-<?php $title = $question['title'] ?>
+<?php $title = $question->getTitle() ?>
 
 <?php ob_start(); ?>
+
 <table border="0" width=700>
   <tr>
-    <td colspan="2"><h2><?php echo $question['title']; ?></h2></td>
+    <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
   </tr>
   <tr>
-    <td><?php echo "Нэр:".$question['name'];?></td>
-    <td align="right"><?php echo "Огноо:".$question['create_date'] ?></td>
+    <td><?php echo "Нэр:".$question->getName();?></td>
+    <td align="right"><?php echo "Огноо:".$question->getDate() ?></td>
   </tr>
   <tr>
     <td colspan="2">
-      <?php echo nl2br($question['question']);?>
+      <?php echo nl2br($question->getQuestion());?>
     </td>
   </tr>
   <tr>
     <td>
-      <a href="question_edit?question_id=<?php echo $question['id'] ?>">
+      <a href="question_edit?question_id=<?php echo $question->getId() ?>">
         Засах
       </a>
     </td>
     <td align="right">
-      <a href="delete_question?question_id=<?php echo $question['id'] ?>">
+      <a href="delete_question?question_id=<?php echo $question->getId() ?>">
          Устгах
       </a>
     </td>
@@ -32,26 +33,27 @@
 <table border="0" width="700">
 <?php foreach ($answers as $answer){?>
   <tr>
-    <td><?php echo $answer['name'] ?></td>
+    <td><?php echo $answer->getName() ?></td>
     <td align="right">
-<?php if($answer['best'] == 1){ echo " *Зөв хариулт";
+<?php if($answer->getBest() == 1){ echo " *Зөв хариулт";
 } else { ?>
-      <a href="best_answer?question_id=<?php echo $question['id']
-?>&answer_id=<?php echo $answer['id'] ?>">Хариулт зөв үү?
+      <a href="best_answer?question_id=<?php echo $question->getId()
+?>&answer_id=<?php echo $answer->getId() ?>">Хариулт зөв үү?
       </a>
 <?php } ?>
     </td>
   </tr>
   <tr>
-    <td colspan="2"><?php echo nl2br($answer['answer']) ?></td>
+    <td colspan="2"><?php echo nl2br($answer->getAnswer()) ?></td>
   </tr>
   <tr>
     <td>
-      <a href="delete_answer?answer_id=<?php echo $answer['id'] ?>&question_id=<?php echo $question['id'] ?>">
+      <a href="delete_answer?answer_id=<?php echo $answer->getId()
+?>&question_id=<?php echo $question->getId() ?>">
         Хариултыг устгах
       </a>
     </td>
-    <td align="right"><?php echo $answer['create_date'] ?></td>
+    <td align="right"><?php echo $answer->getDate() ?></td>
   </tr>
   <tr>
     <td colspan="2"><hr/></td>
@@ -93,7 +95,7 @@
     <tr>
       <td>
         <input type="hidden" name="question_id" 
-            value="<?php echo $question['id']; ?>"/>
+            value="<?php echo $question->getId(); ?>"/>
       </td>
       <td>
         <input type="submit" value="Илгээх" name="submit"/>
