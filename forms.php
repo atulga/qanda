@@ -93,7 +93,6 @@ class AnswerForm extends BaseForm
     public function save()
     {
         $answer = new Answer();
-        //$answer->setBest(1);
         $answer->setName($this->getName());
         $answer->setAnswer($this->getAnswer())
                ->setQuestionId($this->getQuestion_id());

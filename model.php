@@ -1,30 +1,4 @@
 <?php
-
-function open_database_connection()
-{
-    $link = mysql_connect('localhost', 'root', '');
-    mysql_select_db('qanda_db', $link);
-    return $link;
-}
-
-function close_database_connection($link)
-{
-    mysql_close($link);
-}
-
-function get_question_by_id($question_id)
-{
-    $link = open_database_connection();
-    $question_id = mysql_escape_string($question_id);
-    $question_id = intval($question_id);
-    $query = 'SELECT * FROM asuult WHERE id = '.$question_id;
-    $result = mysql_query($query);
-    $row = mysql_fetch_assoc($result);
-    close_database_connection($link);
-    return $row;
-}
-
-
 class Model
 {
     static protected $link;
@@ -39,23 +13,6 @@ class Model
     {
         mysql_close(self::$link);
     }
-
-/*    public function save($sql)
-    {
-        $this->connect_to_database();
-        $result = mysql_query($sql);
-        $id = mysql_insert_id();
-        $this->close_database();
-        return $id;
-    }
-
-    public function delete()
-    {
-        $this->connect_to_database();
-        $result = mysql_query();
-        $this->close_database();
-    }
- */
 }
 
 
@@ -98,7 +55,6 @@ class Question extends Model
 
     public function setTitle($v)
     {
-        // $this->slug = convert_to_slug($v);  // "Question about books" -> "question-about-books"
         $this->title = mysql_escape_string($v);
         return $this;
     }
@@ -110,7 +66,7 @@ class Question extends Model
 
     public function setQuestion($v)
     {
-        $this->question = mysql_escape_string($v);
+        $this->question = $v;
         return $this;
     }
 
@@ -146,9 +102,23 @@ class Question extends Model
         $this->best_answer = $v;
         return $this;
     }
+
+    public function isAnswered(){
+        if ($this->getBestAnswer() == 0) return false;
+        else return true;
+    }
+    public function toArray()
+    {
+        $arr = array(
+            "title" => $this->getTitle(),
+            "question" => $this->getQuestion(),
+            "name" => $this->getName(),
+            "id" => $this->getId()
+        );
+        return $arr;
+    }
     static public function getQuestions()
     {
-        // mysql get
         self::connect_to_database();
         $sql = "SELECT a.id, a.title, a.create_date, a.question,
                     a.name, a.result, COUNT(h.id) as hariult_count
@@ -224,9 +194,10 @@ class Question extends Model
     }
 }
 
+
 class Answer extends Model
 {
-    protected $best = 0;
+    protected $best;
     protected $id;
     protected $name;
     protected $create_date;
@@ -255,7 +226,7 @@ class Answer extends Model
         return $this->create_date;
     }
 
-   public function setName($v)
+    public function setName($v)
     {
         $this->name = mysql_escape_string($v);
         return $this;
@@ -288,6 +259,12 @@ class Answer extends Model
         return $this->best;
     }
 
+    public function isBest()
+    {
+        if($this->best == 1) return true;
+        else return false;
+    }
+
     public function setQuestionId($v)
     {
         $this->question_id = $v;
@@ -314,12 +291,12 @@ class Answer extends Model
             $answer->answer = $row['answer'];
             $answer->name = $row['name'];
             $answer->question_id = $row['asuult_id'];
+            $answer->best = $row['best'];
             $answers[] = $answer;
         }
         self::close_database();
         return $answers;
     }
-
 
     public function getQuestion()
     {
@@ -328,13 +305,6 @@ class Answer extends Model
 
     public function save()
     {
-    /* if ($this->best) {
-            $question = $this->getQuestion();
-            $question->setResult($this->getId());
-            $question->save();
-        }
-    */
-        // TODO
         self::connect_to_database();
         $sql = "INSERT INTO hariult (id, answer, name, create_date, asuult_id, best)
             VALUES (NULL, '".$this->getAnswer()."', '".$this->getName()."',
@@ -347,6 +317,8 @@ class Answer extends Model
     {
         self::connect_to_database();
         $sql = "UPDATE asuult SET result='$answer_id' WHERE id='".$question_id."'";
+        mysql_query($sql);
+        $sql = "UPDATE hariult SET best='0' WHERE asuult_id='".$question_id."'";
         mysql_query($sql);
         $sql = "UPDATE hariult SET best='1' WHERE id='".$answer_id."'";
         mysql_query($sql);

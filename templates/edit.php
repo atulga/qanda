@@ -2,7 +2,7 @@
 ob_start();
 ?>
 <a href="/qanda/index.php/show?question_id=
-    <?php echo $question['id'] ?>">Буцах
+    <?php echo $form->getId() ?>">Буцах
 </a>
 <h2>Асуулт засварлах хэсэг</h2>
 

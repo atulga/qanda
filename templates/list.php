@@ -19,7 +19,8 @@
   </tr>
   <tr>
     <td>Хариултаа авч чадсан эсэх:
-        <?php echo ($question->getBestAnswer() == "0" ? "Үгүй" : "Тийм"); ?>
+
+        <?php echo ($question->isAnswered() ? "Тийм" : "Үгүй" ); ?>
      </td>
     <td align="right">Нийт хариултын тоо:<?php echo $question->getAnswersCount() ?></td>
   </tr>
