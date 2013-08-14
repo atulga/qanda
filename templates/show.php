@@ -31,7 +31,7 @@
 <hr/>
 <h2>Хариултууд</h2>
 <table border="0" width="700">
-<?php foreach ($answers as $answer){?>
+<?php foreach ($question->getAnswers() as $answer){?>
   <tr>
     <td><?php echo $answer->getName() ?></td>
     <td align="right">

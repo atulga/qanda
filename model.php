@@ -33,7 +33,7 @@ class Question extends Model
 
     public function setId($v)
     {
-        $this->id = mysql_escape_string($v);
+        $this->id = $v;
         return $this;
     }
 
@@ -44,7 +44,7 @@ class Question extends Model
 
     public function setName($v)
     {
-        $this->name = mysql_escape_string($v);
+        $this->name = $v;
         return $this;
     }
 
@@ -55,7 +55,7 @@ class Question extends Model
 
     public function setTitle($v)
     {
-        $this->title = mysql_escape_string($v);
+        $this->title = $v;
         return $this;
     }
 
@@ -131,34 +131,66 @@ class Question extends Model
         while ($row = mysql_fetch_array($r))
         {
             $question = new Question();
-            $question->id = $row['id'];
-            $question->title = $row['title'];
-            $question->create_date = $row['create_date'];
-            $question->question = $row['question'];
-            $question->name = $row['name'];
-            $question->best_answer = $row['result'];
-            $question->answer_count = $row['hariult_count'];
+            $question->setId($row['id']);
+            $question->setTitle($row['title']);
+            $question->setDate($row['create_date']);
+            $question->setQuestion($row['question']);
+            $question->setName($row['name']);
+            $question->setBestAnswer($row['result']);
+            $question->setAnswersCount($row['hariult_count']);
             $questions[] = $question;
         }
         self::close_database();
         return $questions;
     }
 
+    public function getAnswers()
+    {
+        $sql = "SELECT * FROM hariult WHERE asuult_id = '".$this->getId()."'
+                ORDER BY best DESC";
+        $answers = array();
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        while ($row = mysql_fetch_array($r))
+        {
+            $answer = new Answer();
+            $answer->setId($row['id']);
+            $answer->setDate($row['create_date']);
+            $answer->setAnswer($row['answer']);
+            $answer->setName($row['name']);
+            $answer->setQuestionId($row['asuult_id']);
+            $answer->setBest($row['best']);
+            $answers[] = $answer;
+        }
+        self::close_database();
+        return $answers;
+    }
+
     public function save()
     {
-        self::connect_to_database();
-        if ($this->getId()){
-            $sql = "UPDATE asuult SET question='".$this->getQuestion()."',
-                    title='".$this->getTitle()."' WHERE id=".$this->getId();
+        $is_editing = is_numeric($this->getId());
+        if ($is_editing){
+            $sql = "UPDATE asuult SET
+                question='".mysql_escape_string($this->getQuestion())."',
+                    title='".mysql_escape_string($this->getTitle())."' WHERE id=".$this->getId();
         } else {
             $sql = "INSERT INTO asuult
                         (id, title, create_date, question, name, result)
-                    VALUES (NULL, '".$this->getTitle()."' , '".date("Y-m-d
-              H:i:s")."', '".$this->getQuestion()."' , '".$this->getName()."',
+                    VALUES (NULL, '".mysql_escape_string($this->getTitle())."' , '".date("Y-m-d
+              H:i:s")."', '".mysql_escape_string($this->getQuestion())."' ,
+                  '".mysql_escape_string($this->getName())."',
                 0 )";
         }
-        $r = mysql_query($sql);
-        $this->setId($r);
+        self::connect_to_database();
+        $resultset = mysql_query($sql);
+        if ($resultset){
+            // saved successfully
+        }else{
+            // error in saving
+        }
+        if (!$is_editing){  // is adding
+            $this->setId(mysql_insert_id());
+        }
         self::close_database();
     }
 
@@ -176,8 +208,8 @@ class Question extends Model
     {
         // get from database by id
         // if no record in database return null
-        self::connect_to_database();
         $sql = "SELECT * FROM asuult WHERE id = ".$id;
+        self::connect_to_database();
         $r = mysql_query($sql);
         while ($values = mysql_fetch_array($r))
         {
@@ -228,7 +260,7 @@ class Answer extends Model
 
     public function setName($v)
     {
-        $this->name = mysql_escape_string($v);
+        $this->name = $v;
         return $this;
     }
 
@@ -239,7 +271,7 @@ class Answer extends Model
 
     public function setAnswer($v)
     {
-        $this->answer = mysql_escape_string($v);
+        $this->answer = $v;
         return $this;
     }
 
@@ -276,28 +308,6 @@ class Answer extends Model
     return $this->question_id;
     }
 
-    static public function getAnswers($question_id)
-    {
-        self::connect_to_database();
-        $sql = "SELECT * FROM hariult WHERE asuult_id = '".$question_id."'
-                ORDER BY best DESC";
-        $answers = array();
-        $r = mysql_query($sql);
-        while ($row = mysql_fetch_array($r))
-        {
-            $answer = new Answer();
-            $answer->id = $row['id'];
-            $answer->create_date = $row['create_date'];
-            $answer->answer = $row['answer'];
-            $answer->name = $row['name'];
-            $answer->question_id = $row['asuult_id'];
-            $answer->best = $row['best'];
-            $answers[] = $answer;
-        }
-        self::close_database();
-        return $answers;
-    }
-
     public function getQuestion()
     {
         return Question::getById($this->getQuestionId());
@@ -305,10 +315,10 @@ class Answer extends Model
 
     public function save()
     {
-        self::connect_to_database();
         $sql = "INSERT INTO hariult (id, answer, name, create_date, asuult_id, best)
-            VALUES (NULL, '".$this->getAnswer()."', '".$this->getName()."',
+            VALUES (NULL, '".mysql_escape_string($this->getAnswer())."', '".$this->getName()."',
                 '".date("Y-m-d H:i:s")."', '".$this->getQuestionId()."', '0')";
+        self::connect_to_database();
         $r = mysql_query($sql);
         self::close_database();
     }
@@ -327,8 +337,8 @@ class Answer extends Model
 
     public function delete()
     {
-        self::connect_to_database();
         $sql = "DELETE FROM hariult WHERE id=".$this->getId();
+        self::connect_to_database();
         mysql_query($sql);
         self::close_database();
     }

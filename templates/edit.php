@@ -33,5 +33,20 @@ ob_start();
     </tr>
   </table>
 </form>
+
+<?php
+$v = "asdf\r\nasdf\r\nasssss";
+echo $v;
+var_dump($v);
+echo '-------------<br/>';
+$v = mysql_real_escape_string($v);
+echo $v;
+var_dump($v);
+echo '-------------<br/>';
+echo $v;
+$v = mysql_real_escape_string($v);
+var_dump($v);
+?>
+
 <?php $content = ob_get_clean() ?>
 <?php include 'layout.php'?>

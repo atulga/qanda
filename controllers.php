@@ -9,7 +9,6 @@ function question_list_action()
 function question_show_action($question_id)
 {
     $question = Question::getById($question_id);
-    $answers = Answer::getAnswers($question_id);
 
     $form_answer = new AnswerForm();
     if ($_POST){
