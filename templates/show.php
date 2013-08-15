@@ -36,7 +36,7 @@
     <td><?php echo $answer->getName() ?></td>
     <td align="right">
 <?php
-        if($answer->isBest()){ echo " *Зөв хариулт";} 
+        if($answer->getId() == $question->getBestAnswerId()){ echo " *Зөв хариулт";} 
         else { ?>
             <a href="best_answer?question_id=<?php echo $question->getId()
 ?>&answer_id=<?php echo $answer->getId() ?>">Хариулт зөв үү?

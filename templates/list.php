@@ -20,7 +20,7 @@
   <tr>
     <td>Хариултаа авч чадсан эсэх:
 
-        <?php echo ($question->isAnswered() ? "Тийм" : "Үгүй" ); ?>
+        <?php echo ($question->isAnswered() ? "Тийм" : "Үгүй"); ?>
      </td>
     <td align="right">Нийт хариултын тоо:<?php echo $question->getAnswersCount() ?></td>
   </tr>

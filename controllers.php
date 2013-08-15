@@ -27,47 +27,52 @@ function question_action($question_id = null)
 {
     $form = new QuestionForm();
     if ($_POST){
-    $form->populate($_POST);
-    $has_errors = $form->validate();
-    if (!$has_errors){
-        $form->save();
-        if($question_id == null){
-            $_SESSION['name'] = $form->getName();
-            redirect('/qanda/index.php');
-        } else {
-            redirect('show?question_id='.$form->getId());
+        $form->populate($_POST);
+        $has_errors = $form->validate();
+        if (!$has_errors){
+            $form->save();
+            if($question_id == null){
+                $_SESSION['name'] = $form->getName();
+                redirect('/qanda/index.php');
+            } else {
+                redirect('show?question_id='.$form->getId());
+            }
         }
-    }
     } else {
         if(!($question_id == null)){
             $question = Question::getById($question_id);
             $form->populate($question->toArray());
         }
     }
-    if($question_id == null) require 'templates/ask_question.php';
-        else require 'templates/edit.php';
+    if($question_id == null)
+        require 'templates/ask_question.php';
+    else
+        require 'templates/edit.php';
 }
 
-function delete_answer_action()
+function delete_answer_action($answer_id)
 {
-    $answer = new Answer();
-    $answer->setId($_GET['answer_id']);
+    $answer = Answer::getById($answer_id);
+    $question = Question::getById(get_param('question_id'));
+    $question->setBestAnswerId(0);
+    $question->save();
     $answer->delete();
-    redirect('show?question_id='.$_GET['question_id']);
-}
-
-function set_best_answer_action()
-{
-    $answer = new Answer();
-    $answer->best($_GET['question_id'],$_GET['answer_id']);
     redirect('show?question_id='.get_param('question_id'));
 }
 
-function delete_question_action()
+function set_best_answer_action($question_id)
 {
-    $question = new Question();
-    $question->setId($_GET['question_id']);
+    $question = Question::getById($question_id);
+    $question->setBestAnswerId(get_param('answer_id'));
+    $question->save();
+    redirect('show?question_id='.$question_id);
+}
+
+function delete_question_action($question_id)
+{
+    $question = Question::getById($question_id);
     $question->delete();
     redirect('/qanda/index.php');
 }
+
 ?>

@@ -13,12 +13,8 @@ class BaseForm
 
     public function populate($values)
     {
-        if (gettype($values) == "array"){
-            foreach ($this->_fields as $field) {
-                $this->_values[$field] = $values[$field];
-            }
-        } else {
-            // TODO
+        foreach ($this->_fields as $field) {
+            $this->_values[$field] = $values[$field];
         }
     }
 
@@ -80,7 +76,7 @@ class QuestionForm extends BaseForm
 
 class AnswerForm extends BaseForm
 {
-    protected $_fields = array('name', 'answer', 'question_id'); //TODO
+    protected $_fields = array('name', 'answer', 'question_id');
 
     public function validate()
     {
