@@ -22,7 +22,7 @@
 
         <?php echo ($question->isAnswered() ? "Тийм" : "Үгүй"); ?>
      </td>
-    <td align="right">Нийт хариултын тоо:<?php echo $question->getAnswersCount() ?></td>
+    <td align="right">Нийт хариултын тоо:<?php echo $question->getAnswerCount() ?></td>
   </tr>
   <tr>
     <td colspan="2"><hr/></td>

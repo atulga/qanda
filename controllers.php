@@ -23,7 +23,7 @@ function question_show_action($question_id)
     require 'templates/show.php';
 }
 
-function question_action($question_id = null)
+function question_add_edit_action($question_id = null)
 {
     $form = new QuestionForm();
     if ($_POST){
@@ -55,8 +55,9 @@ function delete_answer_action($answer_id)
     $answer = Answer::getById($answer_id);
     $question = Question::getById(get_param('question_id'));
     $question->setBestAnswerId(0);
-    $question->save();
     $answer->delete();
+    $question->updateAnswerCount();
+    $question->save();
     redirect('show?question_id='.get_param('question_id'));
 }
 

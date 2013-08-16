@@ -65,10 +65,10 @@ class QuestionForm extends BaseForm
     public function save()
     {
         $question = new Question();
-        $question->setName($this->getName())
-                 ->setTitle($this->getTitle())
-                 ->setQuestion($this->getQuestion())
-                 ->setId($this->getId());
+        $question->setId($this->getId());
+        $question->setName($this->getName());
+        $question->setTitle($this->getTitle());
+        $question->setQuestion($this->getQuestion());
         $question->save();
     }
 }
@@ -90,9 +90,13 @@ class AnswerForm extends BaseForm
     {
         $answer = new Answer();
         $answer->setName($this->getName());
-        $answer->setAnswer($this->getAnswer())
-               ->setQuestionId($this->getQuestion_id());
+        $answer->setAnswer($this->getAnswer());
+        $answer->setQuestionId($this->getQuestion_id());
         $answer->save();
+
+        $question = Question::getById($this->getQuestion_id());
+        $question->updateAnswerCount($this->getQuestion_id());
+        $question->save();
     }
 }
 ?>

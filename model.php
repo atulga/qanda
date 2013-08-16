@@ -2,7 +2,7 @@
 class Model
 {
     static protected $link;
-    public $_values = array();
+    protected $_values = array();
 
     static public function connect_to_database()
     {
@@ -21,7 +21,14 @@ class Model
             $this->_values[$field] = null;
         }
     }
-
+   /* 
+    public function populate($values)
+    {
+        foreach ($this->_fields as $field) {
+            $this->_values[$field] = $values[$field];
+        }
+    }
+    */
     public function camelize($str)
     {
         $str = preg_replace('/_/', ' ', $str);
@@ -33,7 +40,7 @@ class Model
     public function __call($func_name, $args)
     {
         // setter
-        if (strpos('set', $func_name) === 0) {
+        if ($args) {
             $arg = $args[0];
             $fields = array();
             foreach ($this->_fields as $field) {
@@ -64,8 +71,13 @@ class Model
 class Question extends Model
 {
     protected $_fields = array(
-                    'id', 'name', 'title', 'question', 'created_date',
-                    'answers_count', 'best_answer_id'
+                    'id', 
+                    'title', 
+                    'created_date',
+                    'question', 
+                    'name', 
+                    'best_answer_id',
+                    'answer_count' 
             );
 
     public function isAnswered()
@@ -80,12 +92,7 @@ class Question extends Model
 
     static public function getQuestions()
     {
-        $sql = "SELECT a.id, a.title, a.created_date, a.question,
-                    a.name, a.best_answer_id, COUNT(h.id) as hariult_count
-                FROM asuult a
-                LEFT JOIN hariult h
-                ON a.id = h.question_id
-                GROUP BY a.created_date DESC";
+        $sql = "SELECT * FROM asuult ORDER BY created_date DESC";
         $questions = array();
         self::connect_to_database();
         $r = mysql_query($sql);
@@ -98,11 +105,24 @@ class Question extends Model
             $question->setQuestion($row['question']);
             $question->setName($row['name']);
             $question->setBestAnswerId($row['best_answer_id']);
-            $question->setAnswersCount($row['hariult_count']);
+            $question->setAnswerCount($row['answer_count']);
             $questions[] = $question;
         }
         self::close_database();
         return $questions;
+    }
+
+    public function updateAnswerCount()
+    {
+        self::connect_to_database();
+        $format = "SELECT COUNT(id) FROM hariult WHERE question_id=%s";
+        $sql = sprintf($format, $this->getId());
+        $result = mysql_query($sql);
+        $row = mysql_fetch_row($result); 
+        $count = $row[0];
+        self::close_database();
+        $this->setAnswerCount($count);
+        return $count;
     }
 
     public function getAnswers()
@@ -118,9 +138,9 @@ class Question extends Model
         {
             $answer = new Answer();
             $answer->setId($row['id']);
-            $answer->setCreatedDate($row['created_date']);
             $answer->setAnswer($row['answer']);
             $answer->setName($row['name']);
+            $answer->setCreatedDate($row['created_date']);
             $answer->setQuestionId($row['question_id']);
             $answers[] = $answer;
         }
@@ -137,16 +157,17 @@ class Question extends Model
         $name = mysql_escape_string($this->getName());
         $id = $this->getId();
         $best_answer_id = $this->getBestAnswerId();
+        $answer_count = $this->getAnswerCount();
 
         if ($is_editing){
             $format = "UPDATE asuult SET question='%s', title='%s',
-                best_answer_id='%s' WHERE id=%s";
-            $sql = sprintf($format, $question, $title, $best_answer_id, $id);
+                best_answer_id='%s', answer_count=%s WHERE id=%s";
+            $sql = sprintf($format, $question, $title, $best_answer_id, $answer_count, $id);
         } else {
             $format = "INSERT INTO asuult 
                         (id, title, created_date, question, name,
-                        best_answer_id)
-                       VALUES (NULL, '%s' , '%s', '%s' ,'%s', 0 )";
+                        best_answer_id, answer_count)
+                       VALUES (NULL, '%s' , '%s', '%s' ,'%s', 0, 0 )";
             $sql = sprintf($format, $title, $date, $question, $name);
         }
         self::connect_to_database();
@@ -162,9 +183,10 @@ class Question extends Model
         self::close_database();
     }
 
+
     public function delete()
     {
-        parent::connect_to_database();
+        self::connect_to_database();
         $id = $this->getId();
         $format = "DELETE FROM hariult WHERE question_id=%s";
         $sql = sprintf($format, $id);
@@ -172,7 +194,7 @@ class Question extends Model
         $format = "DELETE FROM asuult WHERE id=%s";
         $sql = sprintf($format, $id);
         mysql_query($sql);
-        parent::close_database();
+        self::close_database();
     }
 
     static public function getById($id)
@@ -186,11 +208,12 @@ class Question extends Model
         {
             $question = new Question();
             $question->setId($values['id']);
-            $question->setName($values['name']);
             $question->setTitle($values['title']);
-            $question->setQuestion($values['question']);
-            $question->setBestAnswerId($values['best_answer_id']);
             $question->setCreatedDate($values['created_date']);
+            $question->setQuestion($values['question']);
+            $question->setName($values['name']);
+            $question->setBestAnswerId($values['best_answer_id']);
+            $question->setAnswerCount($values['answer_count']);
         }
         self::close_database();
         return $question;
@@ -201,7 +224,11 @@ class Question extends Model
 class Answer extends Model
 {
     protected $_fields = array(
-                    'id', 'name', 'created_date', 'answer', 'question_id'
+                'id', 
+                'answer', 
+                'name', 
+                'created_date', 
+                'question_id'
             );
 
     public function getQuestion()
@@ -235,9 +262,9 @@ class Answer extends Model
         {
             $answer = new Answer();
             $answer->setId($values['id']);
+            $answer->setAnswer($values['answer']);
             $answer->setName($values['name']);
             $answer->setCreatedDate($values['created_date']);
-            $answer->setAnswer($values['Answer']);
             $answer->setQuestionId($values['question_id']);
         }
         self::close_database();
@@ -254,5 +281,4 @@ class Answer extends Model
         self::close_database();
     }
 }
-
 ?>
