@@ -12,7 +12,7 @@
   </tr>
   <tr>
     <td>Нэр:<?php echo $question->getName() ?></td>
-    <td align="right"><?php echo $question->getDate() ?></td>
+    <td align="right"><?php echo $question->getCreatedDate() ?></td>
   </tr>
   <tr>
     <td colspan="2"><?php echo nl2br($question->getQuestion()) ?></td>

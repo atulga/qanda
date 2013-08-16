@@ -45,5 +45,4 @@ if (uri_is('/')){
   echo '<html><body><h2>File Not Found!</h2></body></html>';
 }
 
-
 ?>

@@ -8,7 +8,7 @@
   </tr>
   <tr>
     <td><?php echo "Нэр:".$question->getName();?></td>
-    <td align="right"><?php echo "Огноо:".$question->getDate() ?></td>
+    <td align="right"><?php echo "Огноо:".$question->getCreatedDate() ?></td>
   </tr>
   <tr>
     <td colspan="2">
@@ -54,7 +54,7 @@
         Хариултыг устгах
       </a>
     </td>
-    <td align="right"><?php echo $answer->getDate() ?></td>
+    <td align="right"><?php echo $answer->getCreatedDate() ?></td>
   </tr>
   <tr>
     <td colspan="2"><hr/></td>
