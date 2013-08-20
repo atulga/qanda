@@ -89,9 +89,9 @@ class Question extends Model
                     'title',
                     'created_date',
                     'question',
-                    'name',
                     'best_answer_id',
-                    'answer_count'
+                    'answer_count',
+                    'user_id'
             );
 
     public function isAnswered()
@@ -145,11 +145,7 @@ class Question extends Model
         while ($row = mysql_fetch_array($r))
         {
             $answer = new Answer();
-            $answer->setId($row['id']);
-            $answer->setAnswer($row['answer']);
-            $answer->setName($row['name']);
-            $answer->setCreatedDate($row['created_date']);
-            $answer->setQuestionId($row['question_id']);
+            $answer->populate($row);
             $answers[] = $answer;
         }
         self::close_database();
@@ -162,10 +158,11 @@ class Question extends Model
         $question = mysql_escape_string($this->getQuestion());
         $title = mysql_escape_string($this->getTitle());
         $date = date("Y-m-d H:i:s");
-        $name = mysql_escape_string($this->getName());
+        $user_id = mysql_escape_string($this->getUserId());
         $id = $this->getId();
         $best_answer_id = $this->getBestAnswerId();
         $answer_count = $this->getAnswerCount();
+        $user_id = $_SESSION['id'];
         if ($is_editing){
             if($best_answer_id == null){
                 $format = "UPDATE asuult SET question='%s', title='%s' WHERE id=%s";
@@ -182,8 +179,8 @@ class Question extends Model
             }
         } else {
             $format = "INSERT INTO asuult ".$this->queryFields()."
-                       VALUES (NULL, '%s' , '%s', '%s' ,'%s', 0, 0 )";
-            $sql = sprintf($format, $title, $date, $question, $name);
+                       VALUES (NULL, '%s' , '%s', '%s' ,0 , 0, '%s')";
+            $sql = sprintf($format, $title, $date, $question, $user_id);
         }
         self::connect_to_database();
         $resultset = mysql_query($sql);
@@ -221,13 +218,7 @@ class Question extends Model
         while ($values = mysql_fetch_array($r))
         {
             $question = new Question();
-            $question->setId($values['id']);
-            $question->setTitle($values['title']);
-            $question->setCreatedDate($values['created_date']);
-            $question->setQuestion($values['question']);
-            $question->setName($values['name']);
-            $question->setBestAnswerId($values['best_answer_id']);
-            $question->setAnswerCount($values['answer_count']);
+            $question->populate($values);
         }
         self::close_database();
         return $question;
@@ -240,9 +231,9 @@ class Answer extends Model
     protected $_fields = array(
                 'id',
                 'answer',
-                'name',
                 'created_date',
-                'question_id'
+                'question_id',
+                'user_id'
             );
 
     public function getQuestion()
@@ -253,12 +244,12 @@ class Answer extends Model
     public function save()
     {
         $answer = mysql_escape_string($this->getAnswer());
-        $name = mysql_escape_string($this->getName());
+        $user_id = $_SESSION['id'];
         $date = date("Y-m-d H:i:s");
         $question_id = $this->getQuestionId();
-        $format = "INSERT INTO hariult ".$this->queryFields()." 
+        $format = "INSERT INTO hariult ".$this->queryFields()."
                     VALUES (NULL, '%s', '%s','%s', '%s')";
-        $sql = sprintf($format, $answer, $name, $date, $question_id);
+        $sql = sprintf($format, $answer, $date, $question_id, $user_id);
         self::connect_to_database();
         $r = mysql_query($sql);
         self::close_database();
@@ -274,11 +265,7 @@ class Answer extends Model
         while ($values = mysql_fetch_array($r))
         {
             $answer = new Answer();
-            $answer->setId($values['id']);
-            $answer->setAnswer($values['answer']);
-            $answer->setName($values['name']);
-            $answer->setCreatedDate($values['created_date']);
-            $answer->setQuestionId($values['question_id']);
+            $answer->populate($values);
         }
         self::close_database();
         return $answer;
@@ -299,37 +286,61 @@ class Answer extends Model
 class User extends Model
 {
     protected $_fields = array('id', 'name', 'password');
-    
+
     public function save()
     {
         $name = mysql_escape_string($this->getName());
         $password = mysql_escape_string($this->getPassword());
-        $id = $this->getId();
-        $format = "INSERT INTO user %s VALUES (NULL, %s,
-            %s)";
+        $format = "INSERT INTO user %s VALUES (NULL, '%s', '%s')";
         $sql = sprintf($format, $this->queryFields(), $name, $password);
         self::connect_to_database();
         $r = mysql_query($sql);
         self::close_database();
     }
 
+    static public function getUserName($name)
+    {
+        $name = mysql_escape_string($name);
+        $format = "SELECT * FROM user WHERE name='%s'";
+        $sql = sprintf($format, $name);
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        var_dump($r);
+        exit();
+        self::close_database();
+        return $r;
+    }
+
     static public function getUser($name, $password)
     {
         $name = mysql_escape_string($name);
         $password = mysql_escape_string($password);
-        $format = "SELECT * FROM user WHERE name=%s AND password=%s";
+        $format = "SELECT * FROM user WHERE name='%s' AND password='%s'";
         $sql = sprintf($format, $name, $password);
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        $user = new User();
+        while ($values = mysql_fetch_array($r))
+        {
+            $user->setId($values['id']);
+            $user->setName($values['name']);
+        }
+        self::close_database();
+        return $user;
+    }
+
+    static public function getUserNameById($user_id)
+    {
+        $format = "SELECT name FROM user WHERE id=%s";
+        $sql = sprintf($format, $user_id);
         self::connect_to_database();
         $r = mysql_query($sql);
         while ($values = mysql_fetch_array($r))
         {
-            $user = new User();
-            $user->setId($values['id']);
-            $user->setName($values['name']);
-            $user->setPassword($values['password']);
+            $user_name = $values['name'];
         }
         self::close_database();
-        return $user;
+        return $user_name;
     }
 }
 ?>

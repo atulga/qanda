@@ -1,7 +1,12 @@
 <?php
-function login()
+function logout()
 {
-    $form = new RegisterForm();
+    require 'templates/logout.php';
+}
+
+function login($question_id = null)
+{
+    $form = new LoginForm();
     if ($_POST){
         $form->populate($_POST);
         $has_errors = $form->validate();
@@ -11,7 +16,14 @@ function login()
                 if ($form->getName() == $user->getName()){
                     $_SESSION['id'] = $user->getId();
                     $_SESSION['name'] = $user->getName();
-                    redirect('question_add');
+                    $uri = $_SERVER['REQUEST_URI'];
+                    if ($uri == '/qanda/index.php/login'){
+                        redirect('/qanda/index.php');
+                    } elseif ($question_id > 0){
+                        redirect('show?question_id='.$question_id);
+                    } elseif ($uri == '/qanda/index.php/question_add'){
+                        redirect('question_add');
+                    }
                 }
             }
         }
@@ -26,9 +38,14 @@ function user_register()
         $form->populate($_POST);
         $has_errors = $form->validate();
         if (!$has_errors){
-            $form->save();
-            $_SESSION['name'] = $form->getName();
-            redirect('question_add');
+            if ($form->getPassword() == $form->getPasswordAgain()){
+                if (User::getUserName($form->getName())){
+                    $has_errors = 'Хэрэглэгч үүссэн байна'; 
+                } else {
+                    $form->save();
+                    redirect('login');
+                }
+            }
         }
     }
     require 'templates/register.php';
@@ -50,7 +67,6 @@ function question_show_action($question_id)
         $has_errors = $form_answer->validate();
         if (!$has_errors){
             $form_answer->save();
-            $_SESSION['name'] = $form_answer->getName();
             redirect('show?question_id='.$form_answer->getQuestionId());
         }
     }
@@ -66,7 +82,6 @@ function question_add_edit_action($question_id = null)
         if (!$has_errors){
             $form->save();
             if($question_id == null){
-                $_SESSION['name'] = $form->getName();
                 redirect('/qanda/index.php');
             } else {
                 redirect('show?question_id='.$form->getId());

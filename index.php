@@ -9,7 +9,7 @@ require_once 'controllers.php';
 require_once 'helpers.php';
 require_once 'forms.php';
 
-$uri=$_SERVER['REQUEST_URI'];
+$uri = $_SERVER['REQUEST_URI'];
 
 if (strpos($uri, '?')){
     $uri_filtered = strstr($uri, '?', true);
@@ -25,7 +25,15 @@ if (uri_is('/')){
     question_list_action();
 } elseif (uri_is('/show') && has_get('question_id')){
     question_show_action(get_param('question_id'));
-
+} elseif (uri_is('/logout')){
+    logout();
+} elseif (uri_is('/login')){
+    if(has_get('question_id')){
+        $question_id = get_param('question_id');
+    } else {
+        $question_id =null;
+    }
+    login($question_id);
 } elseif (uri_is('/register')){
     user_register();
 } elseif (uri_is('/question_add')){
@@ -46,5 +54,4 @@ if (uri_is('/')){
     header('Status:404 Not Found');
     echo '<html><body><h2>File Not Found!</h2></body></html>';
 }
-
 ?>

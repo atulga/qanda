@@ -17,14 +17,16 @@
     </td>
   </tr>
    <tr>
-    <td>
-        <td><input type="submit" value="Нэвтрэх" name="login"/></td>
-    </td>
+    <td></td>
+    <td><input type="submit" value="Нэвтрэх" name="login"/></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><a href="register">Шинээр бүртгүүлэх</a></td>
   </tr>
   </table>
 </form>
-<a href="register">Шинээр бүртгүүлэх</a> | 
-<a href="recover-password">Нууц үг сэргээх</a>
 
-<?php $content = ob_get_clean() ?>
+<?php 
+$content = ob_get_clean() ?>
 <?php include 'layout.php' ?>

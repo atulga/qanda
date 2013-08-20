@@ -7,7 +7,7 @@
     <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
   </tr>
   <tr>
-    <td><?php echo "Нэр:".$question->getName();?></td>
+    <td><?php echo "Нэр:".User::getUserNameById($question->getUserId());?></td>
     <td align="right"><?php echo "Огноо:".$question->getCreatedDate() ?></td>
   </tr>
   <tr>
@@ -17,14 +17,19 @@
   </tr>
   <tr>
     <td>
-      <a href="question_edit?question_id=<?php echo $question->getId() ?>">
+    <?php
+        if (isset($_SESSION['name'])){
+            if ($_SESSION['id'] == $question->getUserId()){ ?>
+        <a href="question_edit?question_id=<?php echo $question->getId() ?>">
         Засах
-      </a>
+        </a>
     </td>
     <td align="right">
       <a href="delete_question?question_id=<?php echo $question->getId() ?>">
          Устгах
       </a>
+    <?php   }
+        }?>
     </td>
   </tr>
 </table>
@@ -33,15 +38,10 @@
 <table border="0" width="700">
 <?php foreach ($question->getAnswers() as $answer){?>
   <tr>
-    <td><?php echo $answer->getName() ?></td>
+    <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
     <td align="right">
-<?php
-        if($answer->getId() == $question->getBestAnswerId()){ echo " *Зөв хариулт";} 
-        else { ?>
-            <a href="best_answer?question_id=<?php echo $question->getId()
-?>&answer_id=<?php echo $answer->getId() ?>">Хариулт зөв үү?
-      </a>
-<?php } ?>
+        <?php echo $answer->getCreatedDate() ?>
+
     </td>
   </tr>
   <tr>
@@ -49,37 +49,44 @@
   </tr>
   <tr>
     <td>
+<?php
+            if (isset($_SESSION['name'])){
+            if ($_SESSION['id'] == $answer->getUserId()){
+?>
       <a href="delete_answer?answer_id=<?php echo $answer->getId()
-?>&question_id=<?php echo $question->getId() ?>">
+                        ?>&question_id=<?php echo $question->getId() ?>">
         Хариултыг устгах
       </a>
+    <?php } }?>
     </td>
-    <td align="right"><?php echo $answer->getCreatedDate() ?></td>
+    <td align="right">
+    <?php
+        if($answer->getId() == $question->getBestAnswerId()){
+            echo " *Зөв хариулт";
+        } else {
+            if (isset($_SESSION['name'])){
+                if ($_SESSION['id'] == $question->getUserId()){
+    ?>
+        <a href="best_answer?question_id=<?php echo $question->getId()
+                     ?>&answer_id=<?php echo $answer->getId() ?>">
+             Хариулт зөв үү?
+        </a>
+    <?php       }
+            }
+        } ?>
+    </td>
   </tr>
   <tr>
     <td colspan="2"><hr/></td>
   </tr>
 <?php } ?>
 </table>
+
 <h2>Хариулт бичих</h2>
+
+<?php if (isset($_SESSION['name'])){?>
 <form method="POST" action="">
   <table border="0">
-    <tr>
-      <td>Хариулагчийн нэр:</td>
-      <td>
-        <input type="text" name="name" size="30"
-            value="<?php
-                      if(isset($_SESSION['name']))
-                          echo $_SESSION['name'];
-                      else {
-                           echo $form_answer->getName();
-                           $_SESSION['name'] = $form_answer->getName();
-                         }
-                   ?>"
-        />
-        <i id='error_message'><?php echo $form_answer->getError('name') ?></i>
-      </td>
-    </tr>
     <tr>
       <td>Хариулт:</td>
       <td>
@@ -95,7 +102,7 @@
     </tr>
     <tr>
       <td>
-        <input type="hidden" name="question_id" 
+        <input type="hidden" name="question_id"
             value="<?php echo $question->getId(); ?>"/>
       </td>
       <td>
@@ -104,6 +111,12 @@
     </tr>
   </table>
 </form>
+<?php } else { ?>
+    <label>Хариулт бичхийн тулд нэр, нууц үгээрээ
+            <a href="login?question_id=<?php echo $question->getId()?>">
+            холбогдоно </a>уу!
+    </label>
+<?php } ?>
 <?php $content=ob_get_clean() ?>
 
 <?php include 'layout.php' ?>

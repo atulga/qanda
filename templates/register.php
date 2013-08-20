@@ -27,7 +27,7 @@
    <tr>
     <td></td>
     <td>
-      <input type="submit" value="Илгээх" name="submit"/>
+      <input type="submit" value="Бүртгүүлэх" name="submit"/>
     </td>
   </tr>
   </table>

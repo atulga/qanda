@@ -11,7 +11,7 @@
     </td>
   </tr>
   <tr>
-    <td>Нэр:<?php echo $question->getName() ?></td>
+    <td>Нэр:<?php echo User::getUserNameById($question->getUserId()) ?></td>
     <td align="right"><?php echo $question->getCreatedDate() ?></td>
   </tr>
   <tr>

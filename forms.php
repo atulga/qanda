@@ -47,6 +47,27 @@ class BaseForm
 }
 
 
+class LoginForm extends BaseForm
+{
+    protected $_fields = array('name', 'password');
+
+    public function validate()
+    {
+        $this->validate_required('name', 'Нэрээ оруулна уу!');
+        $this->validate_required('password', 'Нууц үгээ оруулна уу!');
+        return count($this->_errors) > 0;
+    }
+
+    public function save()
+    {
+        $user = new User();
+        $user->setName($this->getName());
+        $user->setPassword($this->getPassword());
+        $user->save();
+    }
+}
+
+
 class RegisterForm extends BaseForm
 {
     protected $_fields = array('name', 'password', 'password_again');
@@ -55,13 +76,9 @@ class RegisterForm extends BaseForm
     {
         $this->validate_required('name', 'Нэрээ оруулна уу!');
         $this->validate_required('password', 'Нууц үгээ оруулна уу!');
-        if ($this->getPasswordAgain()){
-            $this->validate_required('password_again', 'Нууц үгээ давтаж оруулна уу!');
-            if ($this->getPassword() && $this->getPasswordAgain()){
-                if ($this->getPassword() != $this->getPasswordAgain()){
-                    $this->_errors['password_again'] = 'Нууц үгээ ижил оруулна уу';
-                }
-            }
+        $this->validate_required('password_again', 'Нууц үгээ давтаж оруулна уу!');
+        if ($this->getPassword() != $this->getPasswordAgain()){
+            $this->_errors['password_again'] = 'Нууц үгээ ижил оруулна уу';
         }
         return count($this->_errors) > 0;
     }
@@ -73,27 +90,17 @@ class RegisterForm extends BaseForm
         $user->setPassword($this->getPassword());
         $user->save();
     }
-
-    public function checkUser()
-    {
-        $user = new User();
-        $user = User::getUser($this->getName(), $this->getPassword());
-        if ($user->getName() != $this->getName()){
-            $this->errors['password'] = 'Нэр, нууц үг буруу байна';
-        }
-    }
 }
 
 
 class QuestionForm extends BaseForm
 {
-    protected $_fields = array('title', 'question', 'id');
+    protected $_fields = array('title', 'question', 'id', 'user_id');
 
     public function validate()
     {
         $this->validate_required('title', 'Гарчиг оруулна уу');
         $this->validate_required('question', 'Асуулт оруулна уу');
-
         return count($this->_errors) > 0;
     }
 
@@ -101,7 +108,7 @@ class QuestionForm extends BaseForm
     {
         $question = new Question();
         $question->setId($this->getId());
-        $question->setName($this->getName());
+        $question->setUserId($_SESSION['id']);
         $question->setTitle($this->getTitle());
         $question->setQuestion($this->getQuestion());
         $question->save();
@@ -111,20 +118,18 @@ class QuestionForm extends BaseForm
 
 class AnswerForm extends BaseForm
 {
-    protected $_fields = array('name', 'answer', 'question_id');
+    protected $_fields = array('answer', 'question_id');
 
     public function validate()
     {
-        $this->validate_required('name', 'Өөрийн нэрээ оруулна уу');
         $this->validate_required('answer', 'Хариултаа оруулна уу');
-
         return count($this->_errors) > 0;
     }
 
     public function save()
     {
         $answer = new Answer();
-        $answer->setName($this->getName());
+        $answer->setUserId($_SESSION['id']);
         $answer->setAnswer($this->getAnswer());
         $answer->setQuestionId($this->getQuestionId());
         $answer->save();
