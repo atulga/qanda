@@ -9,7 +9,8 @@
         <div id="header">
             <h3>
                 <a href="/qanda/index.php">Нүүр хуудас</a> |
-                <a href="question_add">Асуулт оруулах</a>
+                <a href="question_add">Асуулт оруулах</a> |
+                <a href="register">Бүртгүүлэх</a> 
             </h3>
         </div>
         <div id="content">

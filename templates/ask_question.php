@@ -4,18 +4,6 @@
 <form method="POST" action="">
   <table border="0">
   <tr>
-    <td align="right">Асуугчийн нэр:</td>
-    <td>
-    <input type="text" name="name"
-      value="<?php
-        if(isset($_SESSION['name']))
-          echo $_SESSION['name'];
-          else echo $form->getName()
-              ?>"/>
-    <i id='error_message'><?php echo $form->getError('name') ?></i>
-    </td>
-  </tr>
-  <tr>
     <td align="right">Асуултын гарчиг:</td>
     <td>
     <input type="text" name="title" value="<?php echo $form->getTitle() ?>"/>

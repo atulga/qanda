@@ -25,8 +25,15 @@ if (uri_is('/')){
     question_list_action();
 } elseif (uri_is('/show') && has_get('question_id')){
     question_show_action(get_param('question_id'));
+
+} elseif (uri_is('/register')){
+    user_register();
 } elseif (uri_is('/question_add')){
-    question_add_edit_action();
+    if(isset($_SESSION['name'])){
+        question_add_edit_action();
+    } else {
+        login();
+    }
 } elseif (uri_is('/question_edit') && has_get('question_id')){
     question_add_edit_action(get_param('question_id'));
 } elseif (uri_is('/best_answer')){

@@ -1,4 +1,38 @@
 <?php
+function login()
+{
+    $form = new RegisterForm();
+    if ($_POST){
+        $form->populate($_POST);
+        $has_errors = $form->validate();
+        if (!$has_errors){
+            $user = User::getUser($form->getName(), $form->getPassword());
+            if ($user){
+                if ($form->getName() == $user->getName()){
+                    $_SESSION['id'] = $user->getId();
+                    $_SESSION['name'] = $user->getName();
+                    redirect('question_add');
+                }
+            }
+        }
+    }
+    require 'templates/login.php';
+}
+
+function user_register()
+{
+    $form = new RegisterForm();
+    if ($_POST){
+        $form->populate($_POST);
+        $has_errors = $form->validate();
+        if (!$has_errors){
+            $form->save();
+            $_SESSION['name'] = $form->getName();
+            redirect('question_add');
+        }
+    }
+    require 'templates/register.php';
+}
 
 function question_list_action()
 {
@@ -17,7 +51,7 @@ function question_show_action($question_id)
         if (!$has_errors){
             $form_answer->save();
             $_SESSION['name'] = $form_answer->getName();
-            redirect('show?question_id='.$form_answer->getQuestion_id());
+            redirect('show?question_id='.$form_answer->getQuestionId());
         }
     }
     require 'templates/show.php';
@@ -54,7 +88,9 @@ function delete_answer_action($answer_id)
 {
     $answer = Answer::getById($answer_id);
     $question = Question::getById(get_param('question_id'));
-    $question->setBestAnswerId(0);
+    if($question->getBestAnswerId() == $answer_id){
+        $question->setBestAnswerId('0');
+    }
     $answer->delete();
     $question->updateAnswerCount();
     $question->save();

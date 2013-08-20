@@ -29,7 +29,6 @@ function uri_is($u)
 
 function redirect($uri)
 {
-    var_dump($uri);
     header('Location:'.$uri);
     exit();
 }

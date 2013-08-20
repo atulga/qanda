@@ -22,7 +22,7 @@ class BaseForm
     {
         $fields = array();
         foreach($this->_fields as $field){
-            $fname = 'get'.ucfirst($field);
+            $fname = 'get'.camelcase($field);
             $fields[$fname] = $this->_values[$field];
         }
         if (array_key_exists($func_name, $fields)){
@@ -39,7 +39,7 @@ class BaseForm
 
     public function validate_required($field, $message)
     {
-        $fname = 'get'.ucfirst($field);
+        $fname = 'get'.camelcase($field);
         if (!(strlen($this->$fname()) > 0)){
             $this->_errors[$field] = $message;
         }
@@ -47,15 +47,50 @@ class BaseForm
 }
 
 
-class QuestionForm extends BaseForm
+class RegisterForm extends BaseForm
 {
-    protected $_fields = array('name', 'title', 'question', 'id');
+    protected $_fields = array('name', 'password', 'password_again');
 
     public function validate()
     {
-        if (!($this->getId())){
-            $this->validate_required('name','Нэрээ оруулна уу');
+        $this->validate_required('name', 'Нэрээ оруулна уу!');
+        $this->validate_required('password', 'Нууц үгээ оруулна уу!');
+        if ($this->getPasswordAgain()){
+            $this->validate_required('password_again', 'Нууц үгээ давтаж оруулна уу!');
+            if ($this->getPassword() && $this->getPasswordAgain()){
+                if ($this->getPassword() != $this->getPasswordAgain()){
+                    $this->_errors['password_again'] = 'Нууц үгээ ижил оруулна уу';
+                }
+            }
         }
+        return count($this->_errors) > 0;
+    }
+
+    public function save()
+    {
+        $user = new User();
+        $user->setName($this->getName());
+        $user->setPassword($this->getPassword());
+        $user->save();
+    }
+
+    public function checkUser()
+    {
+        $user = new User();
+        $user = User::getUser($this->getName(), $this->getPassword());
+        if ($user->getName() != $this->getName()){
+            $this->errors['password'] = 'Нэр, нууц үг буруу байна';
+        }
+    }
+}
+
+
+class QuestionForm extends BaseForm
+{
+    protected $_fields = array('title', 'question', 'id');
+
+    public function validate()
+    {
         $this->validate_required('title', 'Гарчиг оруулна уу');
         $this->validate_required('question', 'Асуулт оруулна уу');
 
@@ -91,11 +126,11 @@ class AnswerForm extends BaseForm
         $answer = new Answer();
         $answer->setName($this->getName());
         $answer->setAnswer($this->getAnswer());
-        $answer->setQuestionId($this->getQuestion_id());
+        $answer->setQuestionId($this->getQuestionId());
         $answer->save();
 
-        $question = Question::getById($this->getQuestion_id());
-        $question->updateAnswerCount($this->getQuestion_id());
+        $question = Question::getById($this->getQuestionId());
+        $question->updateAnswerCount($this->getQuestionId());
         $question->save();
     }
 }

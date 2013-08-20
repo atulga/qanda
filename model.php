@@ -21,20 +21,34 @@ class Model
             $this->_values[$field] = null;
         }
     }
-   /* 
+
     public function populate($values)
     {
         foreach ($this->_fields as $field) {
             $this->_values[$field] = $values[$field];
         }
     }
-    */
-    public function camelize($str)
+
+   public function queryFields()
     {
-        $str = preg_replace('/_/', ' ', $str);
-        $str = ucwords($str);
-        $str = preg_replace('/ /', '', $str);
-        return $str;
+        $fields_name = null;
+        foreach ($this->_fields as $field) {
+            $fields_name = $fields_name.$field.', ';
+        }
+        $fields_name = rtrim($fields_name, ", ");
+        $fields_name = "(".$fields_name.")";
+        return $fields_name;
+    }
+
+    public function queryValues()
+    {
+        $query_values = null;
+        foreach ($this->_fields as $field) {
+            $query_values = $query_values.'%s'.', ';
+        }
+        $query_values = rtrim($query_values, ", ");
+        $query_values = "(".$query_values.")";
+        return $query_values;
     }
 
     public function __call($func_name, $args)
@@ -44,7 +58,7 @@ class Model
             $arg = $args[0];
             $fields = array();
             foreach ($this->_fields as $field) {
-                $fname = 'set'.$this->camelize($field);
+                $fname = 'set'.camelcase($field);
                 $fields[$fname] = $field;
             }
             if (array_key_exists($func_name, $fields)){
@@ -57,7 +71,7 @@ class Model
         } else {
             $fields = array();
             foreach ($this->_fields as $field) {
-                $fname = 'get'.$this->camelize($field);
+                $fname = 'get'.camelcase($field);
                 $fields[$fname] = $this->_values[$field];
             }
             if (array_key_exists($func_name, $fields)){
@@ -71,13 +85,13 @@ class Model
 class Question extends Model
 {
     protected $_fields = array(
-                    'id', 
-                    'title', 
+                    'id',
+                    'title',
                     'created_date',
-                    'question', 
-                    'name', 
+                    'question',
+                    'name',
                     'best_answer_id',
-                    'answer_count' 
+                    'answer_count'
             );
 
     public function isAnswered()
@@ -99,13 +113,7 @@ class Question extends Model
         while ($row = mysql_fetch_array($r))
         {
             $question = new Question();
-            $question->setId($row['id']);
-            $question->setTitle($row['title']);
-            $question->setCreatedDate($row['created_date']);
-            $question->setQuestion($row['question']);
-            $question->setName($row['name']);
-            $question->setBestAnswerId($row['best_answer_id']);
-            $question->setAnswerCount($row['answer_count']);
+            $question->populate($row);
             $questions[] = $question;
         }
         self::close_database();
@@ -118,7 +126,7 @@ class Question extends Model
         $format = "SELECT COUNT(id) FROM hariult WHERE question_id=%s";
         $sql = sprintf($format, $this->getId());
         $result = mysql_query($sql);
-        $row = mysql_fetch_row($result); 
+        $row = mysql_fetch_row($result);
         $count = $row[0];
         self::close_database();
         $this->setAnswerCount($count);
@@ -128,7 +136,7 @@ class Question extends Model
     public function getAnswers()
     {
         $question_id = $this->getId();
-        $format = "SELECT * FROM hariult WHERE question_id = '%s' 
+        $format = "SELECT * FROM hariult WHERE question_id = '%s'
                    ORDER BY created_date ASC";
         $sql = sprintf($format, $question_id);
         $answers = array();
@@ -158,15 +166,22 @@ class Question extends Model
         $id = $this->getId();
         $best_answer_id = $this->getBestAnswerId();
         $answer_count = $this->getAnswerCount();
-
         if ($is_editing){
-            $format = "UPDATE asuult SET question='%s', title='%s',
-                best_answer_id='%s', answer_count=%s WHERE id=%s";
-            $sql = sprintf($format, $question, $title, $best_answer_id, $answer_count, $id);
+            if($best_answer_id == null){
+                $format = "UPDATE asuult SET question='%s', title='%s' WHERE id=%s";
+                $sql = sprintf($format, $question, $title, $id);
+            } elseif ($best_answer_id == 0) {
+                $format = "UPDATE asuult SET question='%s', title='%s',
+                        best_answer_id='%s', answer_count='%s' WHERE id=%s";
+                $sql = sprintf($format, $question, $title, $best_answer_id,
+                        $answer_count, $id);
+            } elseif ($best_answer_id > 0) {
+                $format = "UPDATE asuult SET best_answer_id='%s',
+                        answer_count='%s' WHERE id=%s";
+                $sql = sprintf($format, $best_answer_id, $answer_count, $id);
+            }
         } else {
-            $format = "INSERT INTO asuult 
-                        (id, title, created_date, question, name,
-                        best_answer_id, answer_count)
+            $format = "INSERT INTO asuult ".$this->queryFields()."
                        VALUES (NULL, '%s' , '%s', '%s' ,'%s', 0, 0 )";
             $sql = sprintf($format, $title, $date, $question, $name);
         }
@@ -201,7 +216,6 @@ class Question extends Model
     {
         $format = "SELECT * FROM asuult WHERE id = %s";
         $sql = sprintf($format, $id);
-
         self::connect_to_database();
         $r = mysql_query($sql);
         while ($values = mysql_fetch_array($r))
@@ -224,10 +238,10 @@ class Question extends Model
 class Answer extends Model
 {
     protected $_fields = array(
-                'id', 
-                'answer', 
-                'name', 
-                'created_date', 
+                'id',
+                'answer',
+                'name',
+                'created_date',
                 'question_id'
             );
 
@@ -242,9 +256,8 @@ class Answer extends Model
         $name = mysql_escape_string($this->getName());
         $date = date("Y-m-d H:i:s");
         $question_id = $this->getQuestionId();
-        $format = "INSERT INTO hariult (id, answer, name, created_date,
-            question_id)
-                   VALUES (NULL, '%s', '%s','%s', '%s')";
+        $format = "INSERT INTO hariult ".$this->queryFields()." 
+                    VALUES (NULL, '%s', '%s','%s', '%s')";
         $sql = sprintf($format, $answer, $name, $date, $question_id);
         self::connect_to_database();
         $r = mysql_query($sql);
@@ -279,6 +292,44 @@ class Answer extends Model
         self::connect_to_database();
         mysql_query($sql);
         self::close_database();
+    }
+}
+
+
+class User extends Model
+{
+    protected $_fields = array('id', 'name', 'password');
+    
+    public function save()
+    {
+        $name = mysql_escape_string($this->getName());
+        $password = mysql_escape_string($this->getPassword());
+        $id = $this->getId();
+        $format = "INSERT INTO user %s VALUES (NULL, %s,
+            %s)";
+        $sql = sprintf($format, $this->queryFields(), $name, $password);
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        self::close_database();
+    }
+
+    static public function getUser($name, $password)
+    {
+        $name = mysql_escape_string($name);
+        $password = mysql_escape_string($password);
+        $format = "SELECT * FROM user WHERE name=%s AND password=%s";
+        $sql = sprintf($format, $name, $password);
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        while ($values = mysql_fetch_array($r))
+        {
+            $user = new User();
+            $user->setId($values['id']);
+            $user->setName($values['name']);
+            $user->setPassword($values['password']);
+        }
+        self::close_database();
+        return $user;
     }
 }
 ?>
