@@ -1,5 +1,6 @@
 <?php $title = "Нэвтрэх хэсэг"?>
 <?php ob_start() ?>
+<?php if (has_get('message')) echo get_param('message'); ?>
 <form method="POST" action="">
   <table border="0">
   <tr>

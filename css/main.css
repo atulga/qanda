@@ -50,3 +50,13 @@ body
     display: block;
     float: left !important;
 }
+
+li
+{
+    display:inline;
+}
+
+ul
+{
+    margin: 0px 0px;
+}

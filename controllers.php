@@ -17,7 +17,7 @@ function login($question_id = null)
                     $_SESSION['id'] = $user->getId();
                     $_SESSION['name'] = $user->getName();
                     $uri = $_SERVER['REQUEST_URI'];
-                    if ($uri == '/qanda/index.php/login'){
+                    if ($uri == '/qanda/index.php/login' || has_get('message')){
                         redirect('/qanda/index.php');
                     } elseif ($question_id > 0){
                         redirect('show?question_id='.$question_id);
@@ -39,21 +39,18 @@ function user_register()
         $has_errors = $form->validate();
         if (!$has_errors){
             if ($form->getPassword() == $form->getPasswordAgain()){
-                if (User::getUserName($form->getName())){
-                    $has_errors = 'Хэрэглэгч үүссэн байна'; 
-                } else {
                     $form->save();
-                    redirect('login');
-                }
+                    redirect('login?message=Та амжилттай бүртгэгдлээ. Өөрийн
+                        эрхээрээ нэвтэрч орно уу');
             }
         }
     }
     require 'templates/register.php';
 }
 
-function question_list_action()
+function question_list_action($page_number = 1)
 {
-    $questions = Question::getQuestions();
+    $questions = Question::getQuestions($page_number);
     require 'templates/list.php';
 }
 

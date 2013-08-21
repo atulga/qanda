@@ -1,5 +1,4 @@
 <?php $title = $question->getTitle() ?>
-
 <?php ob_start(); ?>
 
 <table border="0" width=700>
@@ -7,8 +6,12 @@
     <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
   </tr>
   <tr>
-    <td><?php echo "Нэр:".User::getUserNameById($question->getUserId());?></td>
-    <td align="right"><?php echo "Огноо:".$question->getCreatedDate() ?></td>
+    <td>
+    <?php echo "Нэр:".User::getUserNameById($question->getUserId());?>
+    </td>
+    <td align="right">
+        <?php echo "Огноо:".$question->getCreatedDate() ?>
+    </td>
   </tr>
   <tr>
     <td colspan="2">
@@ -49,10 +52,10 @@
   </tr>
   <tr>
     <td>
-<?php
-            if (isset($_SESSION['name'])){
-            if ($_SESSION['id'] == $answer->getUserId()){
-?>
+    <?php
+        if (isset($_SESSION['name'])){
+        if ($_SESSION['id'] == $answer->getUserId()){
+    ?>
       <a href="delete_answer?answer_id=<?php echo $answer->getId()
                         ?>&question_id=<?php echo $question->getId() ?>">
         Хариултыг устгах
@@ -62,7 +65,7 @@
     <td align="right">
     <?php
         if($answer->getId() == $question->getBestAnswerId()){
-            echo " *Зөв хариулт";
+            echo "<strong>*Зөв хариулт</strong>";
         } else {
             if (isset($_SESSION['name'])){
                 if ($_SESSION['id'] == $question->getUserId()){
@@ -97,7 +100,9 @@
     <tr>
       <td></td>
       <td>
-          <i id='error_message'><?php echo $form_answer->getError('answer') ?></i>
+          <i id='error_message'>
+            <?php echo $form_answer->getError('answer') ?>
+          </i>
       </td>
     </tr>
     <tr>

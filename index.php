@@ -23,17 +23,20 @@ if ($uri_filtered == '/qanda/' || $uri_filtered == '/qanda/index.php'){
 
 if (uri_is('/')){
     question_list_action();
+} elseif (uri_is('/list') && has_get('page_number')){
+    question_list_action(get_param('page_number'));
 } elseif (uri_is('/show') && has_get('question_id')){
     question_show_action(get_param('question_id'));
 } elseif (uri_is('/logout')){
     logout();
 } elseif (uri_is('/login')){
     if(has_get('question_id')){
-        $question_id = get_param('question_id');
+        login(get_param('question_id'));
+    } elseif(has_get('message')){
+        login(get_param('message'));
     } else {
-        $question_id =null;
+        login();
     }
-    login($question_id);
 } elseif (uri_is('/register')){
     user_register();
 } elseif (uri_is('/question_add')){

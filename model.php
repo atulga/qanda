@@ -40,17 +40,6 @@ class Model
         return $fields_name;
     }
 
-    public function queryValues()
-    {
-        $query_values = null;
-        foreach ($this->_fields as $field) {
-            $query_values = $query_values.'%s'.', ';
-        }
-        $query_values = rtrim($query_values, ", ");
-        $query_values = "(".$query_values.")";
-        return $query_values;
-    }
-
     public function __call($func_name, $args)
     {
         // setter
@@ -104,9 +93,22 @@ class Question extends Model
         return $this->_values;
     }
 
-    static public function getQuestions()
+    static public function getQuestionCount()
     {
-        $sql = "SELECT * FROM asuult ORDER BY created_date DESC";
+        $sql = "SELECT COUNT(id) FROM asuult";
+        self::connect_to_database();
+        $row = mysql_fetch_array(mysql_query($sql));
+        self::close_database();
+        $row_count = $row[0];
+        return $row_count;
+    }
+
+    static public function getQuestions($page_number)
+    {
+        $one_page_rows = 3;
+        $page_number = ($page_number -1) * $one_page_rows;
+        $format = "SELECT * FROM asuult ORDER BY created_date DESC LIMIT %s, %s";
+        $sql = sprintf($format, $page_number, $one_page_rows);
         $questions = array();
         self::connect_to_database();
         $r = mysql_query($sql);
@@ -298,17 +300,20 @@ class User extends Model
         self::close_database();
     }
 
-    static public function getUserName($name)
+    static public function getByName($name)
     {
         $name = mysql_escape_string($name);
         $format = "SELECT * FROM user WHERE name='%s'";
         $sql = sprintf($format, $name);
         self::connect_to_database();
-        $r = mysql_query($sql);
-        var_dump($r);
-        exit();
+        $result = mysql_query($sql);
+        $user = new User();
+        while ($values = mysql_fetch_array($result))
+        {
+            $user->setName($values['name']);
+        }
         self::close_database();
-        return $r;
+        return $user;
     }
 
     static public function getUser($name, $password)
