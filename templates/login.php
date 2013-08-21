@@ -28,6 +28,5 @@
   </table>
 </form>
 
-<?php 
-$content = ob_get_clean() ?>
+<?php $content = ob_get_clean() ?>
 <?php include 'layout.php' ?>

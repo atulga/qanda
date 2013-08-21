@@ -219,6 +219,8 @@ class Question extends Model
         $r = mysql_query($sql);
         while ($values = mysql_fetch_array($r))
         {
+            // $classname = get_class($this);  // Question
+            // $obj = new $classname();
             $question = new Question();
             $question->populate($values);
         }
@@ -316,7 +318,7 @@ class User extends Model
         return $user;
     }
 
-    static public function getUser($name, $password)
+    static public function getUser($name, $password=null)
     {
         $name = mysql_escape_string($name);
         $password = mysql_escape_string($password);
@@ -324,12 +326,9 @@ class User extends Model
         $sql = sprintf($format, $name, $password);
         self::connect_to_database();
         $r = mysql_query($sql);
+        $values = mysql_fetch_array($r);
         $user = new User();
-        while ($values = mysql_fetch_array($r))
-        {
-            $user->setId($values['id']);
-            $user->setName($values['name']);
-        }
+        $user->populate($values);
         self::close_database();
         return $user;
     }

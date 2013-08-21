@@ -104,6 +104,7 @@ class QuestionForm extends BaseForm
 
     public function save()
     {
+        
         $question = new Question();
         $question->setId($this->getId());
         $question->setUserId($_SESSION['id']);

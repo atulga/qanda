@@ -1,7 +1,8 @@
 <?php
 function logout()
 {
-    require 'templates/logout.php';
+    session_destroy();
+    redirect('/qanda/index.php');
 }
 
 function login($question_id = null)

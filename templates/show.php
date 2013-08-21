@@ -65,13 +65,13 @@
     <td align="right">
     <?php
         if($answer->getId() == $question->getBestAnswerId()){
+            echo "<hr>";
             echo "<strong>*Зөв хариулт</strong>";
         } else {
             if (isset($_SESSION['name'])){
                 if ($_SESSION['id'] == $question->getUserId()){
     ?>
-        <a href="best_answer?question_id=<?php echo $question->getId()
-                     ?>&answer_id=<?php echo $answer->getId() ?>">
+        <a href="best_answer?question_id=<?php echo $question->getId() ?>&answer_id=<?php echo $answer->getId() ?>">
              Хариулт зөв үү?
         </a>
     <?php       }
