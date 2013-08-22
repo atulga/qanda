@@ -1,11 +1,11 @@
 <?php
-function logout()
+function user_logout_action()
 {
     session_destroy();
     redirect('/qanda/index.php');
 }
 
-function login($question_id = null)
+function user_login_action($question_id = null)
 {
     $form = new LoginForm();
     if ($_POST){
@@ -17,6 +17,7 @@ function login($question_id = null)
                 if ($form->getName() == $user->getName()){
                     $_SESSION['id'] = $user->getId();
                     $_SESSION['name'] = $user->getName();
+                    $_SESSION['password'] = $user->getPassword();
                     $uri = $_SERVER['REQUEST_URI'];
                     if ($uri == '/qanda/index.php/login' || has_get('message')){
                         redirect('/qanda/index.php');
@@ -32,7 +33,7 @@ function login($question_id = null)
     require 'templates/login.php';
 }
 
-function user_register()
+function user_register_action()
 {
     $form = new RegisterForm();
     if ($_POST){
@@ -49,9 +50,9 @@ function user_register()
     require 'templates/register.php';
 }
 
-function question_list_action($page_number = 1)
+function question_list_action($page = 1)
 {
-    $questions = Question::getQuestions($page_number);
+    $questions = Question::getQuestions($page);
     require 'templates/list.php';
 }
 
@@ -97,7 +98,7 @@ function question_add_edit_action($question_id = null)
         require 'templates/edit.php';
 }
 
-function delete_answer_action($answer_id)
+function answer_delete_action($answer_id)
 {
     $answer = Answer::getById($answer_id);
     $question = Question::getById(get_param('question_id'));
@@ -110,7 +111,7 @@ function delete_answer_action($answer_id)
     redirect('show?question_id='.get_param('question_id'));
 }
 
-function set_best_answer_action($question_id)
+function answer_set_best_action($question_id)
 {
     $question = Question::getById($question_id);
     $question->setBestAnswerId(get_param('answer_id'));
@@ -118,7 +119,7 @@ function set_best_answer_action($question_id)
     redirect('show?question_id='.$question_id);
 }
 
-function delete_question_action($question_id)
+function question_delete_action($question_id)
 {
     $question = Question::getById($question_id);
     $question->delete();

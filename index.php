@@ -23,36 +23,36 @@ if ($uri_filtered == '/qanda/' || $uri_filtered == '/qanda/index.php'){
 
 if (uri_is('/')){
     question_list_action();
-} elseif (uri_is('/list') && has_get('page_number')){
-    question_list_action(get_param('page_number'));
+} elseif (uri_is('/list') && has_get('page')){
+    question_list_action(get_param('page'));
 } elseif (uri_is('/show') && has_get('question_id')){
     question_show_action(get_param('question_id'));
 } elseif (uri_is('/logout')){
-    logout();
+    user_logout_action();
 } elseif (uri_is('/login')){
     if(has_get('question_id')){
-        login(get_param('question_id'));
+        user_login_action(get_param('question_id'));
     } elseif(has_get('message')){
-        login(get_param('message'));
+        user_login_action(get_param('message'));
     } else {
-        login();
+        user_login_action();
     }
 } elseif (uri_is('/register')){
-    user_register();
+    user_register_action();
 } elseif (uri_is('/question_add')){
-    if(isset($_SESSION['name'])){
+    if(logid_in()){
         question_add_edit_action();
     } else {
-        login();
+        user_login_action();
     }
 } elseif (uri_is('/question_edit') && has_get('question_id')){
     question_add_edit_action(get_param('question_id'));
 } elseif (uri_is('/best_answer')){
-    set_best_answer_action(get_param('question_id'));
+    answer_set_best_action(get_param('question_id'));
 } elseif (uri_is('/delete_question')){
-    delete_question_action(get_param('question_id'));
+    question_delete_action(get_param('question_id'));
 } elseif (uri_is('/delete_answer')){
-    delete_answer_action(get_param('answer_id'));
+    answer_delete_action(get_param('answer_id'));
 } else {
     header('Status:404 Not Found');
     echo '<html><body><h2>File Not Found!</h2></body></html>';

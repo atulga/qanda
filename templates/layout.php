@@ -10,7 +10,7 @@
             <h3>
                 <a href="/qanda/index.php">Нүүр хуудас</a> |
                 <a href="question_add">Асуулт оруулах</a> |
-                <?php if(isset($_SESSION['id'])){
+                <?php if(logid_in()){
                     echo "Сайн байна уу? : ".$_SESSION['name'];
                 ?>
                     <a href="logout">Гарах</a>

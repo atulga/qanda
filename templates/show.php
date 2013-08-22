@@ -21,7 +21,7 @@
   <tr>
     <td>
     <?php
-        if (isset($_SESSION['name'])){
+        if (logid_in()){
             if ($_SESSION['id'] == $question->getUserId()){ ?>
         <a href="question_edit?question_id=<?php echo $question->getId() ?>">
         Засах
@@ -53,7 +53,7 @@
   <tr>
     <td>
     <?php
-        if (isset($_SESSION['name'])){
+        if (logid_in()){
         if ($_SESSION['id'] == $answer->getUserId()){
     ?>
       <a href="delete_answer?answer_id=<?php echo $answer->getId()
@@ -65,10 +65,9 @@
     <td align="right">
     <?php
         if($answer->getId() == $question->getBestAnswerId()){
-            echo "<hr>";
             echo "<strong>*Зөв хариулт</strong>";
         } else {
-            if (isset($_SESSION['name'])){
+            if (logid_in()){
                 if ($_SESSION['id'] == $question->getUserId()){
     ?>
         <a href="best_answer?question_id=<?php echo $question->getId() ?>&answer_id=<?php echo $answer->getId() ?>">
@@ -87,7 +86,7 @@
 
 <h2>Хариулт бичих</h2>
 
-<?php if (isset($_SESSION['name'])){?>
+<?php if (logid_in()){?>
 <form method="POST" action="">
   <table border="0">
     <tr>

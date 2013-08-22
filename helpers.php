@@ -1,5 +1,10 @@
 <?php
 
+function logid_in()
+{
+    return isset($_SESSION['id']);
+}
+
 function has_get($param_name)
 {
     return isset($_GET[$param_name]);

@@ -36,25 +36,25 @@
   </tr>
 <?php } ?>
 </table>
-<h3>
-    <ul>
-<?php
-$i = 1;
-$total_page = ceil(Question::getQuestionCount() / 3);
-while($i <= $total_page){
-    if (has_get('page_number')){
-        $page_number = get_param('page_number');
-    }
-    if ($page_number == $i){
-        echo "<li> | ".$i." | </li>";
-    } else {
-        echo "<li><a href='list?page_number=".$i."'> | ".$i." | </a></li>";
-    }
-    $i++;
-}
-?>
-    </ul>
-</h3>
+<ul>
+<?php  $i = 1;?>
+<?php  $total_page = ceil(Question::getQuestionCount() / 5); ?>
+<?php  while($i <= $total_page){ ?>
+<?php     if (has_get('page')){ ?>
+<?php         $page = get_param('page'); ?>
+<?php     } ?>
+     <li>|
+<?php     if ($page == $i){ ?>
+<?php         echo $i;?>
+<?php     } else { ?>
+        <a href="list?page=<?php echo $i; ?>"> 
+                <?php echo $i; ?>
+        </a>
+<?php     } ?>
+    |</li>
+<?php   $i++; ?>
+<?php } ?>
+</ul>
 
 <?php $content = ob_get_clean() ?>
 

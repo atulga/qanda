@@ -103,12 +103,12 @@ class Question extends Model
         return $row_count;
     }
 
-    static public function getQuestions($page_number)
+    static public function getQuestions($page)
     {
-        $one_page_rows = 3;
-        $page_number = ($page_number -1) * $one_page_rows;
+        $one_page_rows = 5;
+        $page = ($page -1) * $one_page_rows;
         $format = "SELECT * FROM asuult ORDER BY created_date DESC LIMIT %s, %s";
-        $sql = sprintf($format, $page_number, $one_page_rows);
+        $sql = sprintf($format, $page, $one_page_rows);
         $questions = array();
         self::connect_to_database();
         $r = mysql_query($sql);
@@ -217,13 +217,11 @@ class Question extends Model
         $sql = sprintf($format, $id);
         self::connect_to_database();
         $r = mysql_query($sql);
-        while ($values = mysql_fetch_array($r))
-        {
-            // $classname = get_class($this);  // Question
-            // $obj = new $classname();
-            $question = new Question();
-            $question->populate($values);
-        }
+        $values = mysql_fetch_array($r);
+        // $classname = get_class($this);  // Question
+        // $obj = new $classname();
+        $question = new Question();
+        $question->populate($values);
         self::close_database();
         return $question;
     }
@@ -266,11 +264,9 @@ class Answer extends Model
 
         self::connect_to_database();
         $r = mysql_query($sql);
-        while ($values = mysql_fetch_array($r))
-        {
-            $answer = new Answer();
-            $answer->populate($values);
-        }
+        $values = mysql_fetch_array($r);
+        $answer = new Answer();
+        $answer->populate($values);
         self::close_database();
         return $answer;
     }
