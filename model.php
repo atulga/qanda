@@ -42,10 +42,6 @@ class Model
 
     public function __call($func_name, $args)
     {
-        // $func_name = getBestAnswerId
-        // $args = array()
-        // $question->_values = array('best_answer_id' => 5);
-        // $question->getBestAnswerId();  // 5
         // setter
         if ($args) {
             $arg = $args[0];
@@ -63,15 +59,10 @@ class Model
         // getter
         } else {
             $fields = array();
-            // $this->_fields = array('id', 'best_answer_id');
-            // $this->_values = array('id' => 1, 'best_answer_id' => 12354);
             foreach ($this->_fields as $field) {
-                // $field = 'best_answer_id'
                 $fname = 'get'.camelcase($field);
-                // $fname = 'getBestAnswerId'
                 $fields[$fname] = $this->_values[$field];
             }
-            // $fields = array('getId' => 1, 'getBestAnswerId' => 12345)
             if (array_key_exists($func_name, $fields)){
                 return $fields[$func_name];
             }
@@ -175,8 +166,6 @@ class Question extends Model
         $answer_count = $this->getAnswerCount();
         $user_id = $_SESSION['id'];
         if ($is_editing){
-            var_dump($best_answer_id);
-
             $format = "UPDATE asuult SET question='%s',
                 title='%s', best_answer_id='%s', answer_count='%s' WHERE id =
 %s"; 
@@ -217,11 +206,13 @@ class Question extends Model
 
     static public function getById($id)
     {
-        $format = "SELECT * FROM asuult WHERE id = %s";
+        var_dump($id);
+        die;
+        $format = "SELECT * FROM asuult WHERE id=%s";
         $sql = sprintf($format, $id);
         self::connect_to_database();
-        $r = mysql_query($sql);
-        $values = mysql_fetch_array($r);
+        $re = mysql_query($sql) or die($sql." ".mysql_error());
+        $values = mysql_fetch_array($re);
         // $classname = get_class($this);  // Question
         // $obj = new $classname();
         $question = new Question();
