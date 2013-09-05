@@ -167,7 +167,7 @@ class Question extends Model
         $user_id = $_SESSION['id'];
         if ($is_editing){
             $format = "UPDATE asuult SET question='%s',
-                title='%s', best_answer_id='%s', answer_count='%s' WHERE id=%s"; 
+                title='%s', best_answer_id='%s', answer_count='%s' WHERE id=%s";
             $sql = sprintf($format, $question, $title, $best_answer_id,
                 $answer_count, $id);
         } else {
@@ -204,11 +204,11 @@ class Question extends Model
 
     static public function getById($id)
     {
-        $format = "SELECT * FROM asuult WHERE id=%s";
+        $format = "SELECT * FROM asuult WHERE id = %s";
         $sql = sprintf($format, $id);
         self::connect_to_database();
-        $re = mysql_query($sql);
-        $values = mysql_fetch_array($re);
+        $r = mysql_query($sql);
+        $values = mysql_fetch_array($r);
         // $classname = get_class($this);  // Question
         // $obj = new $classname();
         $question = new Question();
