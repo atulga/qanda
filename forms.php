@@ -109,6 +109,8 @@ class QuestionForm extends BaseForm
         $question->setId($this->getId());
         $question->setUserId($_SESSION['id']);
         $question->setTitle($this->getTitle());
+        //var_dump($question);
+        //exit();
         $question->setQuestion($this->getQuestion());
         $question->save();
     }

@@ -28,6 +28,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=5 ;
 
-ALTER TABLE  `asuult` ADD  `user_id` INT NOT NULL AFTER  `answer_count`
+ALTER TABLE  `asuult` ADD  `user_id` INT NOT NULL AFTER  `answer_count`;
 
-ALTER TABLE  `hariult` ADD  `user_id` INT NOT NULL AFTER  `question_id`
+ALTER TABLE  `hariult` ADD  `user_id` INT NOT NULL AFTER  `question_id`;
