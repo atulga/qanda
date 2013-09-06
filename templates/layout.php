@@ -13,6 +13,7 @@
                 <?php if(logid_in()){
                     echo "Сайн байна уу? : ".$_SESSION['name'];
                 ?>
+                    <a href="profile">Profile</a>
                     <a href="logout">Гарах</a>
                 <?php } else {?>
                     <a href="login">Нэвтрэх</a>

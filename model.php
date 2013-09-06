@@ -221,6 +221,34 @@ class Question extends Model
         self::close_database();
         return $question;
     }
+
+    static public function getLastQuestionsByUserId($user_id)
+    {
+        $format = "SELECT * FROM asuult where user_id=%s order by
+            created_date desc limit 5";
+        $sql = sprintf($format, $user_id);
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        $questions = array();
+        while ($values = mysql_fetch_array($r))
+        {
+            $question = new Question();
+            $question->populate($values);
+            $questions[] = $question;
+        }
+        self::close_database();
+        return $questions;
+    }
+    static public function getQuestionCountByUserId($user_id){
+        $format = "SELECT COUNT(question) FROM asuult WHERE user_id=%s";
+        $sql = sprintf($format, $user_id);
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        $values = mysql_fetch_array($r);
+        self::close_database();
+        $question_count = $values[0];
+        return $question_count;
+    }
 }
 
 
@@ -276,18 +304,59 @@ class Answer extends Model
         mysql_query($sql);
         self::close_database();
     }
+
+    static public function getAnswerCountByUserId($user_id){
+        $format = "SELECT COUNT(answer) FROM hariult WHERE user_id=%s";
+        $sql = sprintf($format, $user_id);
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        $values = mysql_fetch_array($r);
+        self::close_database();
+        $answer_count = $values[0];
+        return $answer_count;
+    }
+
+    static public function getLastAnswersByUserId($user_id)
+    {
+        $format = "SELECT * FROM hariult where user_id=%s order by
+            created_date desc limit 5";
+        $sql = sprintf($format, $user_id);
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        $answers = array();
+        while ($values = mysql_fetch_array($r))
+        {
+            $answer = new Answer();
+            $answer->populate($values);
+            $answers[] = $answer;
+        }
+        self::close_database();
+        return $answers;
+    }
 }
-
-
 class User extends Model
 {
-    protected $_fields = array('id', 'name', 'password');
+    protected $_fields = array('id', 'name', 'password', 'nickname', 'description');
+
+    static public function getById($id)
+    {
+        $format = "SELECT * FROM user WHERE id = %s";
+        $sql = sprintf($format, $id);
+
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        $values = mysql_fetch_array($r);
+        $user = new User();
+        $user->populate($values);
+        self::close_database();
+        return $user;
+    }
 
     public function save()
     {
         $name = mysql_escape_string($this->getName());
         $password = mysql_escape_string($this->getPassword());
-        $format = "INSERT INTO user %s VALUES (NULL, '%s', '%s')";
+        $format = "INSERT INTO user %s VALUES (NULL, '%s', '%s', NULL, NULL)";
         $sql = sprintf($format, $this->queryFields(), $name, $password);
         self::connect_to_database();
         $r = mysql_query($sql);
@@ -337,6 +406,17 @@ class User extends Model
         }
         self::close_database();
         return $user_name;
+    }
+
+    public function profileSave()
+    {
+        $name = mysql_escape_string($this->getNickname());
+        $description = mysql_escape_string($this->getDescription());
+        $format = "UPDATE user SET nickname = '%s', description = '%s' WHERE id=%s";
+        $sql = sprintf($format, $name, $description, $this->getId());
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        self::close_database();
     }
 }
 ?>

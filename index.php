@@ -11,7 +11,6 @@ require_once 'helpers.php';
 require_once 'forms.php';
 
 $uri = $_SERVER['REQUEST_URI'];
-
 if (strpos($uri, '?')){
     $uri_filtered = strstr($uri, '?', true);
 } else {
@@ -54,8 +53,13 @@ if (uri_is('/')){
     question_delete_action(get_param('question_id'));
 } elseif (uri_is('/delete_answer')){
     answer_delete_action(get_param('answer_id'));
-} else {
+} else if (uri_is('/profile') ){
+    user_profile_action(logid_in());
+} else if (uri_is('/profile_edit')){
+    user_profile_edit_action(logid_in());
+}else {
     header('Status:404 Not Found');
     echo '<html><body><h2>File Not Found!</h2></body></html>';
 }
+
 ?>

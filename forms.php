@@ -142,4 +142,27 @@ class AnswerForm extends BaseForm
         $question->save();
     }
 }
+
+
+class ProfileForm extends BaseForm{
+
+    protected $_fields = array('nickname', 'description', 'id');
+    public function validate()
+    {
+        $this->validate_required('nickname', 'Please enter your name');
+        $this->validate_required('description', 'Please enter your description');
+        return count($this->_errors) > 0;
+    }
+
+    public function save()
+    {
+        if ($this->getId()) {
+          $profile = User::getById($this->getId());
+          $profile->setNickname($this->getNickname());
+          $profile->setDescription($this->getDescription());
+          $profile->profileSave();
+        }
+    }
+}
+
 ?>

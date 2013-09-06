@@ -126,4 +126,32 @@ function question_delete_action($question_id)
     redirect('/qanda/index.php');
 }
 
+function user_profile_action()
+{
+    $user = User::getById($_SESSION['id']);
+    $questions = Question::getLastQuestionsByUserId($_SESSION['id']);
+    $question_count = Question::getQuestionCountByUserId($_SESSION['id']);
+    $answer_count = Answer::getAnswerCountByUserId($_SESSION['id']);
+    $answers = Answer::getLastAnswersByUserId($_SESSION['id']);
+    require 'templates/profile.php';
+}
+function user_profile_edit_action()
+{
+    $user = User::getById($_SESSION['id']);
+    $questions = Question::getLastQuestionsByUserId($_SESSION['id']);
+    $question_count = Question::getQuestionCountByUserId($_SESSION['id']);
+    $answer_count = Answer::getAnswerCountByUserId($_SESSION['id']);
+    $answers = Answer::getLastAnswersByUserId($_SESSION['id']);
+
+    $form = new ProfileForm();
+    if ($_POST){
+        $form->populate($_POST);
+        $has_errors = $form->validate();
+        if (!$has_errors){
+            $form->save();
+            redirect('profile?user_id='.$form->getId());
+            }
+        }
+    require 'templates/profile_edit.php';
+}
 ?>
