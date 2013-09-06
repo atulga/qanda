@@ -14,7 +14,9 @@ class BaseForm
     public function populate($values)
     {
         foreach ($this->_fields as $field) {
-            $this->_values[$field] = $values[$field];
+            if (isset($values[$field])) {
+                $this->_values[$field] = $values[$field];
+            }
         }
     }
 
@@ -104,10 +106,12 @@ class QuestionForm extends BaseForm
 
     public function save()
     {
-        
-        $question = new Question();
-        $question->setId($this->getId());
-        $question->setUserId($_SESSION['id']);
+        if ($this->getId()) {  //update
+            $question = Question::getById($this->getId());
+        } else {  //add
+            $question = new Question();
+            $question->setUserId($_SESSION['id']);
+        }
         $question->setTitle($this->getTitle());
         //var_dump($question);
         //exit();
