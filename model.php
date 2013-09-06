@@ -6,8 +6,13 @@ class Model
 
     static public function connect_to_database()
     {
-        self::$link = mysql_connect('localhost', 'root', '');
-        mysql_select_db('qanda', self::$link);
+        global $db_config;
+        self::$link = mysql_connect(
+            $db_config['hostname'],
+            $db_config['username'],
+            $db_config['password']
+        );
+        mysql_select_db($db_config['database'], self::$link);
     }
 
     static public function close_database()
