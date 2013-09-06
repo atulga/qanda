@@ -56,7 +56,6 @@
         if (logid_in()){
         if ($_SESSION['id'] == $answer->getUserId()){
 ?>
-    
       <a href="delete_answer?answer_id=<?php echo $answer->getId()
                         ?>&question_id=<?php echo $question->getId() ?>">
         Хариултыг устгах
@@ -95,7 +94,7 @@
       <td>
           <textarea rows="8" cols="65" name="answer" ><?php echo
           $form_answer->getAnswer() ?></textarea>
-       
+
   </td>
     </tr>
     <tr>

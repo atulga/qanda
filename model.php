@@ -72,7 +72,7 @@ class Model
 
 
 class Question extends Model
-{   
+{
     static $_table = 'asuult';
 
 
@@ -98,9 +98,7 @@ class Question extends Model
 
     static public function getQuestionCount()
     {
-       
         $sql = sprintf("SELECT COUNT(id) FROM %s", self::$_table);
-        
         self::connect_to_database();
         $row = mysql_fetch_array(mysql_query($sql));
         self::close_database();
@@ -113,7 +111,7 @@ class Question extends Model
         $one_page_rows = 5;
         $page = ($page -1) * $one_page_rows;
         $format = "SELECT * FROM %s ORDER BY created_date DESC LIMIT %s, %s";
-        $sql = sprintf($format, self::$_table,$page, $one_page_rows);
+        $sql = sprintf($format, self::$_table, $page, $one_page_rows);
         $questions = array();
         self::connect_to_database();
         $r = mysql_query($sql);
@@ -129,17 +127,13 @@ class Question extends Model
 
     public function updateAnswerCount()
     {
-          return Answer::updateAnswerCountByQuestionId($this->gedId()); 
-            
+        return Answer::updateAnswerCountByQuestionId($this->getId());
     }
 
     public function getAnswers()
     {
         return Answer::getAnswersByQuestionId($this->getId());
-         //var_dump(Answer::getAnswersByQuestionId($this->getId()));
-        
     }
-    
     public function save()
     {
         $is_editing = is_numeric($this->getId());
@@ -156,56 +150,46 @@ class Question extends Model
                         best_answer_id='%s', answer_count='%s' WHERE id=%s";
                 $sql = sprintf($format, self::$_table, $question, $title, $best_answer_id,
                         $answer_count, $id);
-            }else {
+                        }else {
             $format = "INSERT INTO %s ".$this->queryFields()."
-                       VALUES (NULL, '%s' , '%s', '%s',0,0,'%s')";
+                       VALUES (NULL, '%s', '%s', '%s', 0, 0, '%s')";
             $sql = sprintf($format, self::$_table, $title, $date,
-                $question,$user_id);
+                $question, $user_id);
         }
         self::connect_to_database();
         $resultset = mysql_query($sql);
-  
-  
+
         if ($resultset){
             // saved successfully
         }else{
             // error in saving
         }
         
-        
         if (!$is_editing){  // is adding
             $this->setId(mysql_insert_id());
         }
-        
         self::close_database();
     }
 
 
-    public function delete($id)
+    public function delete()
     {
+        Answer::AnswersdeleteByQuestionId($this->getId());
         
-       Answer::AnswersdeleteByQuestionId($this->getId());
-
- 
-       self::connect_to_database();
+        self::connect_to_database();
         $format = "DELETE FROM %s WHERE id=%s";
-        $sql = sprintf($format, self::$_table,$id);
-        
+        $sql = sprintf($format, self::$_table, $this->getId());
         mysql_query($sql);
-        
-        
         self::close_database();
     }
 
-    static public function getById($id)    
-    { 
+    static public function getById($id)
+    {
         $format = "SELECT * FROM %s WHERE id = %s";
-        $sql = sprintf($format, self::$_table,$id);
+        $sql = sprintf($format, self::$_table, $id);
         self::connect_to_database();
         $r = mysql_query($sql);
         $values = mysql_fetch_array($r);
-        // $classname = get_class($this);  // Question
-        // $obj = new $classname();
         $question = new Question();
         $question->populate($values);
         self::close_database();
@@ -233,39 +217,33 @@ class Answer extends Model
 
     public function save()
     {
-        //var_dump($this);
-        //exit();
         $answer = mysql_escape_string($this->getAnswer());
         $user_id = $_SESSION['id'];
         $date = date("Y-m-d H:i:s");
         $question_id = $this->getQuestionId();
-        
         $format = "INSERT INTO %s ".$this->queryFields()."
                     VALUES (NULL, '%s', '%s','%s', '%s')";
         $sql = sprintf($format, self::$_table, $answer, $date, $question_id, $user_id);
-        
         self::connect_to_database();
         $r = mysql_query($sql);
         self::close_database();
     }
-   
-    public function updateAnswerCountByQuestionId($question_id)
+
+    static public function updateAnswerCountByQuestionId($question_id)
     {
-        //$question_id = $this->getQuestionId();
-        self::connect_to_database();
         $format = "SELECT COUNT(id) FROM %s WHERE question_id=%s";
-        $sql = sprintf($format, self::$_table, $this->getId());
+        $sql = sprintf($format, self::$_table, $question_id);
+        self::connect_to_database();
         $result = mysql_query($sql);
         $row = mysql_fetch_row($result);
         $count = $row[0];
         self::close_database();
-        $this->setAnswerCount($count);
+        self::setAnswerCount($count);
         return $count;
     }
-   
+
     static public function getAnswersByQuestionId($question_id)
     {
-        
         $format = "SELECT * FROM %s WHERE question_id = '%s'
                    ORDER BY created_date ASC";
         $sql = sprintf($format, self::$_table, $question_id);
@@ -281,11 +259,11 @@ class Answer extends Model
         self::close_database();
         return $answers;
     }
-   
+
     static public function getById($id)
     {
         $format = "SELECT * FROM %s WHERE id = %s";
-        $sql = sprintf($format, self::$_table,$id);
+        $sql = sprintf($format, self::$_table, $id);
         self::connect_to_database();
         $r = mysql_query($sql);
         $values = mysql_fetch_array($r);
@@ -295,23 +273,22 @@ class Answer extends Model
         return $answer;
     }
 
-    public function AnswersdeleteByAnswerId()
+    public function delete()
     {
         $id = $this->getId();
         $format = "DELETE FROM %s WHERE id=%s";
-        $sql = sprintf($format, self::$_table,$id);
+        $sql = sprintf($format, self::$_table, $id);
         self::connect_to_database();
         mysql_query($sql);
         self::close_database();
     }
+
     public function AnswersdeleteByQuestionId($question_id)
-    { 
-        //$question_id = $this->getQuestionId();
+    {
         $format = "DELETE FROM %s WHERE question_id=%s";
-        $sql = sprintf($format, self::$_table,$question_id);
+        $sql = sprintf($format, self::$_table, $question_id);
         self::connect_to_database();
         mysql_query($sql);
-
         self::close_database();
     }
 }
@@ -338,7 +315,7 @@ class User extends Model
     {
         $name = mysql_escape_string($name);
         $format = "SELECT * FROM %s WHERE name='%s'";
-        $sql = sprintf($format, self::$_table,$name);
+        $sql = sprintf($format, self::$_table, $name);
         self::connect_to_database();
         $result = mysql_query($sql);
         $user = new User();
@@ -368,7 +345,7 @@ class User extends Model
     static public function getUserNameById($user_id)
     {
         $format = "SELECT name FROM %s WHERE id=%s";
-        $sql = sprintf($format, self::$_table,$user_id);
+        $sql = sprintf($format, self::$_table, $user_id);
         self::connect_to_database();
         $r = mysql_query($sql);
         while ($values = mysql_fetch_array($r))

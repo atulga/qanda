@@ -92,8 +92,6 @@ function question_add_edit_action($question_id = null)
             $form->populate($question->toArray());
         }
     }
-    
-    
     if($question_id == null)
         require 'templates/ask_question.php';
     else
@@ -102,16 +100,15 @@ function question_add_edit_action($question_id = null)
 
 function answer_delete_action($answer_id)
 {
-
     $answer = Answer::getById($answer_id);
     $question = Question::getById(get_param('question_id'));
     if($question->getBestAnswerId() == $answer_id){
         $question->setBestAnswerId('0');
-   }
-    $answer->AnswersdeleteByAnswerId();
+    }
+    $answer->delete();
     $question->updateAnswerCount();
     $question->save();
-   redirect('show?question_id='.get_param('question_id'));
+    redirect('show?question_id='.get_param('question_id'));
 }
 
 function answer_set_best_action($question_id)
@@ -125,11 +122,7 @@ function answer_set_best_action($question_id)
 function question_delete_action($question_id)
 {
     $question = Question::getById($question_id);
-    //var_dump($question);
-   // exit();
-    
     $question->delete($question_id);
     redirect('/qanda/index.php');
 }
-
 ?>
