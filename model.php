@@ -6,8 +6,13 @@ class Model
 
     static public function connect_to_database()
     {
-        self::$link = mysql_connect('localhost', 'root', '123456');
-        mysql_select_db('qanda', self::$link);
+        global $db_config;
+        self::$link = mysql_connect(
+            $db_config['hostname'],
+            $db_config['username'],
+            $db_config['password']
+        );
+        mysql_select_db($db_config['database'], self::$link);
     }
 
     static public function close_database()
@@ -146,6 +151,7 @@ class Question extends Model
         $answer_count = $this->getAnswerCount();
         $user_id = $_SESSION['id'];
         if ($is_editing){
+<<<<<<< HEAD
            $format = "UPDATE %s SET question='%s', title='%s',
                         best_answer_id='%s', answer_count='%s' WHERE id=%s";
                 $sql = sprintf($format, self::$_table, $question, $title, $best_answer_id,
@@ -155,6 +161,9 @@ class Question extends Model
                        VALUES (NULL, '%s', '%s', '%s', 0, 0, '%s')";
             $sql = sprintf($format, self::$_table, $title, $date,
                 $question, $user_id);
+=======
+     
+>>>>>>> 2917e98d6f7da3c733af5ddd63932877b8c1714c
         }
         self::connect_to_database();
         $resultset = mysql_query($sql);
@@ -301,7 +310,7 @@ class User extends Model
     protected $_fields = array('id', 'name', 'password');
 
     public function save()
-    {
+    
         $name = mysql_escape_string($this->getName());
         $password = mysql_escape_string($this->getPassword());
         $format = "INSERT INTO %s %s VALUES (NULL, '%s', '%s')";

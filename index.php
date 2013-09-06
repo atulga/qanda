@@ -4,6 +4,7 @@ session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+require_once 'local_settings.php';
 require_once 'model.php';
 require_once 'controllers.php';
 require_once 'helpers.php';
