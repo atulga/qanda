@@ -106,6 +106,7 @@ class Question extends Model
         $sql = sprintf("SELECT COUNT(id) FROM %s", self::$_table);
         self::connect_to_database();
         $row = mysql_fetch_array(mysql_query($sql));
+        
         self::close_database();
         $row_count = $row[0];
         return $row_count;
@@ -151,19 +152,15 @@ class Question extends Model
         $answer_count = $this->getAnswerCount();
         $user_id = $_SESSION['id'];
         if ($is_editing){
-<<<<<<< HEAD
-           $format = "UPDATE %s SET question='%s', title='%s',
-                        best_answer_id='%s', answer_count='%s' WHERE id=%s";
-                $sql = sprintf($format, self::$_table, $question, $title, $best_answer_id,
+           $format = "UPDATE %s SET question='%s', title='%s', best_answer_id='%s', answer_count='%s' WHERE id=%s";
+           $sql = sprintf($format, self::$_table, $question, $title, $best_answer_id,
                         $answer_count, $id);
-                        }else {
+                     }else {
             $format = "INSERT INTO %s ".$this->queryFields()."
                        VALUES (NULL, '%s', '%s', '%s', 0, 0, '%s')";
             $sql = sprintf($format, self::$_table, $title, $date,
                 $question, $user_id);
-=======
-     
->>>>>>> 2917e98d6f7da3c733af5ddd63932877b8c1714c
+
         }
         self::connect_to_database();
         $resultset = mysql_query($sql);
@@ -247,7 +244,7 @@ class Answer extends Model
         $row = mysql_fetch_row($result);
         $count = $row[0];
         self::close_database();
-        self::setAnswerCount($count);
+        self::$this->setAnswerCount($count);
         return $count;
     }
 
@@ -310,7 +307,7 @@ class User extends Model
     protected $_fields = array('id', 'name', 'password');
 
     public function save()
-    
+    {
         $name = mysql_escape_string($this->getName());
         $password = mysql_escape_string($this->getPassword());
         $format = "INSERT INTO %s %s VALUES (NULL, '%s', '%s')";
