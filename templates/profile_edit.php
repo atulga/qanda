@@ -1,7 +1,7 @@
 <?php $title = 'Профайл';
 ob_start();
 ?>
-<a href="/qanda/index.php/profile">Back 
+<a href="/qanda/index.php/profile">Back
 </a>
 <h3>Field for Edit Profile</h3>
 <form method="POST" action="">
@@ -16,11 +16,11 @@ ob_start();
     <tr>
       <td align="right">Description:</td>
       <td>
-        <input type="text" name="description" value="<?php echo $user->getDescription(); ?>"/>
+        <textarea name="description" value="<?php echo $user->getDescription(); ?>" cols="40" rows="10" /> </textarea>
         <i id='error_message'><?php echo $user->getError('title') ?></i>
       </td>
     </tr>
-    <tr> 
+    <tr>
       <td></td>
       <td>
         <input type="hidden" name="id" value="<?php echo $user->getId(); ?>">
@@ -33,6 +33,3 @@ ob_start();
 <?php $content = ob_get_clean() ?>
 <?php include 'layout.php'?>
 
-<?php $content = ob_get_clean() ?>
-
-<?php include 'layout.php' ?>

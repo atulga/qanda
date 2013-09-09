@@ -48,7 +48,6 @@ class BaseForm
     }
 }
 
-
 class LoginForm extends BaseForm
 {
     protected $_fields = array('name', 'password');
@@ -61,14 +60,12 @@ class LoginForm extends BaseForm
     }
 }
 
-
 class RegisterForm extends BaseForm
 {
     protected $_fields = array('name', 'password', 'password_again');
 
     public function validate()
     {
-    
         $this->validate_required('name', 'Нэрээ оруулна уу!');
         $this->validate_required('password', 'Нууц үгээ оруулна уу!');
         $this->validate_required('password_again', 'Нууц үгээ давтаж оруулна уу!');
@@ -119,7 +116,6 @@ class QuestionForm extends BaseForm
     }
 }
 
-
 class AnswerForm extends BaseForm
 {
     protected $_fields = array('answer', 'question_id');
@@ -143,7 +139,6 @@ class AnswerForm extends BaseForm
         $question->save();
     }
 }
-
 
 class ProfileForm extends BaseForm{
 

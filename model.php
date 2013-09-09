@@ -193,7 +193,6 @@ class Question extends Model
         self::close_database();
     }
 
-
     public function delete()
     {
         self::connect_to_database();
@@ -222,7 +221,7 @@ class Question extends Model
         return $question;
     }
 
-    static public function getLastQuestionsByUserId($user_id)
+    static public function getLastFiveQuestionsByUserId($user_id)
     {
         $format = "SELECT * FROM asuult where user_id=%s order by
             created_date desc limit 5";
@@ -239,6 +238,7 @@ class Question extends Model
         self::close_database();
         return $questions;
     }
+    
     static public function getQuestionCountByUserId($user_id){
         $format = "SELECT COUNT(question) FROM asuult WHERE user_id=%s";
         $sql = sprintf($format, $user_id);
@@ -250,7 +250,6 @@ class Question extends Model
         return $question_count;
     }
 }
-
 
 class Answer extends Model
 {
@@ -316,7 +315,7 @@ class Answer extends Model
         return $answer_count;
     }
 
-    static public function getLastAnswersByUserId($user_id)
+    static public function getLastFiveAnswersByUserId($user_id)
     {
         $format = "SELECT * FROM hariult where user_id=%s order by
             created_date desc limit 5";
@@ -356,9 +355,9 @@ class User extends Model
     {
         $name = mysql_escape_string($this->getName());
         $password = mysql_escape_string($this->getPassword());
-        $sql1 = "INSERT INTO user (id, name, password, nickname, description) VALUES (NULL, '$name' , '$password' , NULL, NULL)";
+        $sql = "INSERT INTO user (id, name, password, nickname, description) VALUES (NULL, '$name' , '$password' , NULL, NULL)";
         self::connect_to_database();
-        $r = mysql_query($sql1);
+        $r = mysql_query($sql);
         self::close_database();
     }
 

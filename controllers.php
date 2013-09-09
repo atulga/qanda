@@ -42,9 +42,7 @@ function user_register_action()
         if (!$has_errors){
             if ($form->getPassword() == $form->getPasswordAgain()){
                     $form->save();
-                 //  var_dump($form); die;
-                    redirect('login?message=Та амжилттай бүртгэгдлээ. 
-                    Өөрийн эрхээрээ нэвтэрч орно уу');
+                    redirect('login?message=Та амжилттай бүртгэгдлээ, нэвтэрч орно уу');
             }
         }
     }
@@ -130,19 +128,19 @@ function question_delete_action($question_id)
 function user_profile_action()
 {
     $user = User::getById($_SESSION['id']);
-    $questions = Question::getLastQuestionsByUserId($_SESSION['id']);
+    $questions = Question::getLastFiveQuestionsByUserId($_SESSION['id']);
     $question_count = Question::getQuestionCountByUserId($_SESSION['id']);
     $answer_count = Answer::getAnswerCountByUserId($_SESSION['id']);
-    $answers = Answer::getLastAnswersByUserId($_SESSION['id']);
+    $answers = Answer::getLastFiveAnswersByUserId($_SESSION['id']);
     require 'templates/profile.php';
 }
 function user_profile_edit_action()
 {
     $user = User::getById($_SESSION['id']);
-    $questions = Question::getLastQuestionsByUserId($_SESSION['id']);
+    $questions = Question::getLastFiveQuestionsByUserId($_SESSION['id']);
     $question_count = Question::getQuestionCountByUserId($_SESSION['id']);
     $answer_count = Answer::getAnswerCountByUserId($_SESSION['id']);
-    $answers = Answer::getLastAnswersByUserId($_SESSION['id']);
+    $answers = Answer::getLastFiveAnswersByUserId($_SESSION['id']);
 
     $form = new ProfileForm();
     if ($_POST){

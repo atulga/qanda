@@ -3,7 +3,7 @@ ob_start();
 ?>
     <h4> <a href="profile_edit?user_id=<?php echo $user->getId()?>">
 Edit Profile </a></h4>
-<table width="600"> 
+<table width="600">
     <tr>
         <td><b>Your name :</b></td>
         <td><?php echo $user->getNickname();?></td>
@@ -24,37 +24,31 @@ Edit Profile </a></h4>
 
 <table border="0" width="700">
   <tr>
-    <td><b> Last 5 answers you answered: </b></td>
+    <td><b>Last 5 answers you answered: </b></td>
   </tr>
-  <tr> 
+  <tr>
     <?php foreach ($answers as $answer) { ?>
       <td colspan="2" >
         <a href = "/qanda/index.php/show?question_id=<?php echo
 $answer->getQuestionId();?>">
         <?php echo nl2br($answer->getAnswer()) ?> </a>
       </td>
-    <td colspan="2"><hr/></td>
   </tr>
     <?php } ?>
 <br>
-<br> 
+<br>
   <tr>
     <td>
-        <b>Last 5 questions you asked: </b><br>
+        <br><b>Last 5 questions you asked: </b><br>
     </td>
   </tr>
-<?php foreach ($questions as $question){ ?>
-  <tr>
+    <?php foreach ($questions as $question){ ?>
     <td colspan="2">
-        <h3><a href="/qanda/index.php/show?question_id=<?php echo $question->getId(); ?>">
+        <a href="/qanda/index.php/show?question_id=<?php echo $question->getId(); ?>">
             <?php echo $question->getTitle() ?></a>
-        </h3>
     </td>
-  </tr>
-  <tr>
-    <td colspan="2"><hr/></td>
-  </tr>
-<?php } ?>
+   </tr>
+    <?php } ?>
 </table>
 <?php $content = ob_get_clean() ?>
 
