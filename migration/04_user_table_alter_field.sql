@@ -1,2 +1,2 @@
-ALTER TABLE `user` ADD `description` TEXT NOT NULL;
-ALTER TABLE `user` ADD `nickname` VARCHAR(40) NOT NULL AFTER `password`;
+ALTER TABLE `user` ADD `description` TEXT NULL;
+ALTER TABLE `user` ADD `nickname` VARCHAR(40) NULL AFTER `password`;
