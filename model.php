@@ -78,7 +78,6 @@ class Model
 class Question extends Model
 {
     static $_table = 'asuult';
-    
     protected $_fields = array(
                     'id',
                     'title',
@@ -104,7 +103,6 @@ class Question extends Model
         $sql = sprintf("SELECT COUNT(id) FROM %s", self::$_table);
         self::connect_to_database();
         $row = mysql_fetch_array(mysql_query($sql));
-        
         self::close_database();
         $row_count = $row[0];
         return $row_count;
@@ -168,7 +166,6 @@ class Question extends Model
         }else{
             // error in saving
         }
-        
         if (!$is_editing){  // is adding
             $this->setId(mysql_insert_id());
         }
@@ -178,7 +175,6 @@ class Question extends Model
     public function delete()
     {
         Answer::deleteByQuestionId($this->getId());
-        
         self::connect_to_database();
         $format = "DELETE FROM %s WHERE id=%s";
         $sql = sprintf($format, self::$_table, $this->getId());

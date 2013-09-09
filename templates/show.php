@@ -39,16 +39,16 @@
 <h2>Хариултууд</h2>
 <table border="0" width="700">
     <?php foreach ($question->getAnswers() as $answer){?>
-    <tr>
-    <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
+ <tr>
+  <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
     <td align="right">
         <?php echo $answer->getCreatedDate() ?>
     </td>
-    </tr>
-    <tr>
+ </tr>
+  <tr>
     <td colspan="2"><?php echo nl2br($answer->getAnswer()) ?></td>
-    </tr>
-    <tr>
+  </tr>
+   <tr>
     <td>
         <?php
             if (logid_in()){
