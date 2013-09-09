@@ -340,7 +340,7 @@ class User extends Model
 
     static public function getById($id)
     {
-        $format = "SELECT * FROM user WHERE id = %s";
+        $format = "SELECT * FROM user WHERE id = '%s' ";
         $sql = sprintf($format, $id);
 
         self::connect_to_database();
@@ -356,10 +356,9 @@ class User extends Model
     {
         $name = mysql_escape_string($this->getName());
         $password = mysql_escape_string($this->getPassword());
-        $format = "INSERT INTO user %s VALUES (NULL, '%s', '%s', NULL, NULL)";
-        $sql = sprintf($format, $this->queryFields(), $name, $password);
+        $sql1 = "INSERT INTO user (id, name, password, nickname, description) VALUES (NULL, '$name' , '$password' , NULL, NULL)";
         self::connect_to_database();
-        $r = mysql_query($sql);
+        $r = mysql_query($sql1);
         self::close_database();
     }
 

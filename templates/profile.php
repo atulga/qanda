@@ -3,7 +3,7 @@ ob_start();
 ?>
     <h4> <a href="profile_edit?user_id=<?php echo $user->getId()?>">
 Edit Profile </a></h4>
-<table width="300"> 
+<table width="600"> 
     <tr>
         <td><b>Your name :</b></td>
         <td><?php echo $user->getNickname();?></td>
@@ -13,7 +13,7 @@ Edit Profile </a></h4>
         <td><?php echo $user->getDescription(); ?></td>
     </tr>
     <tr>
-        <td><b>Number of Anwers you answered:</b></td>
+        <td><b>Number of Answers you answered:</b></td>
         <td><?php echo $answer_count; ?></td>
     </tr>
     <tr>
@@ -31,7 +31,6 @@ Edit Profile </a></h4>
       <td colspan="2" >
         <a href = "/qanda/index.php/show?question_id=<?php echo
 $answer->getQuestionId();?>">
-        shdajsdjasd
         <?php echo nl2br($answer->getAnswer()) ?> </a>
       </td>
     <td colspan="2"><hr/></td>

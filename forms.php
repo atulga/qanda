@@ -68,6 +68,7 @@ class RegisterForm extends BaseForm
 
     public function validate()
     {
+    
         $this->validate_required('name', 'Нэрээ оруулна уу!');
         $this->validate_required('password', 'Нууц үгээ оруулна уу!');
         $this->validate_required('password_again', 'Нууц үгээ давтаж оруулна уу!');

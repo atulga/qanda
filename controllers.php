@@ -42,8 +42,9 @@ function user_register_action()
         if (!$has_errors){
             if ($form->getPassword() == $form->getPasswordAgain()){
                     $form->save();
-                    redirect('login?message=Та амжилттай бүртгэгдлээ. Өөрийн
-                        эрхээрээ нэвтэрч орно уу');
+                 //  var_dump($form); die;
+                    redirect('login?message=Та амжилттай бүртгэгдлээ. 
+                    Өөрийн эрхээрээ нэвтэрч орно уу');
             }
         }
     }

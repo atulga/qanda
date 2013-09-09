@@ -23,9 +23,8 @@
         <input type="password" name="password_again" value="<?php echo $form->getPasswordAgain() ?>"/>
         <i id='error_message'><?php echo $form->getError('password_again') ?></i>
     </td>
-   </tr>
-   <tr>
-    <td></td>
+
+    
     <td>
       <input type="submit" value="Бүртгүүлэх" name="submit"/>
     </td>
