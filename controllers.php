@@ -122,7 +122,7 @@ function answer_set_best_action($question_id)
 function question_delete_action($question_id)
 {
     $question = Question::getById($question_id);
-    $question->delete($question_id);
+    $question->delete();
     redirect('/qanda/index.php');
 }
 ?>

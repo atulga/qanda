@@ -75,12 +75,10 @@ class Model
     }
 }
 
-
 class Question extends Model
 {
     static $_table = 'asuult';
-
-
+    
     protected $_fields = array(
                     'id',
                     'title',
@@ -133,12 +131,12 @@ class Question extends Model
 
     public function updateAnswerCount()
     {
-        return Answer::updateAnswerCountByQuestionId($this->getId());
+        return Answer::getCountByQuestionId($this->getId());
     }
 
     public function getAnswers()
     {
-        return Answer::getAnswersByQuestionId($this->getId());
+        return Answer::getByQuestionId($this->getId());
     }
     public function save()
     {
@@ -177,10 +175,9 @@ class Question extends Model
         self::close_database();
     }
 
-
     public function delete()
     {
-        Answer::AnswersdeleteByQuestionId($this->getId());
+        Answer::deleteByQuestionId($this->getId());
         
         self::connect_to_database();
         $format = "DELETE FROM %s WHERE id=%s";
@@ -202,7 +199,6 @@ class Question extends Model
         return $question;
     }
 }
-
 
 class Answer extends Model
 {
@@ -235,7 +231,7 @@ class Answer extends Model
         self::close_database();
     }
 
-    static public function updateAnswerCountByQuestionId($question_id)
+    static public function getCountByQuestionId($question_id)
     {
         $format = "SELECT COUNT(id) FROM %s WHERE question_id=%s";
         $sql = sprintf($format, self::$_table, $question_id);
@@ -244,11 +240,11 @@ class Answer extends Model
         $row = mysql_fetch_row($result);
         $count = $row[0];
         self::close_database();
-        self::$this->setAnswerCount($count);
+
         return $count;
     }
 
-    static public function getAnswersByQuestionId($question_id)
+    static public function getByQuestionId($question_id)
     {
         $format = "SELECT * FROM %s WHERE question_id = '%s'
                    ORDER BY created_date ASC";
@@ -289,7 +285,7 @@ class Answer extends Model
         self::close_database();
     }
 
-    public function AnswersdeleteByQuestionId($question_id)
+    public function deleteByQuestionId($question_id)
     {
         $format = "DELETE FROM %s WHERE question_id=%s";
         $sql = sprintf($format, self::$_table, $question_id);
@@ -298,7 +294,6 @@ class Answer extends Model
         self::close_database();
     }
 }
-
 
 class User extends Model
 {
