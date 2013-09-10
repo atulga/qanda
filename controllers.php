@@ -124,6 +124,7 @@ function question_delete_action($question_id)
     $question->delete();
     redirect('/qanda/index.php');
 }
+<<<<<<< HEAD
 
 function user_profile_action($id)
 {
@@ -153,4 +154,6 @@ function user_profile_edit_action()
 }
 
 
+=======
+>>>>>>> 38295e270cc9145d082af17e1c57493ecd1296db
 ?>
