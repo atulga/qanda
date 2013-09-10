@@ -16,7 +16,7 @@ ob_start();
     <tr>
       <td align="right">Description:</td>
       <td>
-        <textarea name="description" value="<?php echo $user->getDescription(); ?>" cols="40" rows="10" /> </textarea>
+        <textarea name="description" cols="40" rows="10" > <?php echo $user->getDescription(); ?> </textarea>
         <i id='error_message'><?php echo $user->getError('title') ?></i>
       </td>
     </tr>

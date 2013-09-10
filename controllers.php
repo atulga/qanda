@@ -134,13 +134,10 @@ function user_profile_action()
     $answers = Answer::getLastFiveAnswersByUserId($_SESSION['id']);
     require 'templates/profile.php';
 }
+
 function user_profile_edit_action()
 {
     $user = User::getById($_SESSION['id']);
-    $questions = Question::getLastFiveQuestionsByUserId($_SESSION['id']);
-    $question_count = Question::getQuestionCountByUserId($_SESSION['id']);
-    $answer_count = Answer::getAnswerCountByUserId($_SESSION['id']);
-    $answers = Answer::getLastFiveAnswersByUserId($_SESSION['id']);
 
     $form = new ProfileForm();
     if ($_POST){

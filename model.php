@@ -353,12 +353,23 @@ class User extends Model
 
     public function save()
     {
+        $is_editing = is_numeric($this->getId());
         $name = mysql_escape_string($this->getName());
         $password = mysql_escape_string($this->getPassword());
-        $sql = "INSERT INTO user (id, name, password, nickname, description) VALUES (NULL, '$name' , '$password' , NULL, NULL)";
+        $nickname = mysql_escape_string($this->getNickname());
+        $description = mysql_escape_string($this->getDescription());
+        if($is_editing){
+            $edit = "UPDATE user SET nickname = '%s', description = '%s' WHERE id=%s";
+            $sql = sprintf($edit, $nickname, $description, $this->getId());
+        }else{
+            $create = "INSERT INTO user (id, name, password, nickname, description) VALUES (NULL, '%s' , '%s' , NULL, NULL)";
+            $sql = sprintf($create, $name, $password);
+        }
+        
         self::connect_to_database();
         $r = mysql_query($sql);
         self::close_database();
+    
     }
 
     static public function getByName($name)
@@ -406,15 +417,5 @@ class User extends Model
         return $user_name;
     }
 
-    public function profileSave()
-    {
-        $name = mysql_escape_string($this->getNickname());
-        $description = mysql_escape_string($this->getDescription());
-        $format = "UPDATE user SET nickname = '%s', description = '%s' WHERE id=%s";
-        $sql = sprintf($format, $name, $description, $this->getId());
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        self::close_database();
-    }
 }
 ?>

@@ -156,7 +156,7 @@ class ProfileForm extends BaseForm{
           $profile = User::getById($this->getId());
           $profile->setNickname($this->getNickname());
           $profile->setDescription($this->getDescription());
-          $profile->profileSave();
+          $profile->save();
         }
     }
 }
