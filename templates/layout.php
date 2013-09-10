@@ -11,7 +11,7 @@
                 <a href="/qanda/index.php">Нүүр хуудас</a> |
                 <a href="question_add">Асуулт оруулах</a> | 
                 <?php if(logid_in()){ ?>
-                    <a href="profile"><?php echo $_SESSION['name'] ; ?></a> | 
+                    <a href="profile?user_id=<?php echo $_SESSION['id'] ?> "><?php echo $_SESSION['name'] ; ?></a> | 
                     <a href="logout">Гарах</a>
                 <?php } else {?>
                     <a href="login">Нэвтрэх</a>

@@ -125,13 +125,14 @@ function question_delete_action($question_id)
     redirect('/qanda/index.php');
 }
 
-function user_profile_action()
+function user_profile_action($id)
 {
-    $user = User::getById($_SESSION['id']);
-    $questions = Question::getLastFiveQuestionsByUserId($_SESSION['id']);
-    $question_count = Question::getQuestionCountByUserId($_SESSION['id']);
-    $answer_count = Answer::getAnswerCountByUserId($_SESSION['id']);
-    $answers = Answer::getLastFiveAnswersByUserId($_SESSION['id']);
+    $user = User::getById($id);
+    $questions = Question::getLastFiveQuestionsByUserId($id);
+    $question_count = Question::getQuestionCountByUserId($id);
+    $answer_count = Answer::getAnswerCountByUserId($id);
+    $answers = Answer::getLastFiveAnswersByUserId($id);
+    $isme = $_SESSION['id'] == $id;
     require 'templates/profile.php';
 }
 
@@ -150,4 +151,6 @@ function user_profile_edit_action()
         }
     require 'templates/profile_edit.php';
 }
+
+
 ?>

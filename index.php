@@ -54,7 +54,7 @@ if (uri_is('/')){
 } elseif (uri_is('/delete_answer')){
     answer_delete_action(get_param('answer_id'));
 } else if (uri_is('/profile') ){
-    user_profile_action(logid_in());
+    user_profile_action(get_param('user_id'));
 } else if (uri_is('/profile_edit')){
     user_profile_edit_action(logid_in());
 }else {

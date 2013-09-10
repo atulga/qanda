@@ -13,7 +13,7 @@
   <tr>
     <td>Нэр:
         <strong>
-            <?php echo User::getUserNameById($question->getUserId())?>
+        <a href="/qanda/index.php/profile?user_id=<?php echo $question->getUserId() ?> "><?php echo User::getUserNameById($question->getUserId())?>
         </strong>
     </td>
     <td align="right"><?php echo $question->getCreatedDate() ?></td>

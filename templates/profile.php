@@ -1,8 +1,13 @@
 <?php $title = 'Профайл';
 ob_start();
 ?>
-    <h4> <a href="profile_edit?user_id=<?php echo $user->getId()?>">
-Edit Profile </a></h4>
+
+<?php if($isme){ ?>
+     <h4> <a href="profile_edit">Edit Profile </a></h4>
+<?php } else { ?>
+
+<?php } ?>
+
 <table width="600">
     <tr>
         <td><b>Your name :</b></td>

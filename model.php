@@ -308,7 +308,7 @@ class Answer extends Model
         $format = "SELECT COUNT(answer) FROM hariult WHERE user_id=%s";
         $sql = sprintf($format, $user_id);
         self::connect_to_database();
-        $r = mysql_query($sql);
+        $r = mysql_query($sql) or die;
         $values = mysql_fetch_array($r);
         self::close_database();
         $answer_count = $values[0];
