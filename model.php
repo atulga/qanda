@@ -212,7 +212,7 @@ class Question extends Model
         self::close_database();
         return $questions;
     }
-    
+
     static public function getQuestionCountByUserId($user_id){
         $format = "SELECT COUNT(question) FROM %s WHERE user_id=%s";
         $sql = sprintf($format, self::$_table, $user_id);
@@ -382,11 +382,11 @@ class User extends Model
             $create = "INSERT INTO %s (id, name, password, nickname, description) VALUES (NULL, '%s' , '%s' , NULL, NULL)";
             $sql = sprintf($create, $this::$_table, $name, $password);
         }
-        
+
         self::connect_to_database();
         $r = mysql_query($sql);
         self::close_database();
-    
+
     }
 
     static public function getByName($name)
