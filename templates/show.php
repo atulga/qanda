@@ -2,85 +2,84 @@
 <?php ob_start(); ?>
 
 <table border="0" width=700>
-  <tr>
-    <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
-  </tr>
+    <tr>
+      <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
+    </tr> 
   <tr>
     <td>
-    <?php echo "Нэр:".User::getUserNameById($question->getUserId());?>
-    </td>
+        <?php echo "Нэр:".User::getUserNameById($question->getUserId());?>
+  </td>
     <td align="right">
         <?php echo "Огноо:".$question->getCreatedDate() ?>
     </td>
   </tr>
-  <tr>
-    <td colspan="2">
-      <?php echo nl2br($question->getQuestion());?>
-    </td>
-  </tr>
+    <tr>
+       <td colspan="2">
+        <?php echo nl2br($question->getQuestion());?>
+  </td>
+</tr>
   <tr>
     <td>
-    <?php
-        if (logid_in()){
-            if ($_SESSION['id'] == $question->getUserId()){ ?>
-        <a href="question_edit?question_id=<?php echo $question->getId() ?>">
-        Засах
-        </a>
+        <?php
+           if (logid_in()){
+                if ($_SESSION['id'] == $question->getUserId()){ ?>
+            <a href="question_edit?question_id=<?php echo $question->getId() ?>">
+            Засах
+            </a>
     </td>
     <td align="right">
-      <a href="delete_question?question_id=<?php echo $question->getId() ?>">
-         Устгах
-      </a>
-    <?php   }
-        }?>
+            <a href="delete_question?question_id=<?php echo $question->getId() ?>">
+            Устгах
+            </a>
+        <?php }  }?>
     </td>
   </tr>
 </table>
 <hr/>
 <h2>Хариултууд</h2>
 <table border="0" width="700">
-<?php foreach ($question->getAnswers() as $answer){?>
-  <tr>
-    <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
+    <?php foreach ($question->getAnswers() as $answer){?>
+ <tr>
+  <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
     <td align="right">
         <?php echo $answer->getCreatedDate() ?>
-
     </td>
-  </tr>
+ </tr>
   <tr>
     <td colspan="2"><?php echo nl2br($answer->getAnswer()) ?></td>
   </tr>
-  <tr>
+   <tr>
     <td>
-    <?php
-        if (logid_in()){
-        if ($_SESSION['id'] == $answer->getUserId()){
-    ?>
-      <a href="delete_answer?answer_id=<?php echo $answer->getId()
-                        ?>&question_id=<?php echo $question->getId() ?>">
+        <?php
+            if (logid_in()){
+            if ($_SESSION['id'] == $answer->getUserId()){
+        ?>
+    <a href="delete_answer?answer_id=<?php echo $answer->getId()
+                    ?>&question_id=<?php echo $question->getId() ?>">
         Хариултыг устгах
-      </a>
-    <?php } }?>
+        </a>
+        <?php } }?>
     </td>
     <td align="right">
-    <?php
-        if($answer->getId() == $question->getBestAnswerId()){
-            echo "<strong>*Зөв хариулт</strong>";
-        } else {
+        <?php
+            if($answer->getId() == $question->getBestAnswerId()){
+                echo "<strong>*Зөв хариулт</strong>";
+            } else {
             if (logid_in()){
                 if ($_SESSION['id'] == $question->getUserId()){
-    ?>
-        <a href="best_answer?question_id=<?php echo $question->getId() ?>&answer_id=<?php echo $answer->getId() ?>">
+        ?>
+        <a href="best_answer?question_id=<?php echo $question->getId() ?>
+        &answer_id=<?php echo $answer->getId() ?>">
              Хариулт зөв үү?
         </a>
-    <?php       }
+         <?php       }
             }
         } ?>
-    </td>
-  </tr>
+        </td>
+    </tr>
   <tr>
-    <td colspan="2"><hr/></td>
-  </tr>
+<td colspan="2"><hr/></td>
+</tr>
 <?php } ?>
 </table>
 
@@ -94,9 +93,9 @@
       <td>
           <textarea rows="8" cols="65" name="answer" ><?php echo
           $form_answer->getAnswer() ?></textarea>
-      </td>
+  </td>
     </tr>
-    <tr>
+     <tr>
       <td></td>
       <td>
           <i id='error_message'>
