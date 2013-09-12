@@ -191,9 +191,9 @@ class Question extends Model
 
     static public function getLastFiveQuestionsByUserId($user_id)
     {
-        $format = "SELECT * FROM asuult where user_id=%s order by
+        $format = "SELECT * FROM %s where user_id=%s order by
             created_date desc limit 5";
-        $sql = sprintf($format, $user_id);
+        $sql = sprintf($format, self::$_table, $user_id);
         self::connect_to_database();
         $r = mysql_query($sql);
         $questions = array();
@@ -206,10 +206,10 @@ class Question extends Model
         self::close_database();
         return $questions;
     }
-    
+
     static public function getQuestionCountByUserId($user_id){
-        $format = "SELECT COUNT(question) FROM asuult WHERE user_id=%s";
-        $sql = sprintf($format, $user_id);
+        $format = "SELECT COUNT(question) FROM %s WHERE user_id=%s";
+        $sql = sprintf($format, self::$_table, $user_id);
         self::connect_to_database();
         $r = mysql_query($sql);
         $values = mysql_fetch_array($r);
@@ -278,7 +278,7 @@ class Answer extends Model
     }
 
     static public function getAnswerCountByUserId($user_id){
-        $format = "SELECT COUNT(answer) FROM hariult WHERE user_id=%s";
+        $format = "SELECT COUNT(answer) FROM %s WHERE user_id=%s";
         $sql = sprintf($format, $user_id);
         self::connect_to_database();
         $r = mysql_query($sql) or die;
@@ -287,6 +287,7 @@ class Answer extends Model
         $answer_count = $values[0];
         return $answer_count;
     }
+
     public function deleteByQuestionId($question_id)
     {
         $format = "DELETE FROM %s WHERE question_id=%s";
@@ -298,9 +299,9 @@ class Answer extends Model
 
     static public function getLastFiveAnswersByUserId($user_id)
     {
-        $format = "SELECT * FROM hariult where user_id=%s order by
-            created_date desc limit 5";
-        $sql = sprintf($format, $user_id);
+        $format = "SELECT * FROM %s WHERE user_id=%s ORDER BY
+            created_date DESC LIMIT 5";
+        $sql = sprintf($format, self::$_table, $user_id);
         self::connect_to_database();
         $r = mysql_query($sql);
         $answers = array();
@@ -314,12 +315,12 @@ class Answer extends Model
         return $answers;
     }
 }
+
 class User extends Model
 {
     protected $_fields = array('id', 'name', 'password', 'nickname', 'description');
 
     static $_table = 'user';
-
 
     static public function getByName($name)
     {

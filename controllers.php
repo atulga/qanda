@@ -151,6 +151,4 @@ function user_profile_edit_action()
         }
     require 'templates/profile_edit.php';
 }
-
-
 ?>
