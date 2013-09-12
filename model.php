@@ -34,17 +34,6 @@ class Model
         }
     }
 
-   public function queryFields()
-    {
-        $fields_name = null;
-        foreach ($this->_fields as $field) {
-            $fields_name = $fields_name.$field.', ';
-        }
-        $fields_name = rtrim($fields_name, ", ");
-        $fields_name = "(".$fields_name.")";
-        return $fields_name;
-    }
-
     public function __call($func_name, $args)
     {
         // setter
@@ -71,46 +60,60 @@ class Model
             if (array_key_exists($func_name, $fields)){
                 return $fields[$func_name];
             }
-        } 
+        }
     }
-    
+
     public function save()
     {
-        $answer = mysql_escape_string($this->getAnswer());
-        $user_id = $_SESSION['id'];
-        $date = date("Y-m-d H:i:s");
-        $question_id = $this->getQuestionId();
         $is_editing = is_numeric($this->getId());
-        $s = '';
-        foreach ($this->_values as $key => $value)
-        {
-            $s .= sprintf($key."='%s', ", $value);
-        }
-        $s = substr($s, 0, -2); 
-        if(isset($user_id) && $is_editing)
-        {
-            $uformat = "UPDATE %s SET %s WHERE id = ".$this->getId().""; 
-            $sql = sprintf($uformat, $this::$_table, $s);
-        }
-        if(!$is_editing)
-        { 
-            $iformat = "INSERT INTO %s ".$this->queryFields()." VALUES '%s'";
-            $sql = sprintf($iformat, $this::$_table, $this->_values); echo($sql); die();
+
+        if ($is_editing){
+            $fields = '';
+            // Example:
+            // $this->_values= array('name' => 'bold', 'created_at' => '2013-09-11 00:00:00');
+            foreach ($this->_values as $field => $value){
+                $fields .= sprintf($field."='%s', ", $value);
+            }
+            $fields = rtrim($fields, ", ");
+            // Example:
+            // $fields = "name='bold', created_at='2013-09-11 00:00:00'";
+
+            $query = "UPDATE %s SET %s WHERE id = ".$this->getId()."";
+            $sql = sprintf($query, $this::$_table, $fields);
+        } else {
+            $field_names = '';
+            $field_values = '';
+            // Example:
+            // $this->_values= array('name' => 'bold', 'created_at' => NULL);
+            foreach ($this->_values as $field => $value) {
+                if ($field == 'created_date'){
+                    $value = date("Y-m-d H:i:s");
+                }
+                $field_names .= $field.', ';
+                $value = mysql_escape_string($value);
+                $field_values .= sprintf("'%s', ", $value);
+            }
+            $field_values = rtrim($field_values, ", ");
+            $field_names = rtrim($field_names, ", ");
+            // Example:
+            // $field_names = "name, created_at";
+            // $field_values = "'bold', '2013-09-11 00:00:00'";
+            $query = "INSERT INTO %s (%s) VALUES (%s)";
+            $sql = sprintf($query, $this::$_table, $field_names, $field_values);
         }
         self::connect_to_database();
         $r = mysql_query($sql);
-        self::close_database(); 
+        self::close_database();
     }
 
     static public function getById($id)
     {
         $class = get_called_class();
-      
+
         $sql = sprintf("SELECT * FROM %s WHERE id = %s", $class::$_table, $id);
-       // var_dump($sql); die;
         self::connect_to_database();
-        $r = mysql_query($sql);      
-        $values = mysql_fetch_array($r); 
+        $r = mysql_query($sql);
+        $values = mysql_fetch_array($r);
         $obj = new $class;
         $obj->populate($values);
         self::close_database();
@@ -179,6 +182,7 @@ class Question extends Model
     {
         return Answer::getByQuestionId($this->getId());
     }
+
     public function delete()
     {
         Answer::deleteByQuestionId($this->getId());
@@ -279,9 +283,9 @@ class Answer extends Model
 
     static public function getAnswerCountByUserId($user_id){
         $format = "SELECT COUNT(answer) FROM %s WHERE user_id=%s";
-        $sql = sprintf($format, $user_id);
+        $sql = sprintf($format, self::$_table, $user_id);
         self::connect_to_database();
-        $r = mysql_query($sql) or die;
+        $r = mysql_query($sql);
         $values = mysql_fetch_array($r);
         self::close_database();
         $answer_count = $values[0];
