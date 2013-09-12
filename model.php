@@ -71,13 +71,56 @@ class Model
             if (array_key_exists($func_name, $fields)){
                 return $fields[$func_name];
             }
+        } 
+    }
+    
+    public function save()
+    {
+        $answer = mysql_escape_string($this->getAnswer());
+        $user_id = $_SESSION['id'];
+        $date = date("Y-m-d H:i:s");
+        $question_id = $this->getQuestionId();
+        $is_editing = is_numeric($this->getId());
+        $s = '';
+        foreach ($this->_values as $key => $value)
+        {
+            $s .= sprintf($key."='%s', ", $value);
         }
+        $s = substr($s, 0, -2); 
+        if(isset($user_id) && $is_editing)
+        {
+            $uformat = "UPDATE %s SET %s WHERE id = ".$this->getId().""; 
+            $sql = sprintf($uformat, $this::$_table, $s);
+        }
+        if(!$is_editing)
+        { 
+            $iformat = "INSERT INTO %s ".$this->queryFields()." VALUES '%s'";
+            $sql = sprintf($iformat, $this::$_table, $this->_values); echo($sql); die();
+        }
+        self::connect_to_database();
+        $r = mysql_query($sql);
+        self::close_database(); 
+    }
+
+    static public function getById($id)
+    {
+        $class = get_called_class();
+      
+        $sql = sprintf("SELECT * FROM %s WHERE id = %s", $class::$_table, $id);
+       // var_dump($sql); die;
+        self::connect_to_database();
+        $r = mysql_query($sql);      
+        $values = mysql_fetch_array($r); 
+        $obj = new $class;
+        $obj->populate($values);
+        self::close_database();
+        return $obj;
     }
 }
 
 class Question extends Model
 {
-    static $_table = 'asuult';
+    static public $_table = 'asuult';
     protected $_fields = array(
                     'id',
                     'title',
@@ -136,42 +179,6 @@ class Question extends Model
     {
         return Answer::getByQuestionId($this->getId());
     }
-    public function save()
-    {
-        $is_editing = is_numeric($this->getId());
-        $question = mysql_escape_string($this->getQuestion());
-        $title = mysql_escape_string($this->getTitle());
-        $date = date("Y-m-d H:i:s");
-        $user_id = mysql_escape_string($this->getUserId());
-        $id = $this->getId();
-        $best_answer_id = $this->getBestAnswerId();
-        $answer_count = $this->getAnswerCount();
-        $user_id = $_SESSION['id'];
-        if ($is_editing){
-           $format = "UPDATE %s SET question='%s', title='%s', best_answer_id='%s', answer_count='%s' WHERE id=%s";
-           $sql = sprintf($format, self::$_table, $question, $title, $best_answer_id,
-                        $answer_count, $id);
-                     }else {
-            $format = "INSERT INTO %s ".$this->queryFields()."
-                       VALUES (NULL, '%s', '%s', '%s', 0, 0, '%s')";
-            $sql = sprintf($format, self::$_table, $title, $date,
-                $question, $user_id);
-
-        }
-        self::connect_to_database();
-        $resultset = mysql_query($sql);
-
-        if ($resultset){
-            // saved successfully
-        }else{
-            // error in saving
-        }
-        if (!$is_editing){  // is adding
-            $this->setId(mysql_insert_id());
-        }
-        self::close_database();
-    }
-
     public function delete()
     {
         Answer::deleteByQuestionId($this->getId());
@@ -180,19 +187,6 @@ class Question extends Model
         $sql = sprintf($format, self::$_table, $this->getId());
         mysql_query($sql);
         self::close_database();
-    }
-
-    static public function getById($id)
-    {
-        $format = "SELECT * FROM %s WHERE id = %s";
-        $sql = sprintf($format, self::$_table, $id);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        $values = mysql_fetch_array($r);
-        $question = new Question();
-        $question->populate($values);
-        self::close_database();
-        return $question;
     }
 
     static public function getLastFiveQuestionsByUserId($user_id)
@@ -242,20 +236,6 @@ class Answer extends Model
         return Question::getById($this->getQuestionId());
     }
 
-    public function save()
-    {
-        $answer = mysql_escape_string($this->getAnswer());
-        $user_id = $_SESSION['id'];
-        $date = date("Y-m-d H:i:s");
-        $question_id = $this->getQuestionId();
-        $format = "INSERT INTO %s ".$this->queryFields()."
-                    VALUES (NULL, '%s', '%s','%s', '%s')";
-        $sql = sprintf($format, self::$_table, $answer, $date, $question_id, $user_id);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        self::close_database();
-    }
-
     static public function getCountByQuestionId($question_id)
     {
         $format = "SELECT COUNT(id) FROM %s WHERE question_id=%s";
@@ -285,19 +265,6 @@ class Answer extends Model
         }
         self::close_database();
         return $answers;
-    }
-
-    static public function getById($id)
-    {
-        $format = "SELECT * FROM %s WHERE id = %s";
-        $sql = sprintf($format, self::$_table, $id);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        $values = mysql_fetch_array($r);
-        $answer = new Answer();
-        $answer->populate($values);
-        self::close_database();
-        return $answer;
     }
 
     public function delete()
@@ -351,45 +318,8 @@ class User extends Model
 {
     protected $_fields = array('id', 'name', 'password', 'nickname', 'description');
 
-    static public function getById($id)
-    {
-        $format = "SELECT * FROM user WHERE id = '%s' ";
-        $sql = sprintf($format, $id);
-
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        $values = mysql_fetch_array($r);
-        $user = new User();
-        $user->populate($values);
-        self::close_database();
-        return $user;
-    }
     static $_table = 'user';
 
-    protected $_fields = array('id', 'name', 'password');
-
-    public function save()
-    {
-        $is_editing = is_numeric($this->getId());
-        $name = mysql_escape_string($this->getName());
-        $password = mysql_escape_string($this->getPassword());
-        $nickname = mysql_escape_string($this->getNickname());
-        $description = mysql_escape_string($this->getDescription());
-        if($is_editing){
-            $edit = "UPDATE user SET nickname = '%s', description = '%s' WHERE id=%s";
-            $sql = sprintf($edit, $nickname, $description, $this->getId());
-        }else{
-            $create = "INSERT INTO user (id, name, password, nickname, description) VALUES (NULL, '%s' , '%s' , NULL, NULL)";
-            $sql = sprintf($create, $name, $password);
-        }
-        
-        $format = "INSERT INTO %s %s VALUES (NULL, '%s', '%s')";
-        $sql = sprintf($format, $this->_table,$this->queryFields(), $name, $password);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        self::close_database();
-    
-    }
 
     static public function getByName($name)
     {
@@ -435,6 +365,5 @@ class User extends Model
         self::close_database();
         return $user_name;
     }
-
 }
 ?>
