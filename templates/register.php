@@ -1,7 +1,7 @@
 <?php $title = "Бүртгэлийн хэсэг"?>
 <?php ob_start() ?>
 <form method="POST" action="">
-<div class="form-group"> 
+<div class="form-group">
     <label for="Name">Нэр:</label>
         <input type="text" class="form-control1" name="name" value="<?php echo $form->getName() ?>"/>
         <i id='error_message'><?php echo $form->getError('name') ?></i>

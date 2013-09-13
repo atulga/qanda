@@ -35,21 +35,19 @@
 </table>
 <ul class="pagination">
 <?php  $i = 1;
-  $total_page = ceil(Question::getQuestionCount() / 5); 
-  while($i <= $total_page){ 
-     if (has_get('page')){ 
-        $page = get_param('page'); 
-     } ?>
-     <li class="active"></li> | 
-    <?php     if ($page == $i){ ?> 
-        <?php echo $i; ?>
-    <?php } else { ?>
-     <li class="disabled"></li>
-        <a href="list?page=<?php echo $i; ?>"> 
-                <?php echo $i; ?>
-        </a>
-<?php     } ?>
-<?php   $i++; ?>
+    $total_page = ceil(Question::getQuestionCount() / 5);
+    while($i <= $total_page){
+        if (has_get('page')){ 
+            $page = get_param('page');
+        } ?>
+        <?php
+        if ($page == $i){ ?>
+        <li class="active"><a href="list?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+        <?php
+        } else { ?>
+        <li class="disabled"><a href="list?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+<?php   } ?>
+<?php $i++; ?>
 <?php } ?>
 </ul>
 

@@ -9,9 +9,7 @@
 
     <title><?php echo $title ?></title>
 
-    <link href="../bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-
-    <link href="../bootstrap/examples/starter-template.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
 
   </head>
   <body>
@@ -40,8 +38,7 @@
       </div>
     </div>
 
-    <div class="container">
-      <div class="starter-template">
+     <div class="container">
             <?php echo $content ?> 
       </div>
 
