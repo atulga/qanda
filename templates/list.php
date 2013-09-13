@@ -1,13 +1,12 @@
 <?php $title = 'Асуултууд' ?>
-
 <?php ob_start() ?>
 <table border="0" width="700">
 <?php foreach ($questions as $question){ ?>
   <tr>
     <td colspan="2">
-        <h3><a href="/qanda/index.php/show?question_id=<?php echo $question->getId(); ?>">
+        <h4><a href="/qanda/index.php/show?question_id=<?php echo $question->getId(); ?>">
             <?php echo $question->getTitle() ?></a>
-        </h3>
+        </h4>
     </td>
   </tr>
   <tr>
@@ -31,27 +30,25 @@
         <strong><?php echo $question->getAnswerCount() ?></strong>
     </td>
   </tr>
-  <tr>
     <td colspan="2"><hr/></td>
-  </tr>
 <?php } ?>
 </table>
-<ul>
-<?php  $i = 1;?>
-<?php  $total_page = ceil(Question::getQuestionCount() / 5); ?>
-<?php  while($i <= $total_page){ ?>
-<?php     if (has_get('page')){ ?>
-<?php         $page = get_param('page'); ?>
-<?php     } ?>
-     <li>|
-<?php     if ($page == $i){ ?>
-<?php         echo $i;?>
-<?php     } else { ?>
+<ul class="pagination">
+<?php  $i = 1;
+  $total_page = ceil(Question::getQuestionCount() / 5); 
+  while($i <= $total_page){ 
+     if (has_get('page')){ 
+        $page = get_param('page'); 
+     } ?>
+     <li class="active"></li> | 
+    <?php     if ($page == $i){ ?> 
+        <?php echo $i; ?>
+    <?php } else { ?>
+     <li class="disabled"></li>
         <a href="list?page=<?php echo $i; ?>"> 
                 <?php echo $i; ?>
         </a>
 <?php     } ?>
-    |</li>
 <?php   $i++; ?>
 <?php } ?>
 </ul>
