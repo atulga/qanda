@@ -37,23 +37,10 @@
 <?php } ?>
 </table>
 <ul>
-<?php  $i = 1;?>
-<?php  $total_page = ceil(Question::getQuestionCount() / 5); ?>
-<?php  while($i <= $total_page){ ?>
-<?php     if (has_get('page')){ ?>
-<?php         $page = get_param('page'); ?>
-<?php     } ?>
-     <li>|
-<?php     if ($page == $i){ ?>
-<?php         echo $i;?>
-<?php     } else { ?>
-        <a href="list?page=<?php echo $i; ?>"> 
-                <?php echo $i; ?>
-        </a>
-<?php     } ?>
-    |</li>
-<?php   $i++; ?>
-<?php } ?>
+<?php
+$pager = new Pagination();
+echo $pager->paginate();
+?>
 </ul>
 
 <?php $content = ob_get_clean() ?>

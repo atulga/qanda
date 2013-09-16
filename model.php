@@ -371,4 +371,28 @@ class User extends Model
         return $user_name;
     }
 }
+
+class Pagination
+{
+    static public function paginate()
+    {
+        $i = 1;
+        $total_page = ceil(Question::getQuestionCount() / 5);
+        while($i <= $total_page){
+            if (has_get('page')){
+                $page = get_param('page');
+            } ?>
+        <li>|
+  <?php if ($page == $i){
+            echo $i;
+        } else { ?>
+            <a href="list?page=<?php echo $i; ?>">
+            <?php echo $i; ?>
+            </a>
+  <?php } ?>
+        |</li>
+  <?php $i++;
+        }
+    }
+}
 ?>
