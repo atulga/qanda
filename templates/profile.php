@@ -8,7 +8,7 @@ ob_start();
 
 <?php } ?>
 
-<table width="739">
+<table width="100%">
     <tr>
         <td width="50%"><b>Your name :</b></td>
         <td><?php echo $user->getNickname();?></td>
@@ -27,7 +27,7 @@ ob_start();
     </tr>
 </table>
 
-<table border="0" width="800">
+<table border="0" width="100%">
   <tr>
     <td><b>Last 5 answers you answered: </b></td>
   </tr>

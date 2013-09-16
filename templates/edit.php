@@ -7,31 +7,20 @@ ob_start();
 <h2>Асуулт засварлах хэсэг</h2>
 
 <form method="POST" action="">
-  <table border="0">
-    <tr>
-      <td align="right">Гарчиг:</td>
-      <td>
+<div class="form-group">
+      <label for="Name">Гарчиг:</label>
         <input type="hidden" name="name" value="<?php echo $form->getName() ?>"/>
-        <input type="text" name="title"
-        value="<?php echo $form->getTitle() ?>"/>
+        <input type="text" class="form-control1" name="title" value="<?php echo $form->getTitle(); ?>"/>
         <i id='error_message'><?php echo $form->getError('title') ?></i>
-      </td>
-    </tr>
-    <tr>
-      <td align="right">Асуулт:</td>
-      <td>
-        <textarea rows="6" cols="60" name="question"><?php echo $form->getQuestion() ?></textarea>
-        <i id='error_message'><?php echo $form->getError('question') ?></i>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><input type="hidden" name="id"
-        value="<?php echo $form->getId() ?>"/>
-        <input type="submit" name="update" value="Шинэчлэх"/>
-      </td>
-    </tr>
-  </table>
+</div>
+<div class="form-group">
+      <label for="Desc">Асуулт:</label>
+        <textarea name="question" class="form-control" cols="40" rows="10" ><?php echo $form->getDescription(); ?></textarea>
+        <i id='error_message'><?php echo $form->getError('title') ?></i>
+</div>
+<br>
+        <input type="hidden" name="id" value="<?php echo $form->getId(); ?>">
+        <input type="submit" class="btn btn-primary" name="update" value="Шинэчлэх"/>
 </form>
 
 <?php $content = ob_get_clean() ?>

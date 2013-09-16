@@ -1,7 +1,7 @@
 <?php $title = $question->getTitle() ?>
 <?php ob_start(); ?>
 
-<table border="0" width=700>
+<table border="0" width="100%">
     <tr>
       <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
     </tr> 
@@ -37,7 +37,7 @@
 </table>
 <hr/>
 <h3>Хариултууд</h3>
-<table border="0" width="700">
+<table border="0" width="100%">
     <?php foreach ($question->getAnswers() as $answer){?>
  <tr>
   <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
@@ -87,12 +87,12 @@
 
 <?php if (logid_in()){?>
 <form method="POST" action="">
-  <table border="0">
+  <table border="0" width="100%">
     <tr>
     <div class="form-group">
       <label for="Answer">Хариулт:</label>
       <td>
-          <textarea rows="8" cols="65" class="form-control" name="answer" ><?php echo
+          <textarea rows="8" cols="65" class="form-control" name="answer"><?php echo
           $form_answer->getAnswer() ?></textarea>
   </td>
     </tr>
