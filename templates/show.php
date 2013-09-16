@@ -105,11 +105,10 @@
       </td>
     </tr>
     <tr>
-      <td>
         <input type="hidden" name="question_id"
             value="<?php echo $question->getId(); ?>"/>
-      </td>
       <td>
+      <br>
         <input type="submit" class="btn btn-primary" value="Илгээх" name="submit"/>
       </td>
     </tr>
