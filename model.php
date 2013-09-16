@@ -73,6 +73,7 @@ class Model
             // $this->_values= array('name' => 'bold', 'created_at' => '2013-09-11 00:00:00');
             foreach ($this->_values as $field => $value){
                 $fields .= sprintf($field."='%s', ", $value);
+                $value = mysql_escape_string($value);
             }
             $fields = rtrim($fields, ", ");
             // Example:
@@ -109,8 +110,10 @@ class Model
     static public function getById($id)
     {
         $class = get_called_class();
-
+        // Example:
+        // $class = User; $class::$_table = user
         $sql = sprintf("SELECT * FROM %s WHERE id = %s", $class::$_table, $id);
+        // $sql = 'select * from user where id=$id'
         self::connect_to_database();
         $r = mysql_query($sql);
         $values = mysql_fetch_array($r);

@@ -87,32 +87,22 @@
 
 <?php if (logid_in()){?>
 <form method="POST" action="">
-  <table border="0" width="100%">
-    <tr>
-    <div class="form-group">
-      <label for="Answer">Хариулт:</label>
-      <td>
-          <textarea rows="8" cols="65" class="form-control" name="answer"><?php echo
-          $form_answer->getAnswer() ?></textarea>
-  </td>
-    </tr>
-     <tr>
-      <td></td>
-      <td>
-          <i id='error_message'>
-            <?php echo $form_answer->getError('answer') ?>
-          </i>
-      </td>
-    </tr>
-    <tr>
+<label for="Answer">Хариулт:</label>
+<?php if($form_answer->getError('answer')){ ?>
+<div class="form-group has-error">
+        <textarea rows="8" cols="65" class="form-control" name="answer"></textarea>
+<label class="control-label"><?php echo $form_answer->getError('answer') ?></label>
+</div>
+<?php } else { ?>
+<div class="form-group">
+        <textarea rows="8" cols="65" class="form-control" name="answer"><?php echo $form_answer->getAnswer() ?></textarea>
+      </div>
+
+<?php } ?>
         <input type="hidden" name="question_id"
             value="<?php echo $question->getId(); ?>"/>
-      <td>
       <br>
         <input type="submit" class="btn btn-primary" value="Илгээх" name="submit"/>
-      </td>
-    </tr>
-  </table>
 </form>
 <?php } else { ?>
     <label>Хариулт бичхийн тулд нэр, нууц үгээрээ
