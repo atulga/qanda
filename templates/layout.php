@@ -9,7 +9,7 @@
 
     <title><?php echo $title ?></title>
 
-    <link href="../css/main.css" rel="stylesheet">
+    <link href="../bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 
   </head>
   <body>
@@ -44,10 +44,6 @@
 
     </div><!-- /.container -->
 
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="../bootstrap/assets/js/jquery.js"></script>
     <script src="../bootstrap/dist/js/bootstrap.min.js"></script>
   </body>

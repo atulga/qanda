@@ -340,6 +340,7 @@ class User extends Model
         while ($values = mysql_fetch_array($result))
         {
             $user->setName($values['name']);
+            $user->setPassword($values['password']);
         }
         self::close_database();
         return $user;
