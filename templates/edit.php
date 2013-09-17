@@ -1,8 +1,7 @@
 <?php $title = 'Асуулт засах';
 ob_start(); ?>
 <a href="/qanda/index.php/show?question_id=
-    <?php echo $form->getId() ?>">Буцах
-</a>
+    <?php echo $form->getId() ?>">Буцах</a>
 <h2>Асуулт засварлах хэсэг</h2>
 
 <form method="POST" action="">

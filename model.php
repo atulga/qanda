@@ -329,6 +329,11 @@ class User extends Model
 
     static $_table = 'user';
 
+    public function toArray()
+    {
+        return $this->_values;
+    }
+
     static public function getByName($name)
     {
         $name = mysql_escape_string($name);
