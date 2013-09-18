@@ -34,17 +34,16 @@
 <?php } ?>
 </table>
 
-<ul>
+<ul class="pagination">
 <?php
 foreach ($pager->getPages() as $page) {
-    if ($pager->getCurrentPage() == $page){
-        echo $page;
-    } else{ ?>
-    <a href="?page=<?php echo $page ?>"><?php echo $page ?></a>
+    if ($pager->getCurrentPage() == $page){ ?>
+        <li class="active"><span><?php echo $page; ?></span></li>
+   <?php } else{ ?>
+        <li class="disabled"><a href="?page=<?php echo $page ?>"><?php echo $page ?></a></li>
   <?php }
 }
 ?>
-
 </ul>
 
 <?php $content = ob_get_clean() ?>

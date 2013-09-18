@@ -380,6 +380,7 @@ class User extends Model
         return $user_name;
     }
 }
+
 class Paginator
 {
     protected $cur_page = 1; // anhnii utga
@@ -406,5 +407,4 @@ class Paginator
         $this->cur_page = $page;
     }
 }
-
 ?>
