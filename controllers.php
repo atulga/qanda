@@ -52,7 +52,7 @@ function user_register_action()
 function question_list_action($page = 1)
 {
     $pager = new Paginator();
-    if($_GET){
+    if(has_get('page')){
     $pager->setCurrentPage(get_param('page'));
     }else{
     $pager->setCUrrentPage(1);
