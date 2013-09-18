@@ -56,6 +56,10 @@ class LoginForm extends BaseForm
     {
         $this->validate_required('name', 'Нэрээ оруулна уу!');
         $this->validate_required('password', 'Нууц үгээ оруулна уу!');
+        $user = User::getByName($this->getName());
+        if($this->getPassword() != $user->getPassword()){
+            $this->_errors['password'] = 'Nuuts vg buruu bn';
+        }
         return count($this->_errors) > 0;
     }
 }
@@ -70,6 +74,7 @@ class RegisterForm extends BaseForm
         $this->validate_required('password', 'Нууц үгээ оруулна уу!');
         $this->validate_required('password_again', 'Нууц үгээ давтаж оруулна уу!');
         if ($this->getPassword() != $this->getPasswordAgain()){
+            $this->_errors['password'] = 'Нууц үгээ ижил оруулна уу';
             $this->_errors['password_again'] = 'Нууц үгээ ижил оруулна уу';
         }
         $user = User::getByName($this->getName());
@@ -89,7 +94,6 @@ class RegisterForm extends BaseForm
         $user->save();
     }
 }
-
 
 class QuestionForm extends BaseForm
 {

@@ -1,16 +1,16 @@
 <?php $title = $question->getTitle() ?>
 <?php ob_start(); ?>
 
-<table border="0" width=700>
+<table border="0" width="100%">
     <tr>
       <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
     </tr> 
   <tr>
     <td>
-        <?php echo "Нэр:".User::getUserNameById($question->getUserId());?>
+        <?php echo "Нэр: ".User::getUserNameById($question->getUserId());?>
   </td>
     <td align="right">
-        <?php echo "Огноо:".$question->getCreatedDate() ?>
+        <?php echo "Огноо: ".$question->getCreatedDate() ?>
     </td>
   </tr>
     <tr>
@@ -36,8 +36,8 @@
   </tr>
 </table>
 <hr/>
-<h2>Хариултууд</h2>
-<table border="0" width="700">
+<h3>Хариултууд</h3>
+<table border="0" width="100%">
     <?php foreach ($question->getAnswers() as $answer){?>
  <tr>
   <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
@@ -83,36 +83,26 @@
 <?php } ?>
 </table>
 
-<h2>Хариулт бичих</h2>
+<h3>Хариулт бичих</h3>
 
 <?php if (logid_in()){?>
 <form method="POST" action="">
-  <table border="0">
-    <tr>
-      <td>Хариулт:</td>
-      <td>
-          <textarea rows="8" cols="65" name="answer" ><?php echo
-          $form_answer->getAnswer() ?></textarea>
-  </td>
-    </tr>
-     <tr>
-      <td></td>
-      <td>
-          <i id='error_message'>
-            <?php echo $form_answer->getError('answer') ?>
-          </i>
-      </td>
-    </tr>
-    <tr>
-      <td>
+<label for="Answer">Хариулт:</label>
+<?php if($form_answer->getError('answer')){ ?>
+<div class="form-group has-error">
+        <textarea rows="8" cols="65" class="form-control" name="answer"></textarea>
+<label class="control-label"><?php echo $form_answer->getError('answer') ?></label>
+</div>
+<?php } else { ?>
+<div class="form-group">
+        <textarea rows="8" cols="65" class="form-control" name="answer"><?php echo $form_answer->getAnswer() ?></textarea>
+      </div>
+
+<?php } ?>
         <input type="hidden" name="question_id"
             value="<?php echo $question->getId(); ?>"/>
-      </td>
-      <td>
-        <input type="submit" value="Илгээх" name="submit"/>
-      </td>
-    </tr>
-  </table>
+      <br>
+        <input type="submit" class="btn btn-primary" value="Илгээх" name="submit"/>
 </form>
 <?php } else { ?>
     <label>Хариулт бичхийн тулд нэр, нууц үгээрээ

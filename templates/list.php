@@ -1,13 +1,12 @@
 <?php $title = 'Асуултууд' ?>
-
 <?php ob_start() ?>
-<table border="0" width="700">
+<table border="0" width="100%">
 <?php foreach ($questions as $question){ ?>
   <tr>
     <td colspan="2">
-        <h3><a href="/qanda/index.php/show?question_id=<?php echo $question->getId(); ?>">
+        <h4><a href="/qanda/index.php/show?question_id=<?php echo $question->getId(); ?>">
             <?php echo $question->getTitle() ?></a>
-        </h3>
+        </h4>
     </td>
   </tr>
   <tr>
@@ -31,11 +30,10 @@
         <strong><?php echo $question->getAnswerCount() ?></strong>
     </td>
   </tr>
-  <tr>
     <td colspan="2"><hr/></td>
-  </tr>
 <?php } ?>
 </table>
+
 <ul>
 <?php
 foreach ($pager->getPages() as $page) {
@@ -46,6 +44,7 @@ foreach ($pager->getPages() as $page) {
   <?php }
 }
 ?>
+
 </ul>
 
 <?php $content = ob_get_clean() ?>

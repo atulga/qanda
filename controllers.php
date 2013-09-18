@@ -142,7 +142,6 @@ function user_profile_action($id)
 function user_profile_edit_action()
 {
     $user = User::getById($_SESSION['id']);
-
     $form = new ProfileForm();
     if ($_POST){
         $form->populate($_POST);
@@ -150,8 +149,10 @@ function user_profile_edit_action()
         if (!$has_errors){
             $form->save();
             redirect('profile?user_id='.$form->getId());
-            }
         }
+     }else {
+            $form->populate($user->toArray());
+     }
     require 'templates/profile_edit.php';
 }
 ?>

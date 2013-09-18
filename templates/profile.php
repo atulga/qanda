@@ -3,31 +3,31 @@ ob_start();
 ?>
 
 <?php if($isme){ ?>
-     <h4> <a href="profile_edit">Edit Profile </a></h4>
+     <h4> <a href="profile_edit">Edit Profile</a></h4>
 <?php } else { ?>
 
 <?php } ?>
 
-<table width="600">
+<table width="100%">
     <tr>
-        <td><b>Your name :</b></td>
+        <td width="50%"><b>Your name :</b></td>
         <td><?php echo $user->getNickname();?></td>
     </tr>
     <tr>
-        <td><b>Description:</b></td>
+        <td width="50%"><b>Description:</b></td>
         <td><?php echo $user->getDescription(); ?></td>
     </tr>
     <tr>
-        <td><b>Number of Answers you answered:</b></td>
+        <td width="50%"><b>Number of Answers you answered:</b></td>
         <td><?php echo $answer_count; ?></td>
     </tr>
     <tr>
-        <td><b>Number of questions that you asked:</b></td>
+        <td width="50%"><b>Number of questions that you asked:</b></td>
         <td><?php echo $question_count;?></td>
     </tr>
 </table>
 
-<table border="0" width="700">
+<table border="0" width="100%">
   <tr>
     <td><b>Last 5 answers you answered: </b></td>
   </tr>
