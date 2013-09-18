@@ -5,9 +5,9 @@ function logid_in()
     return isset($_SESSION['id']);
 }
 
-function has_get($param_name)
+function has_get($name)
 {
-    return isset($_GET[$param_name]);
+    return isset($_GET[$name]);
 }
 
 function has_post($param_name)

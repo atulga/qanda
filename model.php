@@ -371,28 +371,31 @@ class User extends Model
         return $user_name;
     }
 }
-
-class Pagination
+class Paginator
 {
-    static public function paginate()
+    protected $cur_page = 1; // anhnii utga
+    protected $tot_page = NULL;
+    protected $one_page_per = 5;
+
+    function getPages()
     {
-        $i = 1;
-        $total_page = ceil(Question::getQuestionCount() / 5);
-        while($i <= $total_page){
-            if (has_get('page')){
-                $page = get_param('page');
-            } ?>
-        <li>|
-  <?php if ($page == $i){
-            echo $i;
-        } else { ?>
-            <a href="list?page=<?php echo $i; ?>">
-            <?php echo $i; ?>
-            </a>
-  <?php } ?>
-        |</li>
-  <?php $i++;
+        $arr = array();
+        $totpage = ceil(Question::getQuestionCount() / $this->one_page_per);
+        for($i=0; $i<$totpage; $i++){
+            $arr[$i] = $i+1;
         }
+        return $arr;
+    }
+
+    function getCurrentPage()
+    {
+        return $this->cur_page;
+    }
+
+    function setCurrentPage($page = 1)
+    {
+        $this->cur_page = $page;
     }
 }
+
 ?>

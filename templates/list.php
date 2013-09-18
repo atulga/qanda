@@ -38,8 +38,13 @@
 </table>
 <ul>
 <?php
-$pager = new Pagination();
-echo $pager->paginate();
+foreach ($pager->getPages() as $page) {
+    if ($pager->getCurrentPage() == $page){
+        echo $page;
+    } else{ ?>
+    <a href="?page=<?php echo $page ?>"><?php echo $page ?></a>
+  <?php }
+}
 ?>
 </ul>
 
