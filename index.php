@@ -3,20 +3,14 @@ session_start();
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-<<<<<<< HEAD
 
 require_once 'bootstrap.php';
 require_once 'local_settings.php';
 require_once 'models/Asuult.php';
 require_once 'models/Hariult.php';
 require_once 'models/User.php';
-=======
-require_once 'bootstrap.php';
-require_once 'local_settings.php';
->>>>>>> b847be004c90d4f3563ffd7472aa458f338c8cf4
 require_once 'model.php';
 require_once 'controllers.php';
-require_once 'models/Hariult.php';
 require_once 'helpers.php';
 require_once 'forms.php';
 
