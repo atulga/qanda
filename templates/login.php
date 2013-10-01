@@ -31,5 +31,13 @@
     <a href="register">Шинээр бүртгүүлэх</a>
 </form>
 
+<?php 
+    $u = new User();
+    $user = $u->getByName('bat');
+        echo $user->getId()."\n";
+        echo $user->getName()."\n";
+        echo $user->getNickname();
+?>
+
 <?php $content = ob_get_clean() ?>
 <?php include 'layout.php' ?>

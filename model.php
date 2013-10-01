@@ -323,7 +323,7 @@ class Answer extends Model
     }
 }
 
-class User extends Model
+/*class User extends Model
 {
     protected $_fields = array('id', 'name', 'password', 'nickname', 'description');
 
@@ -379,7 +379,7 @@ class User extends Model
         self::close_database();
         return $user_name;
     }
-}
+}*/
 
 class Paginator
 {

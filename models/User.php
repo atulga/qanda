@@ -139,7 +139,6 @@ class User
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -152,4 +151,38 @@ class User
     {
         return $this->description;
     }
+
+    static public function getByName($name)
+    {
+        global $em;
+        $user = $em->getRepository('User')
+                   ->findOneBy(array('name' => $name));
+        return $user;
+    }
+
+    static public function getUser($name, $password=null)
+    {
+        global $em;
+        $user = $em->getRepository('User')
+                   ->findOneBy(array('name' => $name, 'password' => $password));
+        return $user;
+    }
+
+    static public function getUserNameById($user_id)
+    {
+        global $em;
+        $user = $em->getRepository('User')
+                   ->findOneBy(array('id' => $user_id));
+        $name = $user->getName();
+        return $name;
+    }
+
+    static public function getById($id)
+    {
+        global $em;
+        $user = $em->getRepository('User')
+                   ->findOneBy(array('id' => $id));
+        return $user;
+    }
+
 }

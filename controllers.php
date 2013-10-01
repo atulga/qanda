@@ -55,7 +55,7 @@ function question_list_action($page = 1)
     if($_GET){
     $pager->setCurrentPage(get_param('page'));
     }else{
-    $pager->setCUrrentPage(1);
+    $pager->setCurrentPage(1);
     }
     $questions = Question::getQuestions($pager->getCurrentPage());
 
