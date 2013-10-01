@@ -220,6 +220,7 @@ class Question extends Model
         self::connect_to_database();
         $r = mysql_query($sql);
         $values = mysql_fetch_array($r);
+
         self::close_database();
         $question_count = $values[0];
         return $question_count;
@@ -274,16 +275,6 @@ class Answer extends Model
         return $answers;
     }
 
-    public function delete()
-    {
-        $id = $this->getId();
-        $format = "DELETE FROM %s WHERE id=%s";
-        $sql = sprintf($format, self::$_table, $id);
-        self::connect_to_database();
-        mysql_query($sql);
-        self::close_database();
-    }
-
     public function deleteByQuestionId($question_id)
     {
         $format = "DELETE FROM %s WHERE question_id=%s";
@@ -294,64 +285,6 @@ class Answer extends Model
     }
 
 }
-
-/*class User extends Model
-{
-    protected $_fields = array('id', 'name', 'password', 'nickname', 'description');
-
-    static $_table = 'user';
-
-    public function toArray()
-    {
-        return $this->_values;
-    }
-
-    static public function getByName($name)
-    {
-        $name = mysql_escape_string($name);
-        $format = "SELECT * FROM %s WHERE name='%s'";
-        $sql = sprintf($format, self::$_table, $name);
-        self::connect_to_database();
-        $result = mysql_query($sql);
-        $user = new User();
-        while ($values = mysql_fetch_array($result))
-        {
-            $user->setName($values['name']);
-            $user->setPassword($values['password']);
-        }
-        self::close_database();
-        return $user;
-    }
-
-    static public function getUser($name, $password=null)
-    {
-        $name = mysql_escape_string($name);
-        $password = mysql_escape_string($password);
-        $format = "SELECT * FROM %s WHERE name='%s' AND password='%s'";
-        $sql = sprintf($format, self::$_table,$name, $password);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        $values = mysql_fetch_array($r);
-        $user = new User();
-        $user->populate($values);
-        self::close_database();
-        return $user;
-    }
-
-    static public function getUserNameById($user_id)
-    {
-        $format = "SELECT name FROM %s WHERE id=%s";
-        $sql = sprintf($format, self::$_table, $user_id);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        while ($values = mysql_fetch_array($r))
-        {
-            $user_name = $values['name'];
-        }
-        self::close_database();
-        return $user_name;
-    }
-}*/
 
 class Paginator
 {

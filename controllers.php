@@ -106,12 +106,14 @@ function question_add_edit_action($question_id = null)
 
 function answer_delete_action($answer_id)
 {
-    $answer = Answer::getById($answer_id);
+    global $em;
+    $answer = Hariult::getById($answer_id);
     $question = Question::getById(get_param('question_id'));
     if($question->getBestAnswerId() == $answer_id){
         $question->setBestAnswerId('0');
     }
-    $answer->delete();
+    $em->remove($answer);
+    $em->flush(); 
     $question->updateAnswerCount();
     $question->save();
     redirect('show?question_id='.get_param('question_id'));

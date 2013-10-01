@@ -47,6 +47,7 @@ class Hariult
      *
      * @Column(name="user_id", type="integer", nullable=false)
      */
+
     private $userId;
 
 
@@ -156,38 +157,28 @@ class Hariult
     }
 
     static $_table = 'hariult';
-
+    
+    static public function getById($id)
+    {
+        global $em;
+        $user = $em->getRepository('Hariult')
+                   ->findOneBy(array('id' => $id));
+        return $user;
+    }
+playtyprx 163 wpm
     public function getQuestion()
     {
         return Asuult::getById($this->getQuestionId());
     }
 
-    static public function getByQuestionId($question_id)
+    static public function getByQuestionId($question_id)playtyprx 163 wpm
     {
-        $format = "SELECT * FROM %s WHERE question_id = '%s'
-                   ORDER BY created_date ASC";
-        $sql = sprintf($format, self::$_table, $question_id);
-        $answers = array();
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        while ($row = mysql_fetch_array($r))
-        {
-            $answer = new Hariult();
-            $answer->populate($row);
-            $answers[] = $answer;
-        }
-        self::close_database();
+        global $em;
+        $filter = array('questionId' => $question_id);
+        $order = array('createdDate' => 'ASC');
+        $answers = $em->getRepository('Hariult')
+            ->findBy($filter, $order);
         return $answers;
-    }
-
-    public function delete()
-    {
-        $id = $this->getId();
-        $format = "DELETE FROM %s WHERE id=%s";
-        $sql = sprintf($format, self::$_table, $id);
-        self::connect_to_database();
-        mysql_query($sql);
-        self::close_database();
     }
 
     static public function getAnswerCountByUserId($user_id)
@@ -202,14 +193,14 @@ class Hariult
 
     public function deleteByQuestionId($question_id)
     {
-        
-        $format = "DELETE FROM %s WHERE question_id=%s";
-        $sql = sprintf($format, self::$_table, $question_id);
-        self::connect_to_database();
-        mysql_query($sql);
-        self::close_database();
+        global $em;
+        $filter = array('questionId' => $question_id);
+        $answers = $em->getRepository('Hariult')
+            ->findBy($filter);
+        $em->remove($answers);
+        $em->flush();
     }
-
+    
     static public function getLastFiveAnswersByUserId($user_id)
     {
         global $em;
@@ -222,15 +213,11 @@ class Hariult
     
     static public function getCountByQuestionId($question_id)
     {
-        
-        $format = "SELECT COUNT(id) FROM %s WHERE question_id=%s";
-        $sql = sprintf($format, self::$_table, $question_id);
-        self::connect_to_database();
-        $result = mysql_query($sql);
-        $row = mysql_fetch_row($result);
-        $count = $row[0];
-        self::close_database();
-
+        global $em;
+        $filter = array('questionId' => $question_id);
+        $result = $em->getRepository('Hariult')
+            ->findBy($filter);
+        $count = count($result);
         return $count;
     }
 
