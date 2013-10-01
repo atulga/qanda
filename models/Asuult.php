@@ -233,26 +233,16 @@ class Asuult
         $count = $query->getSingleScalarResult();
         return $count;
     }
-
+    
     static public function getQuestions($page)
     {
+        global $em;
+        $filter = array();
+        $order = array('createdDate' => 'DESC');
         $one_page_rows = 5;
         $page = ($page -1) * $one_page_rows;
-        $format = "SELECT * FROM %s ORDER BY created_date DESC LIMIT %s, %s";
-        $sql = sprintf($format, self::$_table, $page, $one_page_rows);
-        $questions = array();
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        while ($row = mysql_fetch_array($r))
-        {
-            $question = new Question();
-            $question->populate($row);
-            $questions[] = $question;
-        }
-        self::close_database();
-
-
-
+        $questions = $em->getRepository('Asuult')
+            ->findBy($filter, $order, $one_page_rows, $page);
         return $questions;
     }
 

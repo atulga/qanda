@@ -134,15 +134,18 @@ class AnswerForm extends BaseForm
 
     public function save()
     {
-        $answer = new Answer();
+        global $em;
+        $answer = Hariult::getById($this->getId());
         $answer->setUserId($_SESSION['id']);
         $answer->setAnswer($this->getAnswer());
         $answer->setQuestionId($this->getQuestionId());
-        $answer->save();
+        $em->persist($answer);
+        $em->flush();
 
-        $question = Question::getById($this->getQuestionId());
+        $question = Asuult::getById($this->getQuestionId());
         $question->updateAnswerCount($this->getQuestionId());
-        $question->save();
+        $em->persist($question);
+        $em->flush();
     }
 }
 

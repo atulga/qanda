@@ -161,17 +161,17 @@ class Hariult
     static public function getById($id)
     {
         global $em;
-        $user = $em->getRepository('Hariult')
+        $answer = $em->getRepository('Hariult')
                    ->findOneBy(array('id' => $id));
-        return $user;
+        return $answer;
     }
-playtyprx 163 wpm
+    
     public function getQuestion()
     {
         return Asuult::getById($this->getQuestionId());
     }
 
-    static public function getByQuestionId($question_id)playtyprx 163 wpm
+    static public function getByQuestionId($question_id)
     {
         global $em;
         $filter = array('questionId' => $question_id);

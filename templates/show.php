@@ -42,7 +42,7 @@
  <tr>
   <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
     <td align="right">
-        <?php echo $answer->getCreatedDate() ?>
+        <?php //echo $answer->getCreatedDate() ?>
     </td>
  </tr>
   <tr>
