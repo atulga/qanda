@@ -284,17 +284,6 @@ class Answer extends Model
         self::close_database();
     }
 
-    static public function getAnswerCountByUserId($user_id){
-        $format = "SELECT COUNT(answer) FROM %s WHERE user_id=%s";
-        $sql = sprintf($format, self::$_table, $user_id);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        $values = mysql_fetch_array($r);
-        self::close_database();
-        $answer_count = $values[0];
-        return $answer_count;
-    }
-
     public function deleteByQuestionId($question_id)
     {
         $format = "DELETE FROM %s WHERE question_id=%s";
@@ -304,23 +293,6 @@ class Answer extends Model
         self::close_database();
     }
 
-    static public function getLastFiveAnswersByUserId($user_id)
-    {
-        $format = "SELECT * FROM %s WHERE user_id=%s ORDER BY
-            created_date DESC LIMIT 5";
-        $sql = sprintf($format, self::$_table, $user_id);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        $answers = array();
-        while ($values = mysql_fetch_array($r))
-        {
-            $answer = new Answer();
-            $answer->populate($values);
-            $answers[] = $answer;
-        }
-        self::close_database();
-        return $answers;
-    }
 }
 
 class User extends Model

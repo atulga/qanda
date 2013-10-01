@@ -137,8 +137,8 @@ function user_profile_action($id)
     $user = User::getById($id);
     $questions = Question::getLastFiveQuestionsByUserId($id);
     $question_count = Question::getQuestionCountByUserId($id);
-    $answer_count = Answer::getAnswerCountByUserId($id);
-    $answers = Answer::getLastFiveAnswersByUserId($id);
+    $answer_count = Hariult::getAnswerCountByUserId($id);
+    $answers = Hariult::getLastFiveAnswersByUserId($id);
     $isme = $_SESSION['id'] == $id;
     require 'templates/profile.php';
 }
