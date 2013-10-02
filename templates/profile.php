@@ -3,7 +3,7 @@ ob_start();
 ?>
 
 <?php if($isme){ ?>
-     <h4> <a href="profile_edit">Edit Profile</a></h4>
+     <h4> <a href="profile_edit">Хувийн мэдээлэл засах</a></h4>
 <?php } else { ?>
 
 <?php } ?>
