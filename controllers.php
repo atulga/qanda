@@ -64,7 +64,8 @@ function question_list_action($page = 1)
 
 function question_show_action($question_id)
 {
-    $question = Asuult::getById($question_id);
+    global $em;
+    $question = $em->find('Asuult', $question_id);
 
     $form_answer = new AnswerForm();
     if ($_POST){
