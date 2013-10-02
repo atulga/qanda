@@ -8,7 +8,7 @@ use Doctrine\ORM\Query;
  * @Table(name="asuult")
  * @Entity
  */
-class Asuult
+class Question 
 {
     static public $_table = 'asuult';
 
@@ -223,7 +223,7 @@ class Asuult
         global $em;
         $qb = $em->createQueryBuilder();
         $query = $qb->select('a')
-            ->from('Asuult', 'a')
+            ->from('Question', 'a')
             ->where('a.id = :id')
             ->setParameter('id', $id)
             ->getQuery();
@@ -239,12 +239,12 @@ class Asuult
     {
         global $em;
         $filter = array();
-        $result = $em->getRepository('Asuult')
+        $result = $em->getRepository('Question')
             ->findBy($filter);
         $count = count($result);
         return $count;
     }
-    
+
     static public function getQuestions($page)
     {
         global $em;
@@ -252,20 +252,20 @@ class Asuult
         $order = array('createdDate' => 'DESC');
         $one_page_rows = 5;
         $offset = ($page -1) * $one_page_rows;
-        $questions = $em->getRepository('Asuult')
+        $questions = $em->getRepository('Question')
             ->findBy($filter, $order, $one_page_rows, $offset);
         return $questions;
     }
 
     public function getAnswers()
     {
-        return Hariult::getByQuestionId($this->getId());
+        return Answer::getByQuestionId($this->getId());
     }
 
     public function delete()
     {
         global $em;
-        Hariult::deleteByQuestionId($this->getId());
+        Answer::deleteByQuestionId($this->getId());
         $em->remove($this->getId());
         $em->flush();
     }
