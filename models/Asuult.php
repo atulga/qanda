@@ -68,7 +68,7 @@ class Asuult
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -91,7 +91,7 @@ class Asuult
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -114,7 +114,7 @@ class Asuult
     /**
      * Get createdDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedDate()
     {
@@ -137,7 +137,7 @@ class Asuult
     /**
      * Get question
      *
-     * @return string 
+     * @return string
      */
     public function getQuestion()
     {
@@ -160,7 +160,7 @@ class Asuult
     /**
      * Get bestAnswerId
      *
-     * @return integer 
+     * @return integer
      */
     public function getBestAnswerId()
     {
@@ -183,7 +183,7 @@ class Asuult
     /**
      * Get answerCount
      *
-     * @return integer 
+     * @return integer
      */
     public function getAnswerCount()
     {
@@ -206,7 +206,7 @@ class Asuult
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -244,7 +244,7 @@ class Asuult
         $count = count($result);
         return $count;
     }
-    
+
     static public function getQuestions($page)
     {
         global $em;

@@ -15,7 +15,8 @@
         <a href="/qanda/index.php/profile?user_id=<?php echo $question->getUserId() ?> "><?php echo User::getUserNameById($question->getUserId())?>
         </strong>
     </td>
-    <td align="right"><?php //echo $question->getCreatedDate() ?></td>
+    <td align="right"><?php echo $question->getCreatedDate()->format('Y-m-d
+H:i:s') ?></td>
   </tr>
   <tr>
     <td colspan="2"><?php echo nl2br($question->getQuestion()) ?></td>

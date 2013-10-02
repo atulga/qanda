@@ -169,11 +169,13 @@ class ProfileForm extends BaseForm{
 
     public function save()
     {
+        global $em;
         if ($this->getId()) {
           $profile = User::getById($this->getId());
           $profile->setNickname($this->getNickname());
           $profile->setDescription($this->getDescription());
-          $profile->save();
+          $em->persist($profile);
+          $em->flush();
         }
     }
 }

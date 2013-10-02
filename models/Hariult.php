@@ -55,7 +55,7 @@ class Hariult
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -78,7 +78,7 @@ class Hariult
     /**
      * Get answer
      *
-     * @return string 
+     * @return string
      */
     public function getAnswer()
     {
@@ -103,7 +103,7 @@ class Hariult
     /**
      * Get createdDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedDate()
     {
@@ -126,7 +126,7 @@ class Hariult
     /**
      * Get questionId
      *
-     * @return integer 
+     * @return integer
      */
     public function getQuestionId()
     {
@@ -149,7 +149,7 @@ class Hariult
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -157,7 +157,7 @@ class Hariult
     }
 
     static $_table = 'hariult';
-    
+
     static public function getById($id)
     {
         global $em;
@@ -165,7 +165,7 @@ class Hariult
                    ->findOneBy(array('id' => $id));
         return $answer;
     }
-    
+
     public function getQuestion()
     {
         return Asuult::getById($this->getQuestionId());
@@ -186,7 +186,7 @@ class Hariult
         global $em;
         $filter = array('userId' => $user_id);
         $result = $em->getRepository('Hariult')
-            ->findBy($filter); 
+            ->findBy($filter);
         $answer_count = count($result);
         return $answer_count;
     }
@@ -202,7 +202,7 @@ class Hariult
             $em->flush();
         }
     }
-    
+
     static public function getLastFiveAnswersByUserId($user_id)
     {
         global $em;
@@ -212,7 +212,7 @@ class Hariult
             ->findBy($filter, $order, 5);
         return $answers;
     }
-    
+
     static public function getCountByQuestionId($question_id)
     {
         global $em;

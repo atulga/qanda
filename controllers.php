@@ -86,7 +86,7 @@ function question_add_edit_action($question_id = null)
         $form->populate($_POST);
         $has_errors = $form->validate();
         if (!$has_errors){
-            $form->save(); 
+            $form->save();
             if($question_id == null){
                 redirect('/qanda/index.php');
             } else {
@@ -154,7 +154,7 @@ function user_profile_action($id)
 
 function user_profile_edit_action()
 {
-    $user = User::getById($_SESSION['id']);
+    $user = User::getById($_SESSION['id'], true);
     $form = new ProfileForm();
     if ($_POST){
         $form->populate($_POST);
@@ -164,7 +164,7 @@ function user_profile_edit_action()
             redirect('profile?user_id='.$form->getId());
         }
      }else {
-            $form->populate($user->toArray());
+        $form->populate($user);
      }
     require 'templates/profile_edit.php';
 }

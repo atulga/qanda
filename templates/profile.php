@@ -10,26 +10,26 @@ ob_start();
 
 <table width="100%">
     <tr>
-        <td width="50%"><b>Your name :</b></td>
+        <td width="50%"><b>Нэр :</b></td>
         <td><?php echo $user->getNickname();?></td>
     </tr>
     <tr>
-        <td width="50%"><b>Description:</b></td>
+        <td width="50%"><b>Тодорхойлолт:</b></td>
         <td><?php echo $user->getDescription(); ?></td>
     </tr>
     <tr>
-        <td width="50%"><b>Number of Answers you answered:</b></td>
+        <td width="50%"><b>Нийт хариултын тоо:</b></td>
         <td><?php echo $answer_count; ?></td>
     </tr>
     <tr>
-        <td width="50%"><b>Number of questions that you asked:</b></td>
+        <td width="50%"><b>Нийт асуултын тоо:</b></td>
         <td><?php echo $question_count;?></td>
     </tr>
 </table>
 
 <table border="0" width="100%">
   <tr>
-    <td><b>Last 5 answers you answered: </b></td>
+    <td><b>Сүүлийн 5 хариулт: </b></td>
   </tr>
   <tr>
     <?php foreach ($answers as $answer) { ?>
@@ -44,7 +44,7 @@ $answer->getQuestionId();?>">
 <br>
   <tr>
     <td>
-        <br><b>Last 5 questions you asked: </b><br>
+        <br><b>Сүүлийн 5 асуулт: </b><br>
     </td>
   </tr>
     <?php foreach ($questions as $question){ ?>

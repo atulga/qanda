@@ -1,8 +1,7 @@
 <?php
 
-
-
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Query;
 
 /**
  * User
@@ -54,7 +53,7 @@ class User
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -77,7 +76,7 @@ class User
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -100,7 +99,7 @@ class User
     /**
      * Get nickname
      *
-     * @return string 
+     * @return string
      */
     public function getNickname()
     {
@@ -123,7 +122,7 @@ class User
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -145,7 +144,7 @@ class User
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -177,12 +176,21 @@ class User
         return $name;
     }
 
-    static public function getById($id)
+    static public function getById($id, $as_array=false)
     {
         global $em;
-        $user = $em->getRepository('User')
-                   ->findOneBy(array('id' => $id));
-        return $user;
+        $qb = $em->createQueryBuilder();
+        $query = $qb->select('u')
+            ->from('User', 'u')
+            ->where('u.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+        if ($as_array){
+            $u = $query->getSingleResult(Query::HYDRATE_ARRAY);
+        }else{
+            $u = $query->getSingleResult();
+        }
+        return $u;
     }
 
 }
