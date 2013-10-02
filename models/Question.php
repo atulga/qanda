@@ -47,7 +47,7 @@ class Question
      *
      * @Column(name="best_answer_id", type="integer", nullable=false)
      */
-    private $bestAnswerId;
+    private $bestAnswerId = 0;
 
     /**
      * @var integer
