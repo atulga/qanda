@@ -8,7 +8,7 @@ class Paginator
     function getPages()
     {
         $arr = array();
-        $totpage = ceil(Asuult::getQuestionCount() / $this->one_page_per);
+        $totpage = ceil(Question::getQuestionCount() / $this->one_page_per);
         for($i=0; $i<$totpage; $i++){
             $arr[$i] = $i+1;
         }

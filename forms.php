@@ -114,9 +114,9 @@ class QuestionForm extends BaseForm
     {
         global $em;
         if ($this->getId()) {  //update
-            $question = Asuult::getById($this->getId());
+            $question = Question::getById($this->getId());
         } else {  //add
-            $question = new Asuult();
+            $question = new Question();
             $question->setUserId($_SESSION['id']);
             $question->setCreatedDate(date_create(date('Y-m-d H:i:s')));
         }
@@ -141,7 +141,7 @@ class AnswerForm extends BaseForm
     public function save()
     {
         global $em;
-        $answer = new Hariult();
+        $answer = new Answer();
         $answer->setUserId($_SESSION['id']);
         $answer->setAnswer($this->getAnswer());
         $answer->setQuestionId($this->getQuestionId());
@@ -150,7 +150,7 @@ class AnswerForm extends BaseForm
         $em->flush();
 
         $question = $answer->getQuestion();
-        $num_answers = Hariult::getCountByQuestionId($question->getId());
+        $num_answers = Answer::getCountByQuestionId($question->getId());
         $question->setAnswerCount($num_answers);
         $em->persist($question);
         $em->flush();

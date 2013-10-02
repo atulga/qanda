@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 
 require_once "local_settings.php";
 
-$isDevMode = true;
+$isDevMode = false;
 
 // database configuration parameters
 $conn = array(

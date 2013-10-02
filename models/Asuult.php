@@ -8,7 +8,7 @@ use Doctrine\ORM\Query;
  * @Table(name="asuult")
  * @Entity
  */
-class Question 
+class Question
 {
     static public $_table = 'asuult';
 
