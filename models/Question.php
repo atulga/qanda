@@ -8,7 +8,7 @@ use Doctrine\ORM\Query;
  * @Table(name="asuult")
  * @Entity
  */
-class Question 
+class Question
 {
     static public $_table = 'asuult';
 
@@ -68,7 +68,7 @@ class Question
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -91,7 +91,7 @@ class Question
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -114,7 +114,7 @@ class Question
     /**
      * Get createdDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedDate()
     {
@@ -137,7 +137,7 @@ class Question
     /**
      * Get question
      *
-     * @return string 
+     * @return string
      */
     public function getQuestion()
     {
@@ -160,7 +160,7 @@ class Question
     /**
      * Get bestAnswerId
      *
-     * @return integer 
+     * @return integer
      */
     public function getBestAnswerId()
     {
@@ -183,7 +183,7 @@ class Question
     /**
      * Get answerCount
      *
-     * @return integer 
+     * @return integer
      */
     public function getAnswerCount()
     {
@@ -206,7 +206,7 @@ class Question
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {

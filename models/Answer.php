@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="hariult")
  * @Entity
  */
-class Answer 
+class Answer
 {
     /**
      * @var integer
@@ -52,7 +52,7 @@ class Answer
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -75,7 +75,7 @@ class Answer
     /**
      * Get answer
      *
-     * @return string 
+     * @return string
      */
     public function getAnswer()
     {
@@ -100,7 +100,7 @@ class Answer
     /**
      * Get createdDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedDate()
     {
@@ -123,7 +123,7 @@ class Answer
     /**
      * Get questionId
      *
-     * @return integer 
+     * @return integer
      */
     public function getQuestionId()
     {
@@ -146,7 +146,7 @@ class Answer
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -209,7 +209,7 @@ class Answer
             ->findBy($filter, $order, 5);
         return $answers;
     }
-    
+
     static public function getCountByQuestionId($question_id)
     {
         global $em;
