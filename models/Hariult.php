@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @Table(name="hariult")
  * @Entity
  */
-class Hariult
+class Answer
 {
     /**
      * @var integer
@@ -161,14 +161,14 @@ class Hariult
     static public function getById($id)
     {
         global $em;
-        $answer = $em->getRepository('Hariult')
+        $answer = $em->getRepository('Answer')
                    ->findOneBy(array('id' => $id));
         return $answer;
     }
 
     public function getQuestion()
     {
-        return Asuult::getById($this->getQuestionId());
+        return Question::getById($this->getQuestionId());
     }
 
     static public function getByQuestionId($question_id)
@@ -176,7 +176,7 @@ class Hariult
         global $em;
         $filter = array('questionId' => $question_id);
         $order = array('createdDate' => 'ASC');
-        $answers = $em->getRepository('Hariult')
+        $answers = $em->getRepository('Answer')
             ->findBy($filter, $order);
         return $answers;
     }
@@ -185,7 +185,7 @@ class Hariult
     {
         global $em;
         $filter = array('userId' => $user_id);
-        $result = $em->getRepository('Hariult')
+        $result = $em->getRepository('Answer')
             ->findBy($filter);
         $answer_count = count($result);
         return $answer_count;
@@ -195,7 +195,7 @@ class Hariult
     {
         global $em;
         $filter = array('questionId' => $question_id);
-        $answers = $em->getRepository('Hariult')
+        $answers = $em->getRepository('Answer')
             ->findBy($filter);
         foreach($answers as $answer){
             $em->remove($answer);
@@ -208,7 +208,7 @@ class Hariult
         global $em;
         $filter = array('userId' => $user_id);
         $order = array('createdDate' => 'DESC');
-        $answers = $em->getRepository('Hariult')
+        $answers = $em->getRepository('Answer')
             ->findBy($filter, $order, 5);
         return $answers;
     }
@@ -217,7 +217,7 @@ class Hariult
     {
         global $em;
         $filter = array('questionId' => $question_id);
-        $result = $em->getRepository('Hariult')->findBy($filter);
+        $result = $em->getRepository('Answer')->findBy($filter);
         // TODO check: $result - Doctrine_Collection::count
         $question_count = count($result);  // TODO optimize
         return $question_count;
