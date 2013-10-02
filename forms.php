@@ -90,10 +90,12 @@ class RegisterForm extends BaseForm
 
     public function save()
     {
+        global $em;
         $user = new User();
         $user->setName($this->getName());
         $user->setPassword($this->getPassword());
-        $user->save();
+        $em->persist($user);
+        $em->flush();
     }
 }
 
@@ -139,20 +141,18 @@ class AnswerForm extends BaseForm
     public function save()
     {
         global $em;
-        
-        $answer = Hariult::getById($this->getId());
-        if (!$answer){
-            $answer = new Hariult();
-        }
+        $answer = new Hariult();
         $answer->setUserId($_SESSION['id']);
         $answer->setAnswer($this->getAnswer());
         $answer->setQuestionId($this->getQuestionId());
         $answer->setCreatedDate(date_create(date('Y-m-d H:i:s')));
-
-        //$question = Asuult::getById($this->getQuestionId());
-        //$question->updateAnswerCount($this->getQuestionId());
-
         $em->persist($answer);
+        $em->flush();
+
+        $question = $answer->getQuestion();
+        $num_answers = Hariult::getCountByQuestionId($question->getId());
+        $question->setAnswerCount($num_answers);
+        $em->persist($question);
         $em->flush();
     }
 }

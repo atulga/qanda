@@ -24,5 +24,4 @@ $conn = array(
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/models"), $isDevMode);
 
 $em = EntityManager::create($conn, $config);
-$qb = $em->createQueryBuilder();
 ?>

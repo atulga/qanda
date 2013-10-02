@@ -1,6 +1,4 @@
 <?php
-use Doctrine\ORM\Query;
-
 function user_logout_action()
 {
     session_destroy();
@@ -115,8 +113,8 @@ function answer_delete_action($answer_id)
         $question->setBestAnswerId('0');
     }
     $em->remove($answer);
-    $em->flush(); 
-    $question->updateAnswerCount();
+    $em->flush();
+    $question->setAnswerCount($question->updateAnswerCount($question->getId()));
     $em->persist($question);
     $em->flush();
     redirect('show?question_id='.get_param('question_id'));
@@ -136,6 +134,7 @@ function question_delete_action($question_id)
 {
     global $em;
     $question = Asuult::getById($question_id);
+    Hariult::deleteByQuestionId($question_id);
     $em->remove($question);
     $em->flush();
     redirect('/qanda/index.php');

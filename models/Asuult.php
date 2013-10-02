@@ -220,19 +220,18 @@ class Asuult
 
     static public function getById($id, $as_array=false)
     {
-        global $qb;
+        global $em;
+        $qb = $em->createQueryBuilder();
         $query = $qb->select('a')
             ->from('Asuult', 'a')
             ->where('a.id = :id')
             ->setParameter('id', $id)
             ->getQuery();
-        //var_dump($as_array);
         if ($as_array){
-            $q = $query->getSingleResult();
+            $q = $query->getSingleResult(Query::HYDRATE_ARRAY);
         }else{
             $q = $query->getSingleResult();
         }
-        //var_dump($q); die();
         return $q;
     }
 
@@ -256,11 +255,6 @@ class Asuult
         $questions = $em->getRepository('Asuult')
             ->findBy($filter, $order, $one_page_rows, $offset);
         return $questions;
-    }
-
-    public function updateAnswerCount()
-    {
-        return Hariult::getCountByQuestionId($this->getId());
     }
 
     public function getAnswers()

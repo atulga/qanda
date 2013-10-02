@@ -197,8 +197,10 @@ class Hariult
         $filter = array('questionId' => $question_id);
         $answers = $em->getRepository('Hariult')
             ->findBy($filter);
-        $em->remove($answers);
-        $em->flush();
+        foreach($answers as $answer){
+            $em->remove($answer);
+            $em->flush();
+        }
     }
     
     static public function getLastFiveAnswersByUserId($user_id)
@@ -215,12 +217,10 @@ class Hariult
     {
         global $em;
         $filter = array('questionId' => $question_id);
-        $dql = 'SELECT COUNT(h.id) FROM hariult h '.
-               'WHERE h.question_id=:question_id';
-        $count = $em->createQuery($dql)
-                    ->setParameters($filter)
-                    ->getSingleScalarResult();
-        return $count;
+        $result = $em->getRepository('Hariult')->findBy($filter);
+        // TODO check: $result - Doctrine_Collection::count
+        $question_count = count($result);  // TODO optimize
+        return $question_count;
     }
 
 }
