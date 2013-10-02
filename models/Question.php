@@ -262,14 +262,6 @@ class Question
         return Answer::getByQuestionId($this->getId());
     }
 
-    public function delete()
-    {
-        global $em;
-        Answer::deleteByQuestionId($this->getId());
-        $em->remove($this->getId());
-        $em->flush();
-    }
-
     static public function getLastFiveQuestionsByUserId($user_id)
     {
         global $em;
