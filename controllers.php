@@ -113,7 +113,8 @@ function answer_delete_action($answer_id)
         $question->setBestAnswerId('0');
     }
     $em->remove($answer);
-    $question->updateAnswerCount($question_id);
+    $em->flush();
+    $question->setAnswerCount($question->updateAnswerCount($question->getId()));
     $em->persist($question);
     $em->flush();
     redirect('show?question_id='.get_param('question_id'));

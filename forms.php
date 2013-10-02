@@ -149,12 +149,8 @@ class AnswerForm extends BaseForm
         $answer->setCreatedDate(date_create(date('Y-m-d H:i:s')));
         $em->persist($answer);
         $em->flush();
-        var_dump($this->getQuestionId());
         $question = Asuult::getById($this->getQuestionId());
-        $question->setAnswerCount();
-        $question->updateAnswerCount($this->getQuestionId());
-        var_dump($question); 
-        var_dump($answer);
+        $question->setAnswerCount($question->updateAnswerCount($this->getQuestion));
         $em->persist($question);
         $em->flush();
     }
