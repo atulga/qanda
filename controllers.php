@@ -115,7 +115,8 @@ function answer_delete_action($answer_id)
     }
     $em->remove($answer);
     $em->flush();
-    $question->setAnswerCount($question->updateAnswerCount($question->getId()));
+    $num_answers = Hariult::getCountByQuestionId($question->getId());
+    $question->setAnswerCount($num_answers);
     $em->persist($question);
     $em->flush();
     redirect('show?question_id='.get_param('question_id'));
