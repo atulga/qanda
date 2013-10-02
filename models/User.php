@@ -152,7 +152,7 @@ class User
         return $this->description;
     }
 
-    static public function getByName($name)
+    static public function getByName($name=null)
     {
         global $em;
         $user = $em->getRepository('User')

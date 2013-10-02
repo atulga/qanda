@@ -6,9 +6,6 @@ error_reporting(E_ALL);
 
 require_once 'bootstrap.php';
 require_once 'local_settings.php';
-require_once 'models/Asuult.php';
-require_once 'models/Hariult.php';
-require_once 'models/User.php';
 require_once 'model.php';
 require_once 'controllers.php';
 require_once 'helpers.php';

@@ -1,8 +1,6 @@
 <?php
-
-
-
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Query;
 
 /**
  * Asuult
@@ -13,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Asuult
 {
     static public $_table = 'asuult';
-    protected $_values = array();
 
     /**
      * @var integer
@@ -221,17 +218,22 @@ class Asuult
         return $this->getBestAnswerId() > 0;
     }
 
-    public function toArray()
+    static public function getById($id, $as_array=false)
     {
-        return $this->_values;
-    }
-
-    static public function getById($id)
-    {
-        global $em;
-        $question = $em->getRepository('Asuult')
-                   ->findOneBy(array('id' => $id));
-        return $question;
+        global $qb;
+        $query = $qb->select('a')
+            ->from('Asuult', 'a')
+            ->where('a.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+        //var_dump($as_array);
+        if ($as_array){
+            $q = $query->getSingleResult();
+        }else{
+            $q = $query->getSingleResult();
+        }
+        //var_dump($q); die();
+        return $q;
     }
 
     static public function getQuestionCount()

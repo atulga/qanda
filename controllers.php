@@ -1,4 +1,6 @@
 <?php
+use Doctrine\ORM\Query;
+
 function user_logout_action()
 {
     session_destroy();
@@ -80,7 +82,6 @@ function question_show_action($question_id)
 
 function question_add_edit_action($question_id = null)
 {
-    
     $form = new QuestionForm();
     if ($_POST){
         $form->populate($_POST);
@@ -95,8 +96,8 @@ function question_add_edit_action($question_id = null)
         }
     } else {
         if(!($question_id == null)){
-            $question = Asuult::getById($question_id);
-            $form->populate($question->toArray());
+            $question_values = Asuult::getById($question_id, true);
+            $form->populate($question_values);
         }
     }
     if($question_id == null)
@@ -123,9 +124,11 @@ function answer_delete_action($answer_id)
 
 function answer_set_best_action($question_id)
 {
-    $question = Question::getById($question_id);
+    global $em;
+    $question = Asuult::getById($question_id);
     $question->setBestAnswerId(get_param('answer_id'));
-    $question->save();
+    $em->persist($question);
+    $em->flush();
     redirect('show?question_id='.$question_id);
 }
 

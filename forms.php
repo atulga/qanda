@@ -57,8 +57,10 @@ class LoginForm extends BaseForm
         $this->validate_required('name', 'Нэрээ оруулна уу!');
         $this->validate_required('password', 'Нууц үгээ оруулна уу!');
         $user = User::getByName($this->getName());
-        if($this->getPassword() != $user->getPassword()){
-            $this->_errors['password'] = 'Nuuts vg buruu bn';
+        if($user){
+            if($this->getPassword() != $user->getPassword()){
+                $this->_errors['password'] = 'Нууц үг буруу байна!';
+            }
         }
         return count($this->_errors) > 0;
     }
@@ -146,12 +148,11 @@ class AnswerForm extends BaseForm
         $answer->setAnswer($this->getAnswer());
         $answer->setQuestionId($this->getQuestionId());
         $answer->setCreatedDate(date_create(date('Y-m-d H:i:s')));
-        $em->persist($answer);
-        $em->flush();
 
-        $question = Asuult::getById($this->getQuestionId());
-        $question->updateAnswerCount($this->getQuestionId());
-        $em->persist($question);
+        //$question = Asuult::getById($this->getQuestionId());
+        //$question->updateAnswerCount($this->getQuestionId());
+
+        $em->persist($answer);
         $em->flush();
     }
 }

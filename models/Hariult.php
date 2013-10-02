@@ -214,11 +214,12 @@ class Hariult
     static public function getCountByQuestionId($question_id)
     {
         global $em;
-        echo "bal bla";
         $filter = array('questionId' => $question_id);
-        $result = $em->getRepository('Hariult')
-            ->findBy($filter);
-        $count = count($result);
+        $dql = 'SELECT COUNT(h.id) FROM hariult h '.
+               'WHERE h.question_id=:question_id';
+        $count = $em->createQuery($dql)
+                    ->setParameters($filter)
+                    ->getSingleScalarResult();
         return $count;
     }
 
