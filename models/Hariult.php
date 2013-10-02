@@ -197,8 +197,10 @@ class Hariult
         $filter = array('questionId' => $question_id);
         $answers = $em->getRepository('Hariult')
             ->findBy($filter);
-        $em->remove($answers);
-        $em->flush();
+        foreach($answers as $answer){
+            $em->remove($answer);
+            $em->flush();
+        }
     }
     
     static public function getLastFiveAnswersByUserId($user_id)
@@ -214,12 +216,11 @@ class Hariult
     static public function getCountByQuestionId($question_id)
     {
         global $em;
-        echo "bal bla";
         $filter = array('questionId' => $question_id);
         $result = $em->getRepository('Hariult')
             ->findBy($filter);
-        $count = count($result);
-        return $count;
+        $question_count = count($result);
+        return $question_count;
     }
 
 }

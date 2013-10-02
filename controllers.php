@@ -80,7 +80,6 @@ function question_show_action($question_id)
 
 function question_add_edit_action($question_id = null)
 {
-    
     $form = new QuestionForm();
     if ($_POST){
         $form->populate($_POST);
@@ -114,8 +113,7 @@ function answer_delete_action($answer_id)
         $question->setBestAnswerId('0');
     }
     $em->remove($answer);
-    $em->flush(); 
-    $question->updateAnswerCount();
+    $question->updateAnswerCount($question_id);
     $em->persist($question);
     $em->flush();
     redirect('show?question_id='.get_param('question_id'));
@@ -123,9 +121,11 @@ function answer_delete_action($answer_id)
 
 function answer_set_best_action($question_id)
 {
-    $question = Question::getById($question_id);
+    global $em;
+    $question = Asuult::getById($question_id);
     $question->setBestAnswerId(get_param('answer_id'));
-    $question->save();
+    $em->persist($question);
+    $em->flush();
     redirect('show?question_id='.$question_id);
 }
 
@@ -133,6 +133,7 @@ function question_delete_action($question_id)
 {
     global $em;
     $question = Asuult::getById($question_id);
+    Hariult::deleteByQuestionId($question_id);
     $em->remove($question);
     $em->flush();
     redirect('/qanda/index.php');

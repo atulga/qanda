@@ -57,7 +57,7 @@ class Asuult
      *
      * @Column(name="answer_count", type="integer", nullable=false)
      */
-    private $answerCount = 0;
+    private $answerCount;
 
     /**
      * @var integer
