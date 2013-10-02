@@ -53,9 +53,9 @@ function question_list_action($page = 1)
 {
     $pager = new Paginator();
     if($_GET){
-    $pager->setCurrentPage(get_param('page'));
+        $pager->setCurrentPage(get_param('page'));
     }else{
-    $pager->setCurrentPage(1);
+        $pager->setCurrentPage(1);
     }
     $questions = Question::getQuestions($pager->getCurrentPage());
 
