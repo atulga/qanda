@@ -10,7 +10,7 @@
         <?php echo "Нэр: ".User::getUserNameById($question->getUserId());?>
   </td>
     <td align="right">
-        <?php echo "Огноо: ".$question->getCreatedDate() ?>
+        <?php //echo "Огноо: ".$question->getCreatedDate() ?>
     </td>
   </tr>
     <tr>

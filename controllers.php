@@ -57,14 +57,14 @@ function question_list_action($page = 1)
     }else{
     $pager->setCurrentPage(1);
     }
-    $questions = Question::getQuestions($pager->getCurrentPage());
+    $questions = Asuult::getQuestions($pager->getCurrentPage());
 
     require 'templates/list.php';
 }
 
 function question_show_action($question_id)
 {
-    $question = Question::getById($question_id);
+    $question = Asuult::getById($question_id);
 
     $form_answer = new AnswerForm();
     if ($_POST){
@@ -80,12 +80,13 @@ function question_show_action($question_id)
 
 function question_add_edit_action($question_id = null)
 {
+    
     $form = new QuestionForm();
     if ($_POST){
         $form->populate($_POST);
         $has_errors = $form->validate();
         if (!$has_errors){
-            $form->save();
+            $form->save(); 
             if($question_id == null){
                 redirect('/qanda/index.php');
             } else {
@@ -94,7 +95,7 @@ function question_add_edit_action($question_id = null)
         }
     } else {
         if(!($question_id == null)){
-            $question = Question::getById($question_id);
+            $question = Asuult::getById($question_id);
             $form->populate($question->toArray());
         }
     }
@@ -108,14 +109,15 @@ function answer_delete_action($answer_id)
 {
     global $em;
     $answer = Hariult::getById($answer_id);
-    $question = Question::getById(get_param('question_id'));
+    $question = Asuult::getById(get_param('question_id'));
     if($question->getBestAnswerId() == $answer_id){
         $question->setBestAnswerId('0');
     }
     $em->remove($answer);
     $em->flush(); 
     $question->updateAnswerCount();
-    $question->save();
+    $em->persist($question);
+    $em->flush();
     redirect('show?question_id='.get_param('question_id'));
 }
 
@@ -129,16 +131,18 @@ function answer_set_best_action($question_id)
 
 function question_delete_action($question_id)
 {
-    $question = Question::getById($question_id);
-    $question->delete();
+    global $em;
+    $question = Asuult::getById($question_id);
+    $em->remove($question);
+    $em->flush();
     redirect('/qanda/index.php');
 }
 
 function user_profile_action($id)
 {
     $user = User::getById($id);
-    $questions = Question::getLastFiveQuestionsByUserId($id);
-    $question_count = Question::getQuestionCountByUserId($id);
+    $questions = Asuult::getLastFiveQuestionsByUserId($id);
+    $question_count = Asuult::getQuestionCountByUserId($id);
     $answer_count = Hariult::getAnswerCountByUserId($id);
     $answers = Hariult::getLastFiveAnswersByUserId($id);
     $isme = $_SESSION['id'] == $id;

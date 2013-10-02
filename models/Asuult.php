@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Asuult
 {
     static public $_table = 'asuult';
+    protected $_values = array();
 
     /**
      * @var integer
@@ -56,7 +57,7 @@ class Asuult
      *
      * @Column(name="answer_count", type="integer", nullable=false)
      */
-    private $answerCount;
+    private $answerCount = 0;
 
     /**
      * @var integer
@@ -202,7 +203,7 @@ class Asuult
     {
         $this->userId = $userId;
 
-        return $this;
+        return $this;;
     }
 
     /**
@@ -225,12 +226,21 @@ class Asuult
         return $this->_values;
     }
 
+    static public function getById($id)
+    {
+        global $em;
+        $question = $em->getRepository('Asuult')
+                   ->findOneBy(array('id' => $id));
+        return $question;
+    }
+
     static public function getQuestionCount()
     {
         global $em;
-        $dql = 'SELECT COUNT(a.id) FROM'.self::$_table.' a';
-        $query = $em->createQuery($dql);
-        $count = $query->getSingleScalarResult();
+        $filter = array();
+        $result = $em->getRepository('Asuult')
+            ->findBy($filter);
+        $count = count($result);
         return $count;
     }
     
@@ -240,9 +250,9 @@ class Asuult
         $filter = array();
         $order = array('createdDate' => 'DESC');
         $one_page_rows = 5;
-        $page = ($page -1) * $one_page_rows;
+        $offset = ($page -1) * $one_page_rows;
         $questions = $em->getRepository('Asuult')
-            ->findBy($filter, $order, $one_page_rows, $page);
+            ->findBy($filter, $order, $one_page_rows, $offset);
         return $questions;
     }
 
@@ -266,30 +276,20 @@ class Asuult
 
     static public function getLastFiveQuestionsByUserId($user_id)
     {
-        $format = "SELECT * FROM %s where user_id=%s order by
-            created_date desc limit 5";
-        $sql = sprintf($format, self::$_table, $user_id);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        $questions = array();
-        while ($values = mysql_fetch_array($r))
-        {
-            $question = new Question();
-            $question->populate($values);
-            $questions[] = $question;
-        }
-        self::close_database();
+        global $em;
+        $filter = array('userId' => $user_id);
+        $order = array('createdDate' => 'DESC');
+        $questions = $em->getRepository('Asuult')
+            ->findBy($filter, $order, 5);
         return $questions;
     }
 
     static public function getQuestionCountByUserId($user_id){
-        $format = "SELECT COUNT(question) FROM %s WHERE user_id=%s";
-        $sql = sprintf($format, self::$_table, $user_id);
-        self::connect_to_database();
-        $r = mysql_query($sql);
-        $values = mysql_fetch_array($r);
-        self::close_database();
-        $question_count = $values[0];
+        global $em;
+        $filter = array('userId' => $user_id);
+        $result = $em->getRepository('Asuult')
+            ->findBy($filter);
+        $question_count = count($result);
         return $question_count;
     }
 }

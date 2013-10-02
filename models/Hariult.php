@@ -191,7 +191,7 @@ class Hariult
         return $answer_count;
     }
 
-    public function deleteByQuestionId($question_id)
+    static public function deleteByQuestionId($question_id)
     {
         global $em;
         $filter = array('questionId' => $question_id);
@@ -214,6 +214,7 @@ class Hariult
     static public function getCountByQuestionId($question_id)
     {
         global $em;
+        echo "bal bla";
         $filter = array('questionId' => $question_id);
         $result = $em->getRepository('Hariult')
             ->findBy($filter);
