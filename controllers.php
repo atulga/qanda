@@ -73,10 +73,12 @@ function question_show_action($question_id)
         $has_errors = $form_answer->validate();
         if (!$has_errors){
             $form_answer->save();
-            redirect('show?question_id='.$form_answer->getQuestionId().'&message=Хариулт ажмилттай нэмэгдлээ');
+            redirect('show?question_id='.$form_answer->getQuestionId().'&message=Хариулт
+                амжилттай нэмэгдлээ');
         }
     }
     require 'templates/show.php';
+    $em->flush();
 }
 
 function question_add_edit_action($question_id = null)
@@ -119,7 +121,8 @@ function answer_delete_action($answer_id)
     $question->setAnswerCount($num_answers);
     $em->persist($question);
     $em->flush();
-    redirect('show?question_id='.get_param('question_id'));
+    redirect('show?question_id='.get_param('question_id').'&message=Хариулт
+        устгагдлаа');
 }
 
 function answer_set_best_action($question_id)
@@ -139,7 +142,7 @@ function question_delete_action($question_id)
     Answer::deleteByQuestionId($question_id);
     $em->remove($question);
     $em->flush();
-    redirect('/qanda/index.php');
+    redirect('/qanda/index.php/list?page=1&message=Асуулт устгагдлаа');
 }
 
 function user_profile_action($id)
