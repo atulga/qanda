@@ -51,14 +51,10 @@ function user_register_action()
 
 function question_list_action($page = 1)
 {
-    $pager = new Paginator();
-    if(has_get('page')){
-    $pager->setCurrentPage(get_param('page'));
-    }else{
-    $pager->setCurrentPage(1);
+    if (has_get('page')) {
+        $pager = new Paginator('Question', get_param('page'));
     }
-    $questions = Question::getQuestions($pager->getCurrentPage());
-
+    $questions = $pager->fetch();
     require 'templates/list.php';
 }
 

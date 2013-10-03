@@ -37,8 +37,8 @@ H:i:s') ?></td>
 
 <ul class="pagination">
 <?php
-foreach ($pager->getPages() as $page) {
-    if ($pager->getCurrentPage() == $page){ ?>
+foreach ($pager->pages as $page) {
+    if ($pager->current_page == $page){ ?>
         <li class="active"><span><?php echo $page; ?></span></li>
    <?php } else{ ?>
         <li class="disabled"><a href="?page=<?php echo $page ?>"><?php echo $page ?></a></li>
