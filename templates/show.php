@@ -4,13 +4,13 @@
 <table border="0" width="100%">
     <tr>
       <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
-    </tr> 
+    </tr>
   <tr>
     <td>
         <?php echo "Нэр: ".User::getUserNameById($question->getUserId());?>
   </td>
     <td align="right">
-        <?php echo "Огноо: ".$question->getCreatedDate() ?>
+        <?php echo "Огноо: ".$question->getCreatedDate()->format('Y-m-d H:i:s') ?>
     </td>
   </tr>
     <tr>
@@ -42,7 +42,7 @@
  <tr>
   <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
     <td align="right">
-        <?php echo $answer->getCreatedDate() ?>
+        <?php echo $answer->getCreatedDate()->format('Y-m-d H:i:s') ?>
     </td>
  </tr>
   <tr>

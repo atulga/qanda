@@ -55,7 +55,7 @@ function question_list_action($page = 1)
     if(has_get('page')){
     $pager->setCurrentPage(get_param('page'));
     }else{
-    $pager->setCUrrentPage(1);
+    $pager->setCurrentPage(1);
     }
     $questions = Question::getQuestions($pager->getCurrentPage());
 
@@ -64,7 +64,8 @@ function question_list_action($page = 1)
 
 function question_show_action($question_id)
 {
-    $question = Question::getById($question_id);
+    global $em;
+    $question = $em->find('Question', $question_id);
 
     $form_answer = new AnswerForm();
     if ($_POST){
@@ -94,8 +95,8 @@ function question_add_edit_action($question_id = null)
         }
     } else {
         if(!($question_id == null)){
-            $question = Question::getById($question_id);
-            $form->populate($question->toArray());
+            $question_values = Question::getById($question_id, true);
+            $form->populate($question_values);
         }
     }
     if($question_id == null)
@@ -106,29 +107,38 @@ function question_add_edit_action($question_id = null)
 
 function answer_delete_action($answer_id)
 {
+    global $em;
     $answer = Answer::getById($answer_id);
     $question = Question::getById(get_param('question_id'));
     if($question->getBestAnswerId() == $answer_id){
         $question->setBestAnswerId('0');
     }
-    $answer->delete();
-    $question->updateAnswerCount();
-    $question->save();
+    $em->remove($answer);
+    $em->flush();
+    $num_answers = Answer::getCountByQuestionId($question->getId());
+    $question->setAnswerCount($num_answers);
+    $em->persist($question);
+    $em->flush();
     redirect('show?question_id='.get_param('question_id'));
 }
 
 function answer_set_best_action($question_id)
 {
+    global $em;
     $question = Question::getById($question_id);
     $question->setBestAnswerId(get_param('answer_id'));
-    $question->save();
+    $em->persist($question);
+    $em->flush();
     redirect('show?question_id='.$question_id);
 }
 
 function question_delete_action($question_id)
 {
+    global $em;
     $question = Question::getById($question_id);
-    $question->delete();
+    Answer::deleteByQuestionId($question_id);
+    $em->remove($question);
+    $em->flush();
     redirect('/qanda/index.php');
 }
 
@@ -155,7 +165,10 @@ function user_profile_edit_action()
             redirect('profile?user_id='.$form->getId());
         }
      }else {
-            $form->populate($user->toArray());
+         $user_profile = array( 'nickname' => $user->getNickname(),
+                        'description' => $user->getDescription(),
+                        'id' => $user->getId());
+        $form->populate($user_profile);
      }
     require 'templates/profile_edit.php';
 }

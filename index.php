@@ -4,8 +4,8 @@ session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+require_once 'bootstrap.php';
 require_once 'local_settings.php';
-require_once 'model.php';
 require_once 'controllers.php';
 require_once 'helpers.php';
 require_once 'forms.php';
@@ -62,4 +62,5 @@ if (uri_is('/')){
     echo '<html><body><h2>File Not Found!</h2></body></html>';
 }
 
+$em->flush();
 ?>
