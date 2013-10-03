@@ -36,7 +36,7 @@ class Paginator
 
 }
 
-function logid_in()
+function logged_in()
 {
     return isset($_SESSION['id']);
 }

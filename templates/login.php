@@ -1,6 +1,6 @@
 <?php $title = "Нэвтрэх хэсэг"?>
 <?php ob_start() ?>
-<?php if (has_get('message')) echo get_param('message'); ?>
+
 <form method="POST" action="">
 <?php if($form->getError('name')){ ?>
 <div class="form-group has-error">

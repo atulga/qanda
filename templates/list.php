@@ -1,5 +1,6 @@
 <?php $title = 'Асуултууд' ?>
 <?php ob_start() ?>
+
 <table border="0" width="100%">
 <?php foreach ($questions as $question){ ?>
   <tr>
