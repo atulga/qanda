@@ -196,8 +196,8 @@ class Answer
             ->findBy($filter);
         foreach($answers as $answer){
             $em->remove($answer);
-            $em->flush();
         }
+        $em->flush();
     }
 
     static public function getLastFiveAnswersByUserId($user_id)
