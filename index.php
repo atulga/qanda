@@ -23,8 +23,8 @@ if ($uri_filtered == '/qanda/' || $uri_filtered == '/qanda/index.php'){
 
 if (uri_is('/')){
     question_list_action();
-} elseif (uri_is('/list') && has_get('page')){
-    question_list_action(get_param('page'));
+} elseif (uri_is('/list') && has_get('page') && has_get('message')){
+    question_list_action(get_param('page'), get_param('message'));
 } elseif (uri_is('/show') && has_get('question_id')){
     question_show_action(get_param('question_id'));
 } elseif (uri_is('/logout')){
@@ -40,7 +40,7 @@ if (uri_is('/')){
 } elseif (uri_is('/register')){
     user_register_action();
 } elseif (uri_is('/question_add')){
-    if(logid_in()){
+    if(logged_in()){
         question_add_edit_action();
     } else {
         user_login_action();
@@ -56,7 +56,7 @@ if (uri_is('/')){
 } else if (uri_is('/profile') ){
     user_profile_action(get_param('user_id'));
 } else if (uri_is('/profile_edit')){
-    user_profile_edit_action(logid_in());
+    user_profile_edit_action(logged_in());
 }else {
     header('Status:404 Not Found');
     echo '<html><body><h2>File Not Found!</h2></body></html>';

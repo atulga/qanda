@@ -49,7 +49,7 @@ function user_register_action()
     require 'templates/register.php';
 }
 
-function question_list_action($page = 1)
+function question_list_action($page = 1, $message=null)
 {
     $pager = new Paginator();
     if($_GET){
@@ -73,7 +73,7 @@ function question_show_action($question_id)
         $has_errors = $form_answer->validate();
         if (!$has_errors){
             $form_answer->save();
-            redirect('show?question_id='.$form_answer->getQuestionId());
+            redirect('show?question_id='.$form_answer->getQuestionId().'&message=Хариулт ажмилттай нэмэгдлээ');
         }
     }
     require 'templates/show.php';
@@ -88,9 +88,9 @@ function question_add_edit_action($question_id = null)
         if (!$has_errors){
             $form->save();
             if($question_id == null){
-                redirect('/qanda/index.php');
+                redirect('list?page=1&message=Асуулт амжилттай нэмэгдлээ');
             } else {
-                redirect('show?question_id='.$form->getId());
+                redirect('show?question_id='.$form->getId().'&message=Асуулт амжилттай засагдлаа');
             }
         }
     } else {
@@ -162,7 +162,7 @@ function user_profile_edit_action()
         $has_errors = $form->validate();
         if (!$has_errors){
             $form->save();
-            redirect('profile?user_id='.$form->getId());
+            redirect('profile?user_id='.$form->getId().'&message=Хувийн мэдээлэл амжилттай засагдлаа');
         }
      }else {
          $user_profile = array( 'nickname' => $user->getNickname(),

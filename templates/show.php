@@ -1,6 +1,12 @@
 <?php $title = $question->getTitle() ?>
 <?php ob_start(); ?>
 
+<?php if (has_get('message')) {?>
+    <div class="alert alert-success">
+        <?php echo get_param('message'); ?>
+    </div>
+<?php } ?>
+
 <table border="0" width="100%">
     <tr>
       <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
@@ -22,7 +28,7 @@
   <tr>
     <td>
         <?php
-           if (logid_in()){
+           if (logged_in()){
                 if ($_SESSION['id'] == $question->getUserId()){ ?>
             <a href="question_edit?question_id=<?php echo $question->getId() ?>">
             Засах
@@ -56,7 +62,7 @@
    <tr>
     <td>
         <?php
-            if (logid_in()){
+            if (logged_in()){
             if ($_SESSION['id'] == $answer->getUserId()){
         ?>
     <a href="delete_answer?answer_id=<?php echo $answer->getId()
@@ -70,7 +76,7 @@
             if($answer->getId() == $question->getBestAnswerId()){
                 echo "<strong>*Зөв хариулт</strong>";
             } else {
-            if (logid_in()){
+            if (logged_in()){
                 if ($_SESSION['id'] == $question->getUserId()){
         ?>
         <a href="best_answer?question_id=<?php echo $question->getId() ?>
@@ -90,7 +96,7 @@
 
 <h3>Хариулт бичих</h3>
 
-<?php if (logid_in()){?>
+<?php if (logged_in()){?>
 <form method="POST" action="">
 <label for="Answer">Хариулт:</label>
 <?php if($form_answer->getError('answer')){ ?>

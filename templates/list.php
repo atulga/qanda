@@ -1,5 +1,10 @@
 <?php $title = 'Асуултууд' ?>
 <?php ob_start() ?>
+<?php if ($message) {?>
+    <div class="alert alert-success">
+        <?php echo $message; ?>
+    </div>
+<?php } ?>
 <table border="0" width="100%">
 <?php foreach ($questions as $question){ ?>
   <tr>

@@ -24,11 +24,10 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active">
             <li><a href="/qanda/index.php">Нүүр хуудас</a></li>
              <li><a href="question_add">Асуулт оруулах</a></li>
-            <?php if(logid_in()){ ?>
-                    <li><a href="profile?user_id=<?php echo $_SESSION['id'] ?> "><?php echo $_SESSION['name'] ; ?></a></li> 
+            <?php if(logged_in()){ ?>
+                    <li><a href="profile?user_id=<?php echo $_SESSION['id'] ?> "><?php echo $_SESSION['name'] ; ?></a></li>
                     <li><a href="logout">Гарах</a></li>
                 <?php } else {?>
                     <li><a href="login">Нэвтрэх</a></li>
@@ -39,7 +38,7 @@
     </div>
 
      <div class="container">
-            <?php echo $content ?> 
+            <?php echo $content ?>
       </div>
 
     </div><!-- /.container -->
