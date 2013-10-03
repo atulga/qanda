@@ -1,3 +1,6 @@
 *.swp
 local_settings.php
 *~
+
+# ignore vendor files
+vendor
