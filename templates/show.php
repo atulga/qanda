@@ -1,11 +1,7 @@
 <?php $title = $question->getTitle() ?>
 <?php ob_start(); ?>
 
-<?php if (has_get('message')) {?>
-    <div class="alert alert-success">
-        <?php echo get_param('message'); ?>
-    </div>
-<?php } ?>
+
 
 <table border="0" width="100%">
     <tr>

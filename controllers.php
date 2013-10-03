@@ -20,7 +20,7 @@ function user_login_action($question_id = null)
                     $_SESSION['password'] = $user->getPassword();
                     $uri = $_SERVER['REQUEST_URI'];
                     if ($uri == '/qanda/index.php/login' || has_get('message')){
-                        redirect('/qanda/index.php');
+                        redirect('list?page=1&message=Амжилттай нэвтэрлээ');
                     } elseif ($question_id > 0){
                         redirect('show?question_id='.$question_id);
                     } elseif ($uri == '/qanda/index.php/question_add'){

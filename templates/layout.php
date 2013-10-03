@@ -36,8 +36,13 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
+    
      <div class="container">
+        <?php if (has_get('message')) {?>
+    <div class="alert alert-success">
+        <?php echo get_param('message'); ?>
+    </div>
+    <?php } ?>
             <?php echo $content ?>
       </div>
 
