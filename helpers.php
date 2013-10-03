@@ -1,36 +1,4 @@
-<?php 
-/* 
-class Paginator 
-{ 
-    protected $cur_page = 1; // anhnii utga 
-    protected $tot_page = NULL;
-    protected $one_page_per = 5;
-
-    function getPages()
-    {
-        $arr = array();
-        $totpage = ceil(Question::getQuestionCount() / $this->one_page_per);
-        for($i=0; $i<$totpage; $i++){
-            $arr[$i] = $i+1;
-        }
-        return $arr;
-    }
-
-    function getCurrentPage()
-    {
-        return $this->cur_page;
-    }
-
-    function setCurrentPage($page = 1)
-    {
-        $this->cur_page = $page;
-    }
-}
- */
-
-
-
-
+<?php
 class Paginator
 {
     public $model_name;
@@ -40,9 +8,9 @@ class Paginator
 
     public function __construct($model_name, $current_page = 1, $one_page_per=5)
     {
-        $this->model_name = $model_name; 
+        $this->model_name = $model_name;
         $this->current_page = $current_page;
-        $this->one_page_per = $one_page_per; 
+        $this->one_page_per = $one_page_per;
 
         global $em;
         $result = $em->getRepository($this->model_name)
@@ -53,7 +21,7 @@ class Paginator
         for ($i = 0; $i < $total_page; $i++){
             $this->pages[$i] = $i+1;
         }
-    } 
+    }
 
     public function fetch()
     {
@@ -67,12 +35,6 @@ class Paginator
     }
 
 }
-
-
-
-
-
-    
 
 function logid_in()
 {
