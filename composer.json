@@ -1,0 +1,9 @@
+{
+    "require": {
+        "doctrine/orm": "2.4.*"
+    },
+    "autoload": {
+        "psr-0": {"": "models/"}
+    },
+    "minimum-stability" : "dev"
+}

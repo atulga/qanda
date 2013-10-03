@@ -4,13 +4,14 @@
 <table border="0" width="100%">
     <tr>
       <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
-    </tr> 
+    </tr>
   <tr>
     <td>
-        <?php echo "Нэр: ".User::getUserNameById($question->getUserId());?>
+        Нэр: <a href="/qanda/index.php/profile?user_id=<?php echo $question->getUserId() ?> ">
+            <?php echo User::getUserNameById($question->getUserId());?></a>
   </td>
     <td align="right">
-        <?php echo "Огноо: ".$question->getCreatedDate() ?>
+        <?php echo "Огноо: ".$question->getCreatedDate()->format('Y-m-d H:i:s') ?>
     </td>
   </tr>
     <tr>
@@ -40,9 +41,13 @@
 <table border="0" width="100%">
     <?php foreach ($question->getAnswers() as $answer){?>
  <tr>
-  <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
+    <td>
+        <a href="/qanda/index.php/profile?user_id=<?php echo $question->getUserId() ?> ">
+            <?php echo User::getUserNameById($answer->getUserId()) ?>
+        </a>
+    </td>
     <td align="right">
-        <?php echo $answer->getCreatedDate() ?>
+        <?php echo $answer->getCreatedDate()->format('Y-m-d H:i:s') ?>
     </td>
  </tr>
   <tr>

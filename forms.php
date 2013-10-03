@@ -57,8 +57,10 @@ class LoginForm extends BaseForm
         $this->validate_required('name', 'Нэрээ оруулна уу!');
         $this->validate_required('password', 'Нууц үгээ оруулна уу!');
         $user = User::getByName($this->getName());
-        if($this->getPassword() != $user->getPassword()){
-            $this->_errors['password'] = 'Nuuts vg buruu bn';
+        if($user){
+            if($this->getPassword() != $user->getPassword()){
+                $this->_errors['password'] = 'Нууц үг буруу байна!';
+            }
         }
         return count($this->_errors) > 0;
     }
@@ -88,10 +90,12 @@ class RegisterForm extends BaseForm
 
     public function save()
     {
+        global $em;
         $user = new User();
         $user->setName($this->getName());
         $user->setPassword($this->getPassword());
-        $user->save();
+        $em->persist($user);
+        $em->flush();
     }
 }
 
@@ -108,17 +112,19 @@ class QuestionForm extends BaseForm
 
     public function save()
     {
-
+        global $em;
         if ($this->getId()) {  //update
             $question = Question::getById($this->getId());
         } else {  //add
             $question = new Question();
             $question->setUserId($_SESSION['id']);
+            $question->setCreatedDate(date_create(date('Y-m-d H:i:s')));
         }
 
         $question->setTitle($this->getTitle());
         $question->setQuestion($this->getQuestion());
-        $question->save();
+        $em->persist($question);
+        $em->flush();
     }
 }
 
@@ -134,15 +140,20 @@ class AnswerForm extends BaseForm
 
     public function save()
     {
+        global $em;
         $answer = new Answer();
         $answer->setUserId($_SESSION['id']);
         $answer->setAnswer($this->getAnswer());
         $answer->setQuestionId($this->getQuestionId());
-        $answer->save();
+        $answer->setCreatedDate(date_create(date('Y-m-d H:i:s')));
+        $em->persist($answer);
+        $em->flush();
 
-        $question = Question::getById($this->getQuestionId());
-        $question->updateAnswerCount($this->getQuestionId());
-        $question->save();
+        $question = $answer->getQuestion();
+        $num_answers = Answer::getCountByQuestionId($question->getId());
+        $question->setAnswerCount($num_answers);
+        $em->persist($question);
+        $em->flush();
     }
 }
 
@@ -158,11 +169,13 @@ class ProfileForm extends BaseForm{
 
     public function save()
     {
+        global $em;
         if ($this->getId()) {
           $profile = User::getById($this->getId());
           $profile->setNickname($this->getNickname());
           $profile->setDescription($this->getDescription());
-          $profile->save();
+          $em->persist($profile);
+          $em->flush();
         }
     }
 }
