@@ -149,7 +149,7 @@ function user_profile_action($id)
     $question_count = Question::getQuestionCountByUserId($id);
     $answer_count = Answer::getAnswerCountByUserId($id);
     $answers = Answer::getLastFiveAnswersByUserId($id);
-    $isme = $_SESSION['id'] == $id;
+    $isme = (isset($_SESSION['id']) ? $_SESSION['id'] == $id : false);
     require 'templates/profile.php';
 }
 
