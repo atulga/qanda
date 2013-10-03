@@ -1,13 +1,20 @@
 <?php $title = $question->getTitle() ?>
 <?php ob_start(); ?>
 
+<?php if (has_get('message')) {?>
+    <div class="alert alert-success">
+        <?php echo get_param('message'); ?>
+    </div>
+<?php } ?>
+
 <table border="0" width="100%">
     <tr>
       <td colspan="2"><h2><?php echo $question->getTitle(); ?></h2></td>
     </tr>
   <tr>
     <td>
-        <?php echo "Нэр: ".User::getUserNameById($question->getUserId());?>
+        Нэр: <a href="/qanda/index.php/profile?user_id=<?php echo $question->getUserId() ?> ">
+            <?php echo User::getUserNameById($question->getUserId());?></a>
   </td>
     <td align="right">
         <?php echo "Огноо: ".$question->getCreatedDate()->format('Y-m-d H:i:s') ?>
@@ -21,7 +28,7 @@
   <tr>
     <td>
         <?php
-           if (logid_in()){
+           if (logged_in()){
                 if ($_SESSION['id'] == $question->getUserId()){ ?>
             <a href="question_edit?question_id=<?php echo $question->getId() ?>">
             Засах
@@ -40,7 +47,11 @@
 <table border="0" width="100%">
     <?php foreach ($question->getAnswers() as $answer){?>
  <tr>
-  <td><?php echo User::getUserNameById($answer->getUserId()) ?></td>
+    <td>
+        <a href="/qanda/index.php/profile?user_id=<?php echo $question->getUserId() ?> ">
+            <?php echo User::getUserNameById($answer->getUserId()) ?>
+        </a>
+    </td>
     <td align="right">
         <?php echo $answer->getCreatedDate()->format('Y-m-d H:i:s') ?>
     </td>
@@ -51,7 +62,7 @@
    <tr>
     <td>
         <?php
-            if (logid_in()){
+            if (logged_in()){
             if ($_SESSION['id'] == $answer->getUserId()){
         ?>
     <a href="delete_answer?answer_id=<?php echo $answer->getId()
@@ -65,7 +76,7 @@
             if($answer->getId() == $question->getBestAnswerId()){
                 echo "<strong>*Зөв хариулт</strong>";
             } else {
-            if (logid_in()){
+            if (logged_in()){
                 if ($_SESSION['id'] == $question->getUserId()){
         ?>
         <a href="best_answer?question_id=<?php echo $question->getId() ?>
@@ -85,7 +96,7 @@
 
 <h3>Хариулт бичих</h3>
 
-<?php if (logid_in()){?>
+<?php if (logged_in()){?>
 <form method="POST" action="">
 <label for="Answer">Хариулт:</label>
 <?php if($form_answer->getError('answer')){ ?>

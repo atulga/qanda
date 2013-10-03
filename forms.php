@@ -162,8 +162,9 @@ class ProfileForm extends BaseForm{
     protected $_fields = array('nickname', 'description', 'id');
     public function validate()
     {
-        $this->validate_required('nickname', 'Please enter your name');
-        $this->validate_required('description', 'Please enter your description');
+        $this->validate_required('nickname', 'Өөрийн нэрийг оруулна уу');
+        $this->validate_required('description', 'Өөрийн тодорхойлолтыг оруулна
+            уу');
         return count($this->_errors) > 0;
     }
 

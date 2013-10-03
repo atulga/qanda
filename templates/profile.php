@@ -2,6 +2,12 @@
 ob_start();
 ?>
 
+<?php if (has_get('message')) {?>
+    <div class="alert alert-success">
+        <?php echo get_param('message'); ?>
+    </div>
+<?php } ?>
+
 <?php if($isme){ ?>
      <h4> <a href="profile_edit">Хувийн мэдээлэл засах</a></h4>
 <?php } else { ?>
