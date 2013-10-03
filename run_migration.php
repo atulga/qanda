@@ -14,7 +14,7 @@ foreach ($files as $file) {
     if (preg_match('/^migrate.+.\.sql$/', $file)){
         $migration = Migration::getByFileName($file);
         if (!($migration instanceof Migration)){
-            echo $file."\n"; 
+            echo $file."\n";
             $sql_content = file_get_contents($dir_path.$file);
             // run each query separately
             $queries = explode(";", $sql_content);
