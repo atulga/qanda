@@ -1,0 +1,7 @@
+parameters:
+#    qanda_hello.example.class: Qanda\HelloBundle\Example
+
+services:
+#    qanda_hello.example:
+#        class: %qanda_hello.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

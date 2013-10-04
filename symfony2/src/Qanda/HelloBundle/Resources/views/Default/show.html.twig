@@ -1,0 +1,24 @@
+{% extends 'QandaHelloBundle::layout.html.twig' %}
+
+{% block body %}
+<h1>Show product</h1>
+
+<label>Category:</label>
+{% if product.category %}
+    {{ product.category.name }}<br/>
+{% else %}
+    &lt;no category&gt;<br/>
+
+{% endif %}
+
+
+<label>Name:</label>
+{{ product.name }}<br/>
+
+<label>Price:</label>
+{{ product.price }}<br/>
+
+<label>Description:</label>
+{{ product.description }}<br/>
+
+{% endblock %}

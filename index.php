@@ -1,4 +1,18 @@
 <?php
+
+require_once 'helpers.php';
+$uri = $_SERVER['REQUEST_URI'];
+if (strpos($uri, '?')){
+    $uri_filtered = strstr($uri, '?', true);
+} else {
+    $uri_filtered = $uri;
+}
+if (uri_is('/')){
+    //question_list_action();
+    require 'symfony2/web/app_dev.php';
+    exit();
+}
+
 session_start();
 
 ini_set('display_errors', 1);
@@ -7,23 +21,20 @@ error_reporting(E_ALL);
 require_once 'bootstrap.php';
 require_once 'local_settings.php';
 require_once 'controllers.php';
-require_once 'helpers.php';
 require_once 'forms.php';
 
-$uri = $_SERVER['REQUEST_URI'];
-if (strpos($uri, '?')){
-    $uri_filtered = strstr($uri, '?', true);
-} else {
-    $uri_filtered = $uri;
-}
+
 
 if ($uri_filtered == '/qanda/' || $uri_filtered == '/qanda/index.php'){
     redirect('/qanda/index.php/');
 }
 
-if (uri_is('/')){
-    question_list_action();
-} elseif (uri_is('/list') && has_get('page') && has_get('message')){
+
+
+
+
+
+if (uri_is('/list') && has_get('page') && has_get('message')){
     question_list_action(get_param('page'), get_param('message'));
 } elseif (uri_is('/show') && has_get('question_id')){
     question_show_action(get_param('question_id'));
@@ -59,7 +70,7 @@ if (uri_is('/')){
     user_profile_edit_action(logged_in());
 }else {
     header('Status:404 Not Found');
-    echo '<html><body><h2>File Not Found!</h2></body></html>';
+    echo '<html><body><h2>File Not 123 Found!</h2></body></html>';
 }
 
 $em->flush();
