@@ -7,8 +7,7 @@ if (strpos($uri, '?')){
 } else {
     $uri_filtered = $uri;
 }
-if (uri_is('/')){
-    //question_list_action();
+if (preg_match('/^\/qanda\/index\.php\/_wdt\/.*/i', $uri_filtered) || uri_is('/')){
     require 'symfony2/web/app_dev.php';
     exit();
 }
