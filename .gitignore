@@ -3,4 +3,5 @@ local_settings.php
 *~
 
 # ignore vendor files
-vendor
+/vendor
+/symfony2/vendor
