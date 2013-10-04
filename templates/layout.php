@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="../bootstrap/assets/ico/favicon.png">
+    <link rel="shortcut icon" href="../static/bootstrap/assets/ico/favicon.png">
 
     <title><?php echo $title ?></title>
 
-    <link href="../bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 
   </head>
   <body>
@@ -45,7 +45,6 @@
       </div>
     </div><!-- /.container -->
 
-    <script src="../bootstrap/assets/js/jquery.js"></script>
-    <script src="../bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../static/bootstrap/dist/js/bootstrap.min.js"></script>
   </body>
 </html>
