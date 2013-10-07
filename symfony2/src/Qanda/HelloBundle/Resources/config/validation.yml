@@ -4,5 +4,10 @@ Qanda\HelloBundle\Entity\Product:
             - NotBlank: ~
         price:
             - NotBlank: ~
+            - Range:
+                min: 0.1
+                max: 500.0
+                minMessage: Please enter more than 0.1
+                maxMessage: Please enter less than 500
         description:
             - NotBlank: ~
