@@ -24,7 +24,7 @@ class DefaultController extends Controller
             ->getRepository('QandaHelloBundle:Product')
             ->findAll();
 
-        return array('products' => array());
+        return array('products' => $products);
     }
 
     /**

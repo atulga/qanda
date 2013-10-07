@@ -9,6 +9,10 @@ if (strpos($uri, '?')){
 
 $is_profile = preg_match('/^\/qanda\/index\.php\/_wdt\/.*/i', $uri_filtered);
 $is_profile |= preg_match('/^\/qanda\/index\.php\/_profiler\/.*/i', $uri_filtered);
+
+# Temporarily enable to run HelloBundle
+$is_profile |= preg_match('/^\/qanda\/index\.php\/hello\/.*/i', $uri_filtered);
+
 if ($is_profile || uri_is('/')){
     require 'symfony2/web/app_dev.php';
     exit();
