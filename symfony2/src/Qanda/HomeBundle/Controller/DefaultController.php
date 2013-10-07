@@ -22,9 +22,9 @@ class DefaultController extends Controller
      * @Template()
      */
     public function indexAction()
-    {   
+    {
         $page = $this->getRequest()->query->get('page');
-        $pager = new Paginator($this->getDoctrine(), 
+        $pager = new Paginator($this->getDoctrine(),
                             'QandaHomeBundle:Question', $page);
         $questions = $pager->fetch();
         return array('questions' => $questions, 'pager' => $pager);
@@ -35,7 +35,7 @@ class DefaultController extends Controller
      * @Template()
      */
     public function showAction()
-    {   
+    {
         $question_id = $this->getRequest()->query->get('question_id');
 
         $question = $this->getDoctrine()
@@ -57,7 +57,7 @@ class DefaultController extends Controller
      * @Template()
      */
     public function profileAction()
-    {   
+    {
         $user_id = $this->getRequest()->query->get('user_id');
 
         $user = $this->getDoctrine()
@@ -75,7 +75,22 @@ class DefaultController extends Controller
             ->getRepository('QandaHomeBundle:Answer')
             ->findBy($filter, $order, 5);
 
-        return array('user' => $user, 'questions' => $questions, 'answers' => $answers);
+        $answer_result = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Answer')
+            ->findBy($filter);
+        $total_answer = count($answer_result);
+
+        $question_result = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Question')
+            ->findBy($filter);
+        $total_question = count($question_result);
+
+        return array(
+            'user' => $user,
+            'questions' => $questions,
+            'answers' => $answers,
+            'total_answer' => $total_answer,
+            'total_question' => $total_question);
     }
 
 }

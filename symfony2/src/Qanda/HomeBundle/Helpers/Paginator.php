@@ -30,7 +30,7 @@ class Paginator
     {
         $filter = array();
         $order = array('createdDate' => 'DESC');
-        if ($this->current_page == null) { 
+        if ($this->current_page == null) {
             $this->current_page = 1;
         }
         $offset = ($this->current_page -1) * $this->one_page_per;

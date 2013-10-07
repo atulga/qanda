@@ -15,42 +15,35 @@
     </tr>
     <tr>
         <td width="50%"><b>Нийт хариултын тоо:</b></td>
-        <td></td>
+        <td>{{ total_answer }}</td>
     </tr>
     <tr>
         <td width="50%"><b>Нийт асуултын тоо:</b></td>
-        <td></td>
+        <td>{{ total_question }}</td>
     </tr>
 </table>
-{#
-<table border="0" width="100%">
-  <tr>
-    <td><b>Сүүлийн 5 хариулт: </b></td>
-  </tr>
-  <tr>
-    <?php foreach ($answers as $answer) { ?>
-      <td colspan="2" >
-        <a href = "/qanda/index.php/show?question_id=<?php echo
-$answer->getQuestionId();?>">
-        <?php echo nl2br($answer->getAnswer()) ?> </a>
-      </td>
-  </tr>
-    <?php } ?>
-<br>
-<br>
-  <tr>
-    <td>
-        <br><b>Сүүлийн 5 асуулт: </b><br>
-    </td>
-  </tr>
-    <?php foreach ($questions as $question){ ?>
-    <td colspan="2">
-        <a href="/qanda/index.php/show?question_id=<?php echo $question->getId(); ?>">
-            <?php echo $question->getTitle() ?></a>
-    </td>
-   </tr>
-    <?php } ?>
-</table>
-<?php $content = ob_get_clean() ?>
-#}
+<br/>
+<div>
+    <label><b>Сүүлийн 5 хариулт: </b></label>
+    <ul>
+    {% for answer in answers %}
+        <li>
+        <a href="{{ path("question_show", {'question_id': answer.questionId}) }}">
+            {{ answer.answer }}
+        </a>
+        </li>
+    {% endfor %}
+    </ul>
+    <br>
+    <label><b>Сүүлийн 5 асуулт: </b></label><br/>
+    <ul>
+    {% for question in questions %}
+        <li>
+        <a href="{{ path("question_show", {'question_id': question.id}) }}">
+            {{ question.title }}
+        </a>
+        </li>
+    {% endfor %}
+    </ul>
+<div>
 {% endblock %}
