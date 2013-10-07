@@ -3,6 +3,7 @@
 namespace Qanda\HelloBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -31,23 +32,42 @@ class DefaultController extends Controller
      * @Route("/add", name="product_add")
      * @Template()
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
-        $category = new Category();
-        $category->setName('Main Products');
+        /*
+        if (false){
+            $category = new Category();
+            $category->setName('Main Products');
 
+            $product = new Product();
+            $product->setName('New Product');
+            $product->setPrice('19.99');
+            $product->setDescription('Lorem ipsum dolor');
+            $product->setCategory($category);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($category);
+            $em->persist($product);
+            $em->flush();
+            return $this->redirect($this->generateUrl('product_list'));
+        }
+         */
+
+        // Create the Form
         $product = new Product();
-        $product->setName('New Product');
-        $product->setPrice('19.99');
-        $product->setDescription('Lorem ipsum dolor');
-        $product->setCategory($category);
+        $form = $this->createFormBuilder($product)
+            ->add('name', 'text')
+            ->add('price', 'text')
+            ->add('description', 'text')
+            ->add('save this product', 'submit')
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid()){
+            // TODO save this object to database
+            return $this->redirect($this->generateUrl('product_list'));
+        }
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($category);
-        $em->persist($product);
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('product_list'));
+        return array('product_form' => $form->createView());
     }
 
     /**

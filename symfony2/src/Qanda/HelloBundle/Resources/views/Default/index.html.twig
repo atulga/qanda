@@ -3,6 +3,8 @@
 {% block body %}
 <h1>Product List</h1>
 
+<a href="{{ path("product_add") }}">+ Add a product</a>
+
 <ul>
 {% for product in products %}
     <li>

@@ -1,0 +1,10 @@
+{% extends 'QandaHelloBundle::layout.html.twig' %}
+
+{% block body %}
+<h1>Product Add</h1>
+
+<a href="{{ path("product_list") }}">Back to product list</a>
+
+{{ form(product_form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+{% endblock %}
