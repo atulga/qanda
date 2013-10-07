@@ -24,16 +24,9 @@ require_once 'local_settings.php';
 require_once 'controllers.php';
 require_once 'forms.php';
 
-
-
 if ($uri_filtered == '/qanda/' || $uri_filtered == '/qanda/index.php'){
     redirect('/qanda/index.php/');
 }
-
-
-
-
-
 
 if (uri_is('/list') && has_get('page') && has_get('message')){
     question_list_action(get_param('page'), get_param('message'));

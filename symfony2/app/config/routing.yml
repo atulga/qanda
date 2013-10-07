@@ -1,3 +1,4 @@
-qanda_hello:
-    resource: "@QandaHelloBundle/Resources/config/routing.yml"
+qanda_home:
+    resource: "@QandaHomeBundle/Resources/config/routing.yml"
     prefix:   /
+

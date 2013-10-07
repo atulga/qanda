@@ -5,44 +5,34 @@ use Doctrine\ORM\Query;
 /**
  * User
  *
- * @Table(name="user", uniqueConstraints={@UniqueConstraint(name="name", columns={"name"})})
- * @Entity
+ * @ORM\Table(name="user", uniqueConstraints={@UniqueConstraint(name="name", columns={"name"})})
+ * @ORM\Entity
  */
 class User
 {
     /**
-     * @var integer
-     *
-     * @Column(name="id", type="integer", nullable=false)
-     * @Id
-     * @GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var string
-     *
      * @Column(name="password", type="text", nullable=false)
      */
     private $password;
 
     /**
-     * @var string
-     *
      * @Column(name="nickname", type="string", length=40, nullable=true)
      */
     private $nickname;
 
     /**
-     * @var string
-     *
      * @Column(name="name", type="string", length=250, nullable=false)
      */
     private $name;
 
     /**
-     * @var string
-     *
      * @Column(name="description", type="text", nullable=true)
      */
     private $description;

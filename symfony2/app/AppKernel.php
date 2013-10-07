@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             // Q and A
             new Qanda\HelloBundle\QandaHelloBundle(),
+            new Qanda\HomeBundle\QandaHomeBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

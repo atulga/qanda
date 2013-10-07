@@ -1,0 +1,41 @@
+{% extends 'QandaHomeBundle::layout.html.twig' %}
+
+{% block body %}
+<div>
+{% for question in questions %}
+
+<h4>
+    <a href="{{ path("/qanda/index.php/show", {'question_id': question.id}) }}"> 
+        {{ question.title }}
+    </a>
+</h4>
+
+<div>
+    {{ question.question }}
+</div>
+{% endfor %}
+</div>
+{#
+<ul>
+{% for Question in Questions %}
+
+    <li>
+        {% if Question.category %}
+            {{ product.category.name }}
+        {% else %}
+            &lt;no category&gt;
+        {% endif %}
+        :
+        <a href="{{ path("product_show", {'id': product.id}) }}">
+        {{ product.name }}
+        </a>
+        -
+        <a href="{{ path("product_delete", {'id': product.id}) }}">
+            X
+        </a>
+    </li>
+{% endfor %}
+</ul>
+#}
+
+{% endblock %}

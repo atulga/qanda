@@ -1,0 +1,6 @@
+#qanda_home_homepage:
+#    pattern:  /hello/{name}
+#    defaults: { _controller: QandaHomeBundle:Default:index }
+_qanda_annotations:
+    resource: "@QandaHomeBundle/Controller/DefaultController.php"
+    type:     annotation
