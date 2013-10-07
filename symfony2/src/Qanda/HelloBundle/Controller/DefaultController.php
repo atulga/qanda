@@ -20,10 +20,9 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        /*$products = $this->getDoctrine()
+        $products = $this->getDoctrine()
             ->getRepository('QandaHelloBundle:Product')
             ->findAll();
-         */
 
         return array('products' => array());
     }

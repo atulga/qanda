@@ -1,11 +1,13 @@
 <?php
+namespace Qanda\HomeBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Query;
 
 /**
  * User
  *
- * @ORM\Table(name="user", uniqueConstraints={@UniqueConstraint(name="name", columns={"name"})})
+ * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="name", columns={"name"})})
  * @ORM\Entity
  */
 class User
@@ -18,22 +20,22 @@ class User
     private $id;
 
     /**
-     * @Column(name="password", type="text", nullable=false)
+     * @ORM\Column(name="password", type="text", nullable=false)
      */
     private $password;
 
     /**
-     * @Column(name="nickname", type="string", length=40, nullable=true)
+     * @ORM\Column(name="nickname", type="string", length=40, nullable=true)
      */
     private $nickname;
 
     /**
-     * @Column(name="name", type="string", length=250, nullable=false)
+     * @ORM\Column(name="name", type="string", length=250, nullable=false)
      */
     private $name;
 
     /**
-     * @Column(name="description", type="text", nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 

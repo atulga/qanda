@@ -1,41 +1,47 @@
 {% extends 'QandaHomeBundle::layout.html.twig' %}
 
 {% block body %}
-<div>
 {% for question in questions %}
-
-<h4>
-    <a href="{{ path("/qanda/index.php/show", {'question_id': question.id}) }}"> 
-        {{ question.title }}
-    </a>
-</h4>
-
 <div>
-    {{ question.question }}
+    <h4>
+        <a href="{{ path("question_show", {'question_id': question.id}) }}"> 
+            {{ question.title }}
+            11
+        </a>
+    </h4>
+    <div >
+        <div>Нэр:{{ question.userId }}</div>
+        <div>{{ question.createdDate.format('Y-m-d H:i:s')  }}</div>
+    </div>
+    <div>
+        {{ question.question }}
+    </div>
+    <div >
+        <div>Хариултаа авч чадсан эсэх:
+            <b>
+                {% if question.isAnswered() %}
+                    Тийм
+                {% else %}
+                    Үгүй
+                {% endif %}
+            </b>
+        </div>
+        <div>Нийт хариултын тоо:{{ question.getAnswerCount }}</div>
+    </div>
 </div>
 {% endfor %}
-</div>
-{#
-<ul>
-{% for Question in Questions %}
 
-    <li>
-        {% if Question.category %}
-            {{ product.category.name }}
-        {% else %}
-            &lt;no category&gt;
-        {% endif %}
-        :
-        <a href="{{ path("product_show", {'id': product.id}) }}">
-        {{ product.name }}
-        </a>
-        -
-        <a href="{{ path("product_delete", {'id': product.id}) }}">
-            X
-        </a>
-    </li>
+<ul class="pagination">
+{% for page in pager.pages %}
+    {% if pager.current_page == page %}
+        <li class="active"><span>{{ page }}</span></li>
+    {% else %}
+        <li class="disabled">
+            <a href="{{ path("question_list", {"page": page }) }}">
+                {{ page }}
+            </a>
+        </li>
+    {% endif %}
 {% endfor %}
 </ul>
-#}
-
 {% endblock %}

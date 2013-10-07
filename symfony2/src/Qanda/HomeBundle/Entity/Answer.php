@@ -1,38 +1,41 @@
 <?php
+namespace Qanda\HomeBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Query;
 
 /**
  * Hariult
  *
- * @Table(name="hariult")
- * @Entity
+ * @ORM\Table(name="hariult")
+ * @ORM\Entity
  */
 class Answer
 {
     /**
-     * @Column(name="id", type="integer", nullable=false)
-     * @Id
-     * @GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @Column(name="answer", type="text", nullable=false)
+     * @ORM\Column(name="answer", type="text", nullable=false)
      */
     private $answer;
 
     /**
-     * @Column(name="created_date", type="datetime", nullable=false)
+     * @ORM\Column(name="created_date", type="datetime", nullable=false)
      */
     private $createdDate;
 
     /**
-     * @Column(name="question_id", type="integer", nullable=false)
+     * @ORM\Column(name="question_id", type="integer", nullable=false)
      */
     private $questionId;
 
     /**
-     * @Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
 
     private $userId;

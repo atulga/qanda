@@ -72,8 +72,7 @@ function question_show_action($question_id)
         $has_errors = $form_answer->validate();
         if (!$has_errors){
             $form_answer->save();
-            redirect('show?question_id='.$form_answer->getQuestionId().'&message=Хариулт
-                амжилттай нэмэгдлээ');
+                redirect('show?question_id='.$form_answer->getQuestionId().'&message=Хариулт амжилттай нэмэгдлээ');
         }
     }
     require 'templates/show.php';

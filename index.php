@@ -10,7 +10,16 @@ if (strpos($uri, '?')){
 if (preg_match('/^\/qanda\/index\.php\/_wdt\/.*/i', $uri_filtered) || uri_is('/')){
     require 'symfony2/web/app_dev.php';
     exit();
+} elseif (preg_match('/^\/qanda\/index\.php\/_wdt\/.*/i', $uri_filtered)
+    || uri_is('/show')){
+    require 'symfony2/web/app_dev.php';
+    exit();
+} elseif (preg_match('/^\/qanda\/index\.php\/_wdt\/.*/i', $uri_filtered)
+    || uri_is('/profile')){
+    require 'symfony2/web/app_dev.php';
+    exit();
 }
+
 
 session_start();
 

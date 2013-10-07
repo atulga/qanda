@@ -1,0 +1,57 @@
+{% extends 'QandaHomeBundle::layout.html.twig' %}
+
+{% block body %}
+<h2>{{ question.title }}</h2>
+<div >
+    <div>Нэр:{{ question.userId }}</div>
+    <div>{{ question.createdDate.format('Y-m-d H:i:s')  }}</div>
+</div>
+<div>
+    {{ question.question }}
+</div>
+<div >
+    <div>
+        {#
+        <a href="{{ path("", 
+                {'question_id': question.id}) }}"> 
+            Засах
+        </a>
+    </div>
+    <div>
+        <a href="{{ path("", 
+                {'question_id': question.id}) }}"> 
+            Устгах
+        </a>
+        #}
+    </div>
+</div>
+<hr/>
+<h3>Хариултууд</h3>
+{% for answer in answers %}
+
+<div>
+    {#
+        <a href="{{ path("", 
+                {'user_id': answer.userId}) }}"> 
+            {{ question.userId }}
+        </a>
+    #}
+
+    <div>{{ answer.createdDate.format('Y-m-d H:i:s') }}</div>
+    <div>{{ answer.answer }}</div>
+    <div>
+        {#
+        <a href="{{ path("", 
+                {'user_id': answer.userId}) }}"> 
+            Хариултыг устгах
+        </a>
+        #}
+    </div>
+    <br/>
+</div>
+{% endfor %}
+
+<h3>Хариулт бичих</h3>
+
+
+{% endblock %}
