@@ -1,0 +1,8 @@
+Qanda\HelloBundle\Entity\Product:
+    properties:
+        name:
+            - NotBlank: ~
+        price:
+            - NotBlank: ~
+        description:
+            - NotBlank: ~
