@@ -26,21 +26,19 @@
           <ul class="nav navbar-nav">
             <li><a href="/qanda/index.php">Нүүр хуудас</a></li>
             <li><a href="/qanda/index.php/question_add">Асуулт оруулах</a></li>
-            {#
-            <?php if (logged_in()){ ?>
-                <li><a href="/qanda/index.php/profile?user_id=<?php echo $_SESSION['id'] ?> "><?php echo $_SESSION['name'] ; ?></a></li>
+            {% if app.session.get("id") %}
+                <li><a href="/qanda/index.php/profile?user_id={{ app.session.get("id") }}">{{ app.session.get("name") }}</a></li>
                 <li><a href="logout">Гарах</a></li>
-            <?php } else {?>
+            {% else %}
                 <li><a href="login">Нэвтрэх</a></li>
-            <?php }?>
-            #}
+            {% endif %}
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </div>
 
     <div class="container">
-        {# 
+        {# TODO
         <?php if (has_get('message')) {?>
             <div class="alert alert-success"><?php echo get_param('message'); ?></div>
         <?php } ?>

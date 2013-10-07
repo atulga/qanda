@@ -48,7 +48,7 @@ class DefaultController extends Controller
         $em->flush();
 
         return $this->redirect($this->generateUrl('product_list'));
-     }
+    }
 
     /**
      * @Route("/show/{id}", name="product_show")

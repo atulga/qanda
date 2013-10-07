@@ -117,7 +117,7 @@ class QuestionForm extends BaseForm
             $question = Question::getById($this->getId());
         } else {  //add
             $question = new Question();
-            $question->setUserId($_SESSION['id']);
+            $question->setUserId(session_get('id'));
             $question->setCreatedDate(date_create(date('Y-m-d H:i:s')));
         }
 
@@ -142,7 +142,7 @@ class AnswerForm extends BaseForm
     {
         global $em;
         $answer = new Answer();
-        $answer->setUserId($_SESSION['id']);
+        $answer->setUserId(session_get('id'));
         $answer->setAnswer($this->getAnswer());
         $answer->setQuestionId($this->getQuestionId());
         $answer->setCreatedDate(date_create(date('Y-m-d H:i:s')));

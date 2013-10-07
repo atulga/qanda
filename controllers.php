@@ -15,9 +15,9 @@ function user_login_action($question_id = null)
             $user = User::getUser($form->getName(), $form->getPassword());
             if ($user){
                 if ($form->getName() == $user->getName()){
-                    $_SESSION['id'] = $user->getId();
-                    $_SESSION['name'] = $user->getName();
-                    $_SESSION['password'] = $user->getPassword();
+                    session_set('id', $user->getId());
+                    session_set('name', $user->getName());
+                    session_set('password', $user->getPassword());
                     $uri = $_SERVER['REQUEST_URI'];
                     if ($uri == '/qanda/index.php/login' || has_get('message')){
                         redirect('list?page=1&message=Амжилттай нэвтэрлээ');
@@ -151,13 +151,13 @@ function user_profile_action($id)
     $question_count = Question::getQuestionCountByUserId($id);
     $answer_count = Answer::getAnswerCountByUserId($id);
     $answers = Answer::getLastFiveAnswersByUserId($id);
-    $isme = (isset($_SESSION['id']) ? $_SESSION['id'] == $id : false);
+    $isme = (session_get('id') == $id);
     require 'templates/profile.php';
 }
 
 function user_profile_edit_action()
 {
-    $user = User::getById($_SESSION['id']);
+    $user = User::getById(session_get('id'));
     $form = new ProfileForm();
     if ($_POST){
         $form->populate($_POST);

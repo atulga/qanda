@@ -1,5 +1,4 @@
 <?php
-
 require_once 'helpers.php';
 $uri = $_SERVER['REQUEST_URI'];
 if (strpos($uri, '?')){
@@ -7,15 +6,18 @@ if (strpos($uri, '?')){
 } else {
     $uri_filtered = $uri;
 }
-if (preg_match('/^\/qanda\/index\.php\/_wdt\/.*/i', $uri_filtered) || uri_is('/')){
+
+$is_profile = preg_match('/^\/qanda\/index\.php\/_wdt\/.*/i', $uri_filtered);
+$is_profile |= preg_match('/^\/qanda\/index\.php\/_profiler\/.*/i', $uri_filtered);
+if ($is_profile || uri_is('/')){
     require 'symfony2/web/app_dev.php';
     exit();
 }
 
-session_start();
-
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+session_start();
+
 
 require_once 'bootstrap.php';
 require_once 'local_settings.php';

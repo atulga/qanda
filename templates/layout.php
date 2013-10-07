@@ -27,7 +27,7 @@
             <li><a href="/qanda/index.php">Нүүр хуудас</a></li>
             <li><a href="question_add">Асуулт оруулах</a></li>
             <?php if (logged_in()){ ?>
-                <li><a href="profile?user_id=<?php echo $_SESSION['id'] ?> "><?php echo $_SESSION['name'] ; ?></a></li>
+                <li><a href="profile?user_id=<?php echo session_get('id') ?> "><?php echo session_get('name') ?></a></li>
                 <li><a href="logout">Гарах</a></li>
             <?php } else {?>
                 <li><a href="login">Нэвтрэх</a></li>
