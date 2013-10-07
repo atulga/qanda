@@ -40,7 +40,7 @@ class Product
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -56,14 +56,13 @@ class Product
     public function setName($name)
     {
         $this->name = $name;
-    
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -79,14 +78,13 @@ class Product
     public function setPrice($price)
     {
         $this->price = $price;
-    
         return $this;
     }
 
     /**
      * Get price
      *
-     * @return float 
+     * @return float
      */
     public function getPrice()
     {
@@ -102,14 +100,13 @@ class Product
     public function setDescription($description)
     {
         $this->description = $description;
-    
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -125,14 +122,13 @@ class Product
     public function setCategory(\Qanda\HelloBundle\Entity\Category $category = null)
     {
         $this->category = $category;
-    
         return $this;
     }
 
     /**
      * Get category
      *
-     * @return \Qanda\HelloBundle\Entity\Category 
+     * @return \Qanda\HelloBundle\Entity\Category
      */
     public function getCategory()
     {
