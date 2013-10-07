@@ -38,7 +38,7 @@ class Paginator
 
 function logged_in()
 {
-    return isset($_SESSION['id']);
+    return session_get('id', false);
 }
 
 function has_get($name)
@@ -81,5 +81,19 @@ function camelcase($str)
     $str = ucwords($str);
     $str = preg_replace('/ /', '', $str);
     return $str;
+}
+
+function session_get($param, $default = null)
+{
+    if (isset($_SESSION['_sf2_attributes'][$param])){
+        return $_SESSION['_sf2_attributes'][$param];
+    }else{
+        return $default;
+    }
+}
+
+function session_set($param, $value)
+{
+    $_SESSION['_sf2_attributes'][$param] = $value;
 }
 ?>

@@ -25,7 +25,7 @@
     <td>
         <?php
            if (logged_in()){
-                if ($_SESSION['id'] == $question->getUserId()){ ?>
+                if (session_get('id') == $question->getUserId()){ ?>
             <a href="question_edit?question_id=<?php echo $question->getId() ?>">
             Засах
             </a>
@@ -59,7 +59,7 @@
     <td>
         <?php
             if (logged_in()){
-            if ($_SESSION['id'] == $answer->getUserId()){
+            if (session_get('id') == $answer->getUserId()){
         ?>
     <a href="delete_answer?answer_id=<?php echo $answer->getId()
                     ?>&question_id=<?php echo $question->getId() ?>">
@@ -73,7 +73,7 @@
                 echo "<strong>*Зөв хариулт</strong>";
             } else {
             if (logged_in()){
-                if ($_SESSION['id'] == $question->getUserId()){
+                if (session_get('id') == $question->getUserId()){
         ?>
         <a href="best_answer?question_id=<?php echo $question->getId() ?>
         &answer_id=<?php echo $answer->getId() ?>">
