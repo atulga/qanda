@@ -5,6 +5,13 @@
 
 <a href="{{ path("product_list") }}">Back to product list</a>
 
-{{ form(product_form, {'attr': {'novalidate': 'novalidate'}}) }}
+{{ form_start(product_form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_errors(product_form) }}
+
+    {{ form_row(product_form.category.name) }}
+    {{ form_row(product_form.name) }}
+    {{ form_row(product_form.price) }}
+    {{ form_row(product_form.description) }}
+{{ form_end(product_form) }}
 
 {% endblock %}

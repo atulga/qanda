@@ -2,6 +2,7 @@
 namespace Qanda\HelloBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -17,21 +18,31 @@ class Product
     protected $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=100)
      */
     protected $name;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Range(
+     *      min = 0.1,
+     *      max = 500,
+     *      minMessage = "Please enter more than 0.1",
+     *      maxMessage = "Please enter less than 500"
+     * )
      * @ORM\Column(type="decimal", scale=2)
      */
     protected $price;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="text")
      */
     protected $description;
 
     /**
+     * @Assert\Type(type="Qanda\HelloBundle\Entity\Category")
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
