@@ -25,7 +25,9 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="/qanda/index.php">Нүүр хуудас</a></li>
-            <li><a href="/qanda/index.php/question_add">Асуулт оруулах</a></li>
+            <li>
+                <a href="{{ path("question_add") }}">Асуулт оруулах</a>
+            </li>
             {% if app.session.get("id") %}
                 <li><a href="/qanda/index.php/profile?user_id={{ app.session.get("id") }}">{{ app.session.get("name") }}</a></li>
                 <li><a href="logout">Гарах</a></li>

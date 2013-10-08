@@ -93,4 +93,136 @@ class DefaultController extends Controller
             'total_question' => $total_question);
     }
 
+    /**
+     * @Route("/editQuestion", name="edit_question")
+     * @Template()
+     */
+    public function editQuestionAction()
+    {
+        $question_id = $this->getRequest()->query->get('question_id');
+
+        $filter = array('id' => $question_id);
+        $question = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Question')
+            ->find($filter);
+        return array('question' => $question);
+    }
+
+    /**
+     * @Route("/editProfile", name="edit_profile")
+     * @Template()
+     */
+    public function editProfileAction()
+    {
+        $user_id = $this->getRequest()->query->get('user_id');
+
+        $filter = array('id' => $user_id);
+        $user = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:User')
+            ->find($filter);
+        return array('user' => $user);
+    }
+
+    /**
+     * @Route("/addQuestion", name="question_add")
+     * @Template()
+     */
+    public function addQuestionAction()
+    {
+        return array();
+    }
+
+    /**
+     * @Route("/register", name="register")
+     * @Template()
+     */
+    public function registerAction()
+    {
+        return array();
+    }
+
+    /**
+     * @Route("/deleteQuestion", name="delete_question")
+     * @Template()
+     */
+    public function deleteQuestionAction()
+    {
+        $question_id = $this->getRequest()->query->get('question_id');
+        $filter = array('questionId' => $question_id);
+
+        $question = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Question')
+            ->find($question_id);
+        $answers = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Answer')
+            ->findBy($filter);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($question);
+        foreach ($answers as $answer) {
+            $em->remove($answer);
+        }
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('question_list'));
+    }
+
+    /**
+     * @Route("/deleteAnswer", name="delete_answer")
+     * @Template()
+     */
+    public function deleteAnswerAction()
+    {
+        $answer_id = $this->getRequest()->query->get('answer_id');
+
+        $answer = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Answer')
+            ->find($answer_id);
+
+        $answers = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Answer')
+            ->findBy(array('questionId' => $answer->getQuestionId()));
+        $count_answers = count($answers) - 1; 
+        $question = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Question')
+            ->find($answer->getQuestionId());
+        
+        $question->setAnswerCount($count_answers);
+
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($answer);
+        $em->persist($question);
+        $em->flush();
+
+        return
+            $this->redirect(
+                $this->generateUrl('question_list'));
+    }
+
+    /**
+     * @Route("/bestAnswer", name="best_answer")
+     * @Template()
+     */
+    public function bestAnswerAction()
+    {
+        $answer_id = $this->getRequest()->query->get('answer_id');
+
+        $answer = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Answer')
+            ->find($answer_id);
+
+        $question = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Question')
+            ->find($answer->getQuestionId());
+        $question->setBestAnswerId($answer->getId());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($question);
+        $em->flush();
+
+        return
+            $this->redirect(
+                $this->generateUrl('question_list'));
+    }
 }

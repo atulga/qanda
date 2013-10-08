@@ -1,0 +1,12 @@
+{% extends 'QandaHomeBundle::layout.html.twig' %}
+
+{% block body %}
+<a href="{{ path("profile", {'user_id': user.id}) }}">
+    Буцах
+</a>
+<h3>Хувийн мэдээлэл засах</h3>
+    {{ user.nickname }}
+<br/>
+    {{ user.description }}
+
+{% endblock %}

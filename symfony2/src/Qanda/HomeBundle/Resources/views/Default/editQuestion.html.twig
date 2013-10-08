@@ -1,0 +1,12 @@
+{% extends 'QandaHomeBundle::layout.html.twig' %}
+
+{% block body %}
+<a href="{{ path("question_show", {'question_id': question.id}) }}">
+    Буцах
+</a>
+<h3>Асуулт Засах</h3>
+    {{ question.title }}
+<br/>
+    {{ question.question }}
+
+{% endblock %}

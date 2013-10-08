@@ -1,8 +1,10 @@
 {% extends 'QandaHomeBundle::layout.html.twig' %}
 
 {% block body %}
-     <h4> <a href="profile_edit">Хувийн мэдээлэл засах</a></h4>
 
+<a href="{{ path("edit_profile", {'user_id': user.id}) }}">
+    Хувийн мэдээлэл засах
+</a>
 
 <table width="100%">
     <tr>
