@@ -1,0 +1,13 @@
+{% extends 'QandaHomeBundle::layout.html.twig' %}
+
+{% block body %}
+<h1>Нэвтрэх хэсэг</h1>
+
+{{ form_start(login_form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_errors(login_form) }}
+
+    {{ form_row(login_form.name) }}
+    {{ form_row(login_form.password) }}
+{{ form_end(login_form) }}
+
+{% endblock %}

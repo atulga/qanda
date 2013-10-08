@@ -52,6 +52,10 @@ if ($is_profile || uri_is('/')){
     || uri_is('/register')){
     require 'symfony2/web/app_dev.php';
     exit();
+} elseif (preg_match('/^\/qanda\/index\.php\/_wdt\/.*/i', $uri_filtered)
+    || uri_is('/login')){
+    require 'symfony2/web/app_dev.php';
+    exit();
 }
 
 

@@ -9,10 +9,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 use Qanda\HomeBundle\Helpers\Paginator;
-use Qanda\HomeBundle\Forms\Forms;
 use Qanda\HomeBundle\Entity\Question;
 use Qanda\HomeBundle\Entity\Answer;
 use Qanda\HomeBundle\Entity\User;
+use Qanda\HomeBundle\Form\Type\LoginType;
 
 
 class DefaultController extends Controller
@@ -28,6 +28,16 @@ class DefaultController extends Controller
                             'QandaHomeBundle:Question', $page);
         $questions = $pager->fetch();
         return array('questions' => $questions, 'pager' => $pager);
+    }
+
+    /**
+     * @Route("/login", name="login")
+     * @Template()
+     */
+    public function loginAction()
+    {
+        $form = $this->createForm(new LoginType(), new User());
+        return array('product_form' => $form->createView());
     }
 
     /**
@@ -182,11 +192,11 @@ class DefaultController extends Controller
         $answers = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:Answer')
             ->findBy(array('questionId' => $answer->getQuestionId()));
-        $count_answers = count($answers) - 1; 
+        $count_answers = count($answers) - 1;
         $question = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:Question')
             ->find($answer->getQuestionId());
-        
+
         $question->setAnswerCount($count_answers);
 
 
