@@ -35,11 +35,10 @@ class Answer
     private $questionId;
 
     /**
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="answers")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-
-    private $userId;
-
+    private $user;
 
 
     /**
@@ -124,26 +123,25 @@ class Answer
     }
 
     /**
-     * Set userId
+     * Set user
      *
-     * @param integer $userId
-     * @return Hariult
+     * @param \Qanda\HomeBundle\Entity\User $user
+     * @return Question
      */
-    public function setUserId($userId)
+    public function setUser(\Qanda\HomeBundle\Entity\User $user = null)
     {
-        $this->userId = $userId;
-
+        $this->user = $user;
         return $this;
     }
 
     /**
-     * Get userId
+     * Get user
      *
-     * @return integer
+     * @return \Qanda\HomeBundle\Entity\User
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
     static $_table = 'hariult';

@@ -63,17 +63,17 @@ class DefaultController extends Controller
         $user = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:User')
             ->find($user_id);
-
         $order = array('createdDate' => 'ASC');
-        $filter = array('userId' => $user_id);
 
-        $questions = $this->getDoctrine()
-            ->getRepository('QandaHomeBundle:Question')
-            ->findBy($filter, $order, 5);
+        $filter = array('user' => $user);
 
         $answers = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:Answer')
             ->findBy($filter, $order, 5);
+        $questions = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Question')
+            ->findBy($filter, $order, 5);
+
 
         $answer_result = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:Answer')

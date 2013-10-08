@@ -9,7 +9,11 @@
         </a>
     </h4>
     <div >
-        <div>Нэр:{{ question.userId }}</div>
+        <div>Нэр:
+            <a href="{{ path("profile", {'user_id': question.user.id}) }}">
+                {{ question.user.name }}
+            </a>
+        </div>
         <div>{{ question.createdDate.format('Y-m-d H:i:s')  }}</div>
     </div>
     <div>

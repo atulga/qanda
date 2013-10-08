@@ -3,7 +3,11 @@
 {% block body %}
 <h2>{{ question.title }}</h2>
 <div >
-    <div>Нэр:{{ question.userId }}</div>
+    <div>Нэр:
+        <a href="{{ path("profile", {'user_id': question.user.id}) }}">
+            {{ question.user.name }}
+        </a>
+    </div>
     <div>{{ question.createdDate.format('Y-m-d H:i:s')  }}</div>
 </div>
 <div>
@@ -30,12 +34,11 @@
 {% for answer in answers %}
 
 <div>
-    {#
-        <a href="{{ path("",
-                {'user_id': answer.userId}) }}">
-            {{ question.userId }}
+    <div>Нэр:
+        <a href="{{ path("profile", {'user_id': answer.user.id}) }}">
+            {{ answer.user.name }}
         </a>
-    #}
+    </div>
 
     <div>{{ answer.createdDate.format('Y-m-d H:i:s') }}</div>
     <div>{{ answer.answer }}</div>
