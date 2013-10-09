@@ -237,7 +237,7 @@ class DefaultController extends Controller
      * @Route("/bestAnswer", name="best_answer")
      * @Template()
      */
-    public function bestAnswerAction()
+    public function bestAnswerAction(Request $request)
     {
         $answer_id = $this->getRequest()->query->get('answer_id');
 
@@ -254,8 +254,6 @@ class DefaultController extends Controller
         $em->persist($question);
         $em->flush();
 
-        return
-            $this->redirect(
-                $this->generateUrl('question_list'));
+        return $this->redirect($request->headers->get('referer'));
     }
 }
