@@ -42,11 +42,9 @@
     </div>
 
     <div class="container">
-        {# TODO
-        <?php if (has_get('message')) {?>
-            <div class="alert alert-success"><?php echo get_param('message'); ?></div>
-        <?php } ?>
-        #}
+        {% if app.request.get('message') %}
+        <div class="alert alert-success">{{ app.request.get('message') }}</div>
+        {% endif %}
         {% block body %}{% endblock %}
       </div>
     </div>

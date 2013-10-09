@@ -49,18 +49,6 @@ function user_register_action()
     require 'templates/register.php';
 }
 
-function question_list_action($page = 1, $message=null)
-{
-    if (has_get('page')) {
-        $current_page = get_param('page');
-    } else {
-        $current_page = 1;
-    }
-    $pager = new Paginator('Question', $current_page);
-    $questions = $pager->fetch();
-    require 'templates/list.php';
-}
-
 function question_show_action($question_id)
 {
     global $em;
