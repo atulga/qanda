@@ -3,68 +3,85 @@
 {% block body %}
 
 <h2>{{ question.title }}</h2>
-<div >
-    <div>Нэр:
+
+<div class="row">
+    <div class="col-md-6">
+        Нэр:
         <a href="{{ path("profile", {'user_id': question.user.id}) }}">
             {{ question.user.name }}
         </a>
     </div>
-    <div>{{ question.createdDate.format('Y-m-d H:i:s')  }}</div>
+    <div class="col-md-6 text-right">
+        Огноо:
+        {{ question.createdDate.format('Y-m-d H:i:s')  }}
+    </div>
 </div>
-<div>
-    {{ question.question }}
+<div class="row">
+    <div class="col-md-12">{{ question.question }}</div>
 </div>
-<div >
 
-    {% if app.session.get("id") == question.user.id  %}
-    <div>
+{% if app.session.get("id") == question.user.id  %}
+<div class="row">
+    <div class="col-md-6">
         <a href="{{ path("edit_question", {'question_id': question.id}) }}">
             Засах
         </a>
     </div>
-    <div>
+    <div class="col-md-6 text-right">
         <a href="{{ path("delete_question", {'question_id': question.id}) }}">
             Устгах
         </a>
     </div>
-    {% endif %}
 </div>
+{% endif %}
 <hr/>
+
 <h3>Хариултууд</h3>
 {% for answer in answers %}
-
-<div>
-    <div>Нэр:
+<div class="row">
+    <div class="col-md-6">
+        Нэр:
         <a href="{{ path("profile", {'user_id': answer.user.id}) }}">
             {{ answer.user.name }}
         </a>
     </div>
-
-    <div>{{ answer.createdDate.format('Y-m-d H:i:s') }}</div>
-    <div>{{ answer.answer }}</div>
-    <div>
+    <div class="col-md-6 text-right">
+        {{ answer.createdDate.format('Y-m-d H:i:s') }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">{{ answer.answer }}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">
         {% if app.session.get("id") == answer.user.id  %}
             <a href="{{ path("delete_answer", {'answer_id': answer.id}) }}">
                 Хариултыг устгах
             </a>
         {% endif %}
     </div>
-    <div>
+    <div class="col-md-6 text-right">
         {% if answer.id == question.bestAnswerId  %}
-                Зөв хариулт
+            <strong>Зөв хариулт</strong>
         {% else %}
             {% if app.session.get("id") == question.user.id %}
-            <a href="{{ path("best_answer", {'answer_id': answer.id}) }}">
-                 Хариулт зөв үү?
-            </a>
+                <a href="{{ path("best_answer", {'answer_id': answer.id}) }}">
+                     Хариулт зөв үү?
+                </a>
             {% endif %}
         {% endif %}
     </div>
-    <br/>
 </div>
+<hr/>
 {% endfor %}
 
 <h3>Хариулт бичих</h3>
+
+{% if app.session.get("id") %}
+{# TODO #}
+{% else %}
+Хариулт бичихийн тулд нэр, нууц үгээрээ <a href="{{ path("login") }}">холбогдоно уу</a>!
+{% endif %}
 
 
 {% endblock %}
