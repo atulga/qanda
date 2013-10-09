@@ -30,9 +30,9 @@
     <ul>
     {% for answer in answers %}
         <li>
-        <a href="{{ path("question_show", {'question_id': answer.questionId}) }}">
-            {{ answer.answer }}
-        </a>
+            <a href="{{ path("question_show", {'question_id': answer.questionId}) }}">
+                {{ answer.answer }}
+            </a>
         </li>
     {% endfor %}
     </ul>
