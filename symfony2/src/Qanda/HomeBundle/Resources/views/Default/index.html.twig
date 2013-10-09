@@ -2,36 +2,48 @@
 
 {% block body %}
 {% for question in questions %}
-<div>
-    <h4>
-        <a href="{{ path("question_show", {'question_id': question.id}) }}">
-            {{ question.title }}
-        </a>
-    </h4>
-    <div >
-        <div>Нэр:
+<div class="row">
+    <div class="col-md-12">
+        <h4>
+            <a href="{{ path("question_show", {'question_id': question.id}) }}">
+                {{ question.title }}
+            </a>
+        </h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        Нэр:
+        <strong>
             <a href="{{ path("profile", {'user_id': question.user.id}) }}">
                 {{ question.user.name }}
             </a>
-        </div>
-        <div>{{ question.createdDate.format('Y-m-d H:i:s')  }}</div>
+        </strong>
     </div>
-    <div>
-        {{ question.question }}
-    </div>
-    <div >
-        <div>Хариултаа авч чадсан эсэх:
-            <b>
-                {% if question.isAnswered() %}
-                    Тийм
-                {% else %}
-                    Үгүй
-                {% endif %}
-            </b>
-        </div>
-        <div>Нийт хариултын тоо:{{ question.getAnswerCount }}</div>
+    <div class="col-md-6 text-right">
+        {{ question.createdDate.format('Y-m-d H:i:s')  }}
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">{{ question.question }}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <i>Хариултаа авч чадсан эсэх:</i>
+        <strong>
+        {% if question.isAnswered() %}
+            Тийм
+        {% else %}
+            Үгүй
+        {% endif %}
+        </strong>
+    </div>
+    <div class="col-md-6 text-right">
+        <i>Нийт хариултын тоо:</i>
+        <strong>{{ question.getAnswerCount }}</strong>
+    </div>
+</div>
+<hr/>
 {% endfor %}
 
 <ul class="pagination">

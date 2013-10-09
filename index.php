@@ -74,9 +74,7 @@ if ($uri_filtered == '/qanda/' || $uri_filtered == '/qanda/index.php'){
     redirect('/qanda/index.php/');
 }
 
-if (uri_is('/list') && has_get('page') && has_get('message')){
-    question_list_action(get_param('page'), get_param('message'));
-} elseif (uri_is('/show') && has_get('question_id')){
+if (uri_is('/show') && has_get('question_id')){
     question_show_action(get_param('question_id'));
 } elseif (uri_is('/logout')){
     user_logout_action();
