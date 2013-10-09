@@ -3,6 +3,8 @@ namespace Qanda\HomeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Query;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * User
@@ -20,6 +22,7 @@ class User
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(name="password", type="text", nullable=false)
      */
     private $password;
@@ -30,6 +33,7 @@ class User
     private $nickname;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=250, nullable=false)
      */
     private $name;

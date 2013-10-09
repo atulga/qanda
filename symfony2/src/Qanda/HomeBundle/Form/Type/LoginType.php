@@ -11,7 +11,7 @@ class LoginType extends AbstractType
     {
         $builder
             ->add('name', null, array('label' => 'Нэр:'))
-            ->add('password', null, array('label' => 'Нууц үг:'))
+            ->add('password', 'password', array('label' => 'Нууц үг:'))
             ->add('Нэвтрэх', 'submit');
     }
 

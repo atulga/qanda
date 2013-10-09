@@ -3,16 +3,17 @@
 namespace Qanda\HomeBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
-use Qanda\HomeBundle\Helpers\Paginator;
 use Qanda\HomeBundle\Entity\Question;
 use Qanda\HomeBundle\Entity\Answer;
 use Qanda\HomeBundle\Entity\User;
 use Qanda\HomeBundle\Form\Type\LoginType;
+use Qanda\HomeBundle\Helpers\Paginator;
 
 
 class DefaultController extends Controller
@@ -34,10 +35,32 @@ class DefaultController extends Controller
      * @Route("/login", name="login")
      * @Template()
      */
-    public function loginAction()
+    public function loginAction(Request $request)
     {
         $form = $this->createForm(new LoginType(), new User());
-        return array('product_form' => $form->createView());
+        $form->handleRequest($request);
+        if ($form->isValid()){
+            $insert_value = $form->getData();
+            $name = $insert_value->getName(); 
+            $pass = $insert_value->getPassword(); 
+
+            $filter = array('name' => $name, 'password' => $pass);
+            $user = $this->getDoctrine()
+                ->getRepository('QandaHomeBundle:User')
+                ->findOneBy($filter);
+            if($user){
+                session_set('id', $user->getId());
+                session_set('name', $user->getName());
+                session_set('password', $user->getPassword());
+                $uri = $_SERVER['REQUEST_URI'];
+                if ($uri == '/qanda/index.php/login' || has_get('message')){
+                    return $this->redirect(
+                        $this->generateUrl('question_list'));
+                } 
+            }
+        }
+
+        return array('login_form' => $form->createView());
     }
 
     /**

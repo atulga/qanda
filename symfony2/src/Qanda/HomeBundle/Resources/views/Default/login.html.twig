@@ -6,8 +6,13 @@
 {{ form_start(login_form, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_errors(login_form) }}
 
-    {{ form_row(login_form.name) }}
-    {{ form_row(login_form.password) }}
+    {{ form_label(login_form.name) }}
+    {{ form_widget(login_form.name) }}
+    {{ form_errors(login_form.name) }}
+
+    {{ form_label(login_form.password) }}
+    {{ form_widget(login_form.password) }}
+    {{ form_errors(login_form.password) }}
 {{ form_end(login_form) }}
 
 {% endblock %}
