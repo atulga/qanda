@@ -3,6 +3,7 @@ namespace Qanda\HomeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Query;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Asuult
@@ -27,6 +28,7 @@ class Question
     private $title;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(name="created_date", type="datetime", nullable=false)
      */
     private $createdDate;
@@ -37,6 +39,7 @@ class Question
     private $question;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(name="best_answer_id", type="integer", nullable=false)
      */
     private $bestAnswerId = 0;

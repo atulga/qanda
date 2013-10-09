@@ -13,6 +13,7 @@ use Qanda\HomeBundle\Entity\Question;
 use Qanda\HomeBundle\Entity\Answer;
 use Qanda\HomeBundle\Entity\User;
 use Qanda\HomeBundle\Form\Type\LoginType;
+use Qanda\HomeBundle\Form\Type\QuestionType;
 use Qanda\HomeBundle\Helpers\Paginator;
 
 
@@ -160,9 +161,21 @@ class DefaultController extends Controller
      * @Route("/addQuestion", name="question_add")
      * @Template()
      */
-    public function addQuestionAction()
+    public function addQuestionAction(Request $request)
     {
-        return array();
+        $form = $this->createForm(new QuestionType(), new Question());
+
+        $form->handleRequest($request);
+        if ($form->isValid()){
+            $question = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($question);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('question_list'));
+        }
+
+        return array('question_form' => $form->createView());
     }
 
     /**
@@ -204,7 +217,7 @@ class DefaultController extends Controller
      * @Route("/deleteAnswer", name="delete_answer")
      * @Template()
      */
-    public function deleteAnswerAction()
+    public function deleteAnswerAction(Request $request)
     {
         $answer_id = $this->getRequest()->query->get('answer_id');
 
@@ -216,21 +229,22 @@ class DefaultController extends Controller
             ->getRepository('QandaHomeBundle:Answer')
             ->findBy(array('questionId' => $answer->getQuestionId()));
         $count_answers = count($answers) - 1;
+
         $question = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:Question')
             ->find($answer->getQuestionId());
 
         $question->setAnswerCount($count_answers);
-
+        if ($question->getBestAnswerId() == $answer->getId()){
+            $question->setBestAnswerId(0);
+        }
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($answer);
         $em->persist($question);
         $em->flush();
 
-        return
-            $this->redirect(
-                $this->generateUrl('question_list'));
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**

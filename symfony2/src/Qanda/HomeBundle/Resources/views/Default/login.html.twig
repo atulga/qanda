@@ -2,17 +2,21 @@
 
 {% block body %}
 <h1>Нэвтрэх хэсэг</h1>
-
+<div>
 {{ form_start(login_form, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_errors(login_form) }}
-
-    {{ form_label(login_form.name) }}
-    {{ form_widget(login_form.name) }}
-    {{ form_errors(login_form.name) }}
-
-    {{ form_label(login_form.password) }}
-    {{ form_widget(login_form.password) }}
-    {{ form_errors(login_form.password) }}
+    <div>
+        <label>{{ form_label(login_form.name) }}</label>
+        {{ form_widget(login_form.name) }}
+        {{ form_errors(login_form.name) }}
+    </div>
+    <div>
+        <label>{{ form_label(login_form.password) }}</label>
+        {{ form_widget(login_form.password) }}
+        {{ form_errors(login_form.password) }}
+    </div>
 {{ form_end(login_form) }}
-
+    <br/>
+    <a href="{{ path("register") }}">Шинээр бүртгүүлэх</a>
+</div>
 {% endblock %}
