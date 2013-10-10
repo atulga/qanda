@@ -128,7 +128,7 @@ class DefaultController extends Controller
         $user = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:User')
             ->find($user_id);
-        $order = array('createdDate' => 'ASC');
+        $order = array('createdDate' => 'DESC');
 
         $filter = array('user' => $user);
 
@@ -138,7 +138,6 @@ class DefaultController extends Controller
         $questions = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:Question')
             ->findBy($filter, $order, 5);
-
 
         $answer_result = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:Answer')
