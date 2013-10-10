@@ -2,5 +2,21 @@
 
 {% block body %}
 <h3>Шинээр бүртгүүлэх</h3>
+<div>
+{{ form_start(register_form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_errors(register_form) }}
+    <div>
+        <label>{{ form_label(register_form.name) }}</label>
+        {{ form_widget(register_form.name) }}
+        {{ form_errors(register_form.name) }}
+    </div>
+    <div>
+        <label>{{ form_label(register_form.password) }}</label>
+        {{ form_widget(register_form.password) }}
+        {{ form_errors(register_form.password) }}
+    </div>
 
+{{ form_end(register_form) }}
+    <br/>
+</div>
 {% endblock %}

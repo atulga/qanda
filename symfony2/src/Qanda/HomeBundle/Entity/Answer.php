@@ -3,6 +3,7 @@ namespace Qanda\HomeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Query;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Hariult
@@ -20,6 +21,7 @@ class Answer
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(name="answer", type="text", nullable=false)
      */
     private $answer;

@@ -5,26 +5,26 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class QuestionType extends AbstractType
+class RegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text', array('label' => 'Гарчиг:'))
-            ->add('question', null, array('label' => 'Асуулт:'))
-            ->add('Оруулах', 'submit');
+            ->add('name', null, array('label' => 'Нэр:'))
+            ->add('password', 'password', array('label' => 'Нууц үг:'))
+            ->add('Нэвтрэх', 'submit');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Qanda\HomeBundle\Entity\Question',
+            'data_class' => 'Qanda\HomeBundle\Entity\User',
             'cascade_validation' => true,
         ));
     }
 
     public function getName()
     {
-        return 'question';
+        return 'user';
     }
 }

@@ -23,23 +23,23 @@ class Question
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(name="title", type="text", nullable=false)
      */
     private $title;
 
     /**
-     * @Assert\NotBlank()
      * @ORM\Column(name="created_date", type="datetime", nullable=false)
      */
     private $createdDate;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(name="question", type="text", nullable=false)
      */
     private $question;
 
     /**
-     * @Assert\NotBlank()
      * @ORM\Column(name="best_answer_id", type="integer", nullable=false)
      */
     private $bestAnswerId = 0;
@@ -50,6 +50,7 @@ class Question
     private $answerCount = 0;
 
     /**
+     * @Assert\Type(type="Qanda\HomeBundle\Entity\User")
      * @ORM\ManyToOne(targetEntity="User", inversedBy="questions")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */

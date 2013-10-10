@@ -12,8 +12,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Qanda\HomeBundle\Entity\Question;
 use Qanda\HomeBundle\Entity\Answer;
 use Qanda\HomeBundle\Entity\User;
+use Qanda\HomeBundle\Form\Type\AnswerType;
 use Qanda\HomeBundle\Form\Type\LoginType;
 use Qanda\HomeBundle\Form\Type\QuestionType;
+use Qanda\HomeBundle\Form\Type\RegisterType;
 use Qanda\HomeBundle\Helpers\Paginator;
 
 
@@ -57,7 +59,9 @@ class DefaultController extends Controller
                 if ($uri == '/qanda/index.php/login' || has_get('message')){
                     return $this->redirect(
                         $this->generateUrl('question_list'));
-                } 
+                } else {
+                    return $this->redirect($request->headers->get('referer'));
+                }
             }
         }
 
@@ -68,7 +72,7 @@ class DefaultController extends Controller
      * @Route("/show", name="question_show")
      * @Template()
      */
-    public function showAction()
+    public function showAction(Request $request)
     {
         $question_id = $this->getRequest()->query->get('question_id');
 
@@ -83,7 +87,34 @@ class DefaultController extends Controller
             ->getRepository('QandaHomeBundle:Answer')
             ->findBy($filter, $order);
 
-        return array('question' => $question, 'answers' => $answers);
+        $session_id = $request->getSession()->get('id');
+        $form = $this->createForm(new AnswerType(), new Answer());
+
+        $form->handleRequest($request);
+        if ($form->isValid()){
+            $answer = $form->getData();
+
+            $filter = array('id' => $session_id);
+            
+            $user = $this->getDoctrine()
+                ->getRepository('QandaHomeBundle:User')
+                ->find($filter);
+
+            $em = $this->getDoctrine()->getManager();
+            $answer->setCreatedDate(date_create(date('Y-m-d H:i:s')));
+            $answer->setUser($user);
+            $answer->setQuestionId($question->getID());
+            $em->persist($answer);
+            $em->flush();
+
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        return array(
+            'question' => $question, 
+            'answers' => $answers, 
+            'answer_form' => $form->createView(),
+        );
     }
 
     /**
@@ -163,12 +194,22 @@ class DefaultController extends Controller
      */
     public function addQuestionAction(Request $request)
     {
+        $session_id = $request->getSession()->get('id');
+        if ($session_id){
         $form = $this->createForm(new QuestionType(), new Question());
 
         $form->handleRequest($request);
         if ($form->isValid()){
             $question = $form->getData();
+
+            $filter = array('id' => $session_id);
+            
+            $user = $this->getDoctrine()
+                ->getRepository('QandaHomeBundle:User')
+                ->find($filter);
             $em = $this->getDoctrine()->getManager();
+            $question->setCreatedDate(date_create(date('Y-m-d H:i:s')));
+            $question->setUser($user);
             $em->persist($question);
             $em->flush();
 
@@ -176,15 +217,31 @@ class DefaultController extends Controller
         }
 
         return array('question_form' => $form->createView());
+        } else {
+            return $this->redirect($this->generateUrl('login'));
+        }
+       
     }
 
     /**
      * @Route("/register", name="register")
      * @Template()
      */
-    public function registerAction()
+    public function registerAction(Request $request)
     {
-        return array();
+        $form = $this->createForm(new RegisterType(), new User());
+
+        $form->handleRequest($request);
+        if ($form->isValid()){
+            $question = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('login'));
+        }
+
+        return array('register_form' => $form->createView());
     }
 
     /**
