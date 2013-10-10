@@ -4,9 +4,20 @@
 <a href="{{ path("profile", {'user_id': user.id}) }}">
     Буцах
 </a>
-<h3>Хувийн мэдээлэл засах</h3>
-    {{ user.nickname }}
-<br/>
-    {{ user.description }}
+<h3>Хувийн мэдээлэл засах хэсэг</h3>
+
+{{ form_start(user_form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_errors(user_form) }}
+    <div>
+        <label>{{ form_label(user_form.nickname) }}</label>
+        {{ form_widget(user_form.nickname) }}
+        {{ form_errors(user_form.nickname) }}
+    </div>
+    <div>
+        <label>{{ form_label(user_form.description) }}</label>
+        {{ form_widget(user_form.description) }}
+        {{ form_errors(user_form.description) }}
+    </div>
+{{ form_end(user_form) }}
 
 {% endblock %}

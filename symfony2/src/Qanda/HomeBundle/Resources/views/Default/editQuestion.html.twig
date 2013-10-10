@@ -5,8 +5,19 @@
     Буцах
 </a>
 <h3>Асуулт Засах</h3>
-    {{ question.title }}
-<br/>
-    {{ question.question }}
+
+{{ form_start(question_form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_errors(question_form) }}
+    <div>
+        <label>{{ form_label(question_form.title) }}</label>
+        {{ form_widget(question_form.title) }}
+        {{ form_errors(question_form.title) }}
+    </div>
+    <div>
+        <label>{{ form_label(question_form.question) }}</label>
+        {{ form_widget(question_form.question) }}
+        {{ form_errors(question_form.question) }}
+    </div>
+{{ form_end(question_form) }}
 
 {% endblock %}

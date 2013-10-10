@@ -1,11 +1,11 @@
 {% extends 'QandaHomeBundle::layout.html.twig' %}
 
 {% block body %}
-
+{% if app.session.get("id") == user.id  %}
 <a href="{{ path("edit_profile", {'user_id': user.id}) }}">
     Хувийн мэдээлэл засах
 </a>
-
+{% endif %}
 <table width="100%">
     <tr>
         <td width="50%"><b>Нэр :</b></td>

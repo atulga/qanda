@@ -16,6 +16,7 @@ use Qanda\HomeBundle\Form\Type\AnswerType;
 use Qanda\HomeBundle\Form\Type\LoginType;
 use Qanda\HomeBundle\Form\Type\QuestionType;
 use Qanda\HomeBundle\Form\Type\RegisterType;
+use Qanda\HomeBundle\Form\Type\UserType;
 use Qanda\HomeBundle\Helpers\Paginator;
 
 
@@ -32,6 +33,17 @@ class DefaultController extends Controller
                             'QandaHomeBundle:Question', $page);
         $questions = $pager->fetch();
         return array('questions' => $questions, 'pager' => $pager);
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     * @Template()
+     */
+    public function logoutAction(Request $request)
+    {
+        $session = $this->getRequest()->getSession();
+        $session->clear();
+        return $this->redirect($this->generateUrl('question_list'));
     }
 
     /**
@@ -164,33 +176,29 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/editQuestion", name="edit_question")
-     * @Template()
-     */
-    public function editQuestionAction()
-    {
-        $question_id = $this->getRequest()->query->get('question_id');
-
-        $filter = array('id' => $question_id);
-        $question = $this->getDoctrine()
-            ->getRepository('QandaHomeBundle:Question')
-            ->find($filter);
-        return array('question' => $question);
-    }
-
-    /**
      * @Route("/editProfile", name="edit_profile")
      * @Template()
      */
-    public function editProfileAction()
+    public function editProfileAction(Request $request)
     {
         $user_id = $this->getRequest()->query->get('user_id');
-
         $filter = array('id' => $user_id);
         $user = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:User')
             ->find($filter);
-        return array('user' => $user);
+
+        $form = $this->createForm(new UserType(), $user);
+        $form->handleRequest($request);
+
+        if ($form->isValid()){
+            $form_user = $form ->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($form_user);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('question_list'));
+        }
+        return array('user' => $user, 'user_form' => $form->createView());
     }
 
     /**
@@ -203,8 +211,8 @@ class DefaultController extends Controller
         if ($session_id){
         $form = $this->createForm(new QuestionType(), new Question());
 
-        $form->handleRequest($request);
         if ($form->isValid()){
+            $form->bindRequest($request);
             $question = $form->getData();
 
             $filter = array('id' => $session_id);
@@ -226,6 +234,32 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('login'));
         }
        
+    }
+
+    /**
+     * @Route("/editQuestion", name="edit_question")
+     * @Template()
+     */
+    public function editQuestionAction(Request $request)
+    {
+        $question_id = $this->getRequest()->query->get('question_id');
+        $filter = array('id' => $question_id);
+        $question = $this->getDoctrine()
+            ->getRepository('QandaHomeBundle:Question')
+            ->find($filter);
+
+        $form = $this->createForm(new QuestionType(), $question);
+        $form->handleRequest($request);
+
+        if ($form->isValid()){
+            $form_question = $form ->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($form_question);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('question_list'));
+        }
+        return array('question' => $question, 'question_form' => $form->createView());
     }
 
     /**
