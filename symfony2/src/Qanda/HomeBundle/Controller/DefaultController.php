@@ -100,10 +100,16 @@ class DefaultController extends Controller
                 ->getRepository('QandaHomeBundle:User')
                 ->find($filter);
 
+            $count_answers = count($answers) + 1;
+
             $em = $this->getDoctrine()->getManager();
             $answer->setCreatedDate(date_create(date('Y-m-d H:i:s')));
             $answer->setUser($user);
             $answer->setQuestionId($question->getID());
+
+            $question->setAnswerCount($count_answers);
+
+            $em->persist($question);
             $em->persist($answer);
             $em->flush();
 
