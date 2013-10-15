@@ -23,7 +23,7 @@ class Question
     private $id;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Гарчиг оруулна уу!")
      * @ORM\Column(name="title", type="text", nullable=false)
      */
     private $title;
@@ -34,7 +34,7 @@ class Question
     private $createdDate;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Асуулт оруулна уу!")
      * @ORM\Column(name="question", type="text", nullable=false)
      */
     private $question;

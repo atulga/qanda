@@ -11,8 +11,7 @@ class QuestionType extends AbstractType
     {
         $builder
             ->add('title', 'text', array('label' => 'Гарчиг:'))
-            ->add('question', null, array('label' => 'Асуулт:'))
-            ->add('Оруулах', 'submit');
+            ->add('question', null, array('label' => 'Асуулт:'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

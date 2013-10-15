@@ -1,7 +1,11 @@
 {% extends 'QandaHomeBundle::layout.html.twig' %}
 
 {% block body %}
-
+{% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+{% endfor %}
 <h2>{{ question.title }}</h2>
 
 
@@ -84,12 +88,18 @@
 {% if app.session.get("id") %}
     {{ form_start(answer_form, {'attr': {'novalidate': 'novalidate'}}) }}
         {{ form_errors(answer_form) }}
-        <div>
-            <label>{{ form_label(answer_form.answer) }}</label>
-            {{ form_widget(answer_form.answer) }}
+        <div class="form-group">
+            {{ form_label(answer_form.answer) }}
+            {{ form_widget(answer_form.answer,{'attr': {'class': 'form-control1'}}) }}
             {{ form_errors(answer_form.answer) }}
         </div>
-    {{ form_end(answer_form) }}
+    {% block button_row %}
+    {% spaceless %}
+    <input type="submit" value="Оруулах" class="btn btn-primary">
+        {{ form_end(answer_form) }}
+    {% endspaceless %}
+    {% endblock button_row %}
+{{ form_end(answer_form) }}
 {% else %}
     Хариулт бичхийн тулд нэр, нууц үгээрээ
     <a href="{{ path("login") }}"> холбогдоно </a>уу!

@@ -11,8 +11,7 @@ class RegisterType extends AbstractType
     {
         $builder
             ->add('name', null, array('label' => 'Нэр:'))
-            ->add('password', 'password', array('label' => 'Нууц үг:'))
-            ->add('Нэвтрэх', 'submit');
+            ->add('password', 'password', array('label' => 'Нууц үг:'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

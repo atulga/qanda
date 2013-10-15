@@ -10,8 +10,7 @@ class AnswerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('answer', null, array('label' => 'Хариулт:'))
-            ->add('Оруулах', 'submit');
+            ->add('answer', null, array('label' => 'Хариулт:'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

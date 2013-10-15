@@ -40,12 +40,8 @@
         </div>
       </div>
     </div>
-
-    <div class="container">
-        {% if app.request.get('message') %}
-        <div class="alert alert-success">{{ app.request.get('message') }}</div>
-        {% endif %}
-        {% block body %}{% endblock %}
+        <div class="container">
+            {% block body %}{% endblock %}
       </div>
     </div>
 

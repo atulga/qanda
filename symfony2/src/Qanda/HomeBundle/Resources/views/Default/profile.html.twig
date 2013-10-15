@@ -1,6 +1,11 @@
 {% extends 'QandaHomeBundle::layout.html.twig' %}
 
 {% block body %}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+{% endfor %}
 {% if app.session.get("id") == user.id  %}
 <a href="{{ path("edit_profile", {'user_id': user.id}) }}">
     Хувийн мэдээлэл засах

@@ -21,7 +21,7 @@ class Answer
     private $id;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Хариулт оруулна уу!")
      * @ORM\Column(name="answer", type="text", nullable=false)
      */
     private $answer;

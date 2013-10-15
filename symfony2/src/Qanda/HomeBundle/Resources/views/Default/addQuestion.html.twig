@@ -4,17 +4,21 @@
 <h3>Асуулт оруулах</h3>
 
 {{ form_start(question_form, {'attr': {'novalidate': 'novalidate'}}) }}
-    {{ form_errors(question_form) }}
-    <div>
-        <label>{{ form_label(question_form.title) }}</label>
-        {{ form_widget(question_form.title) }}
-        {{ form_errors(question_form.title) }}
-    </div>
-    <div>
-        <label>{{ form_label(question_form.question) }}</label>
-        {{ form_widget(question_form.question) }}
-        {{ form_errors(question_form.question) }}
-    </div>
+{{ form_errors(question_form) }}
+{% block form_row %}
+{% spaceless %}
+<div class="form-group">
+    {{ form_label(question_form.title) }}
+    {{ form_widget(question_form.title, {'attr': {'class': 'form-control1'}}) }}
+    {{ form_errors(question_form.title) }}
+</div>
+<div class ="form-group">
+    {{ form_label(question_form.question) }}
+    {{ form_widget(question_form.question,{'attr': {'class': 'form-control1'}}) }}
+    {{ form_errors(question_form.question) }}
+</div>
+{% endspaceless %}
+{% endblock form_row %}
+    <input type="submit" value="Оруулах" class="btn btn-primary">
 {{ form_end(question_form) }}
-
 {% endblock %}

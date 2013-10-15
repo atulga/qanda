@@ -1,22 +1,37 @@
 {% extends 'QandaHomeBundle::layout.html.twig' %}
 
 {% block body %}
+
+{% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-danger">
+            {{ flashMessage }}
+        </div>
+{% endfor %}
+
+
 <h3>Шинээр бүртгүүлэх</h3>
-<div>
 {{ form_start(register_form, {'attr': {'novalidate': 'novalidate'}}) }}
-    {{ form_errors(register_form) }}
-    <div>
-        <label>{{ form_label(register_form.name) }}</label>
-        {{ form_widget(register_form.name) }}
-        {{ form_errors(register_form.name) }}
-    </div>
-    <div>
-        <label>{{ form_label(register_form.password) }}</label>
-        {{ form_widget(register_form.password) }}
-        {{ form_errors(register_form.password) }}
-    </div>
+{{ form_errors(register_form) }}
+{% block form_row %}
+{% spaceless %}
+<div class="form-group">
+    {{ form_label(register_form.name) }}
+    {{ form_widget(register_form.name, {'attr': {'class': 'form-control1'}}) }}
+    {{ form_errors(register_form.name) }}
+</div>
+<div class ="form-group">
+    {{ form_label(register_form.password) }}
+    {{ form_widget(register_form.password,{'attr': {'class': 'form-control1'}}) }}
+    {{ form_errors(register_form.password) }}
+</div>
+{% endspaceless %}
+{% endblock form_row %}
+{% block button_row %}
+{% spaceless %}
+<input type="submit" value="Нэвтрэх" class="btn btn-primary">
+    {{ form_end(register_form) }}
+{% endspaceless %}
+{% endblock button_row %}
 
 {{ form_end(register_form) }}
-    <br/>
-</div>
 {% endblock %}

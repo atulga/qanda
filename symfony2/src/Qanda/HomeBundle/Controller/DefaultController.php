@@ -14,8 +14,8 @@ use Qanda\HomeBundle\Entity\Answer;
 use Qanda\HomeBundle\Entity\User;
 use Qanda\HomeBundle\Form\Type\AnswerType;
 use Qanda\HomeBundle\Form\Type\LoginType;
-use Qanda\HomeBundle\Form\Type\QuestionType;
 use Qanda\HomeBundle\Form\Type\RegisterType;
+use Qanda\HomeBundle\Form\Type\QuestionType;
 use Qanda\HomeBundle\Form\Type\UserType;
 use Qanda\HomeBundle\Helpers\Paginator;
 
@@ -56,8 +56,9 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()){
             $insert_value = $form->getData();
-            $name = $insert_value->getName(); 
-            $pass = $insert_value->getPassword(); 
+
+            $name = $insert_value->getName();
+            $pass = $insert_value->getPassword();
 
             $filter = array('name' => $name, 'password' => $pass);
             $user = $this->getDoctrine()
@@ -67,16 +68,10 @@ class DefaultController extends Controller
                 session_set('id', $user->getId());
                 session_set('name', $user->getName());
                 session_set('password', $user->getPassword());
-                $uri = $_SERVER['REQUEST_URI'];
-                if ($uri == '/qanda/index.php/login' || has_get('message')){
-                    return $this->redirect(
-                        $this->generateUrl('question_list'));
-                } else {
-                    return $this->redirect($request->headers->get('referer'));
-                }
+                $this->get('session')->getFlashBag()->add('notice', 'Амжилттай нэвтэрлээ!');
+                    return $this->redirect($this->generateUrl('question_list'));
             }
         }
-
         return array('login_form' => $form->createView());
     }
 
@@ -99,15 +94,15 @@ class DefaultController extends Controller
             ->getRepository('QandaHomeBundle:Answer')
             ->findBy($filter, $order);
 
-        $session_id = $request->getSession()->get('id');
         $form = $this->createForm(new AnswerType(), new Answer());
 
         $form->handleRequest($request);
         if ($form->isValid()){
             $answer = $form->getData();
 
+            $session_id = $request->getSession()->get('id');
             $filter = array('id' => $session_id);
-            
+
             $user = $this->getDoctrine()
                 ->getRepository('QandaHomeBundle:User')
                 ->find($filter);
@@ -129,8 +124,8 @@ class DefaultController extends Controller
         }
 
         return array(
-            'question' => $question, 
-            'answers' => $answers, 
+            'question' => $question,
+            'answers' => $answers,
             'answer_form' => $form->createView(),
         );
     }
@@ -196,7 +191,10 @@ class DefaultController extends Controller
             $em->persist($form_user);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('question_list'));
+            $this->get('session')->getFlashBag()->add(
+                'notice', 'Мэдээлэл амжилттай шинэчлэгдлээ!');
+
+            return $this->redirect('profile?user_id='.$user->getId());
         }
         return array('user' => $user, 'user_form' => $form->createView());
     }
@@ -208,15 +206,15 @@ class DefaultController extends Controller
     public function addQuestionAction(Request $request)
     {
         $session_id = $request->getSession()->get('id');
+
         if ($session_id){
         $form = $this->createForm(new QuestionType(), new Question());
 
-        if ($form->isValid()){
-            $form->bindRequest($request);
-            $question = $form->getData();
+        $form->handleRequest($request);
 
+        if ($form->isValid()){
+            $question = $form->getData();
             $filter = array('id' => $session_id);
-            
             $user = $this->getDoctrine()
                 ->getRepository('QandaHomeBundle:User')
                 ->find($filter);
@@ -226,6 +224,9 @@ class DefaultController extends Controller
             $em->persist($question);
             $em->flush();
 
+            $this->get('session')->getFlashBag()->add(
+                'notice', 'Асуулт амжилттай нэмэгдлээ!');
+
             return $this->redirect($this->generateUrl('question_list'));
         }
 
@@ -233,7 +234,6 @@ class DefaultController extends Controller
         } else {
             return $this->redirect($this->generateUrl('login'));
         }
-       
     }
 
     /**
@@ -257,7 +257,10 @@ class DefaultController extends Controller
             $em->persist($form_question);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('question_list'));
+            $this->get('session')->getFlashBag()->add(
+                'notice', 'Асуулт амжилттай засагдлаа!');
+
+            return $this->redirect('show?question_id='.$question->getId());
         }
         return array('question' => $question, 'question_form' => $form->createView());
     }
@@ -271,13 +274,23 @@ class DefaultController extends Controller
         $form = $this->createForm(new RegisterType(), new User());
 
         $form->handleRequest($request);
-        if ($form->isValid()){
-            $question = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
 
-            return $this->redirect($this->generateUrl('login'));
+        if ($form->isValid()){
+            $user = $form->getData();
+            $search_user = $this->getDoctrine()
+                ->getRepository('QandaHomeBundle:User')
+                ->findOneBy(array('name' => $user->getName()));
+
+            if ($search_user){
+                 $this->get('session')->getFlashBag()->add(
+                            'notice', 'Хэрэглэгчийн нэр өмнө нь үүссэн байна!');
+            } else {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('login'));
+            }
         }
 
         return array('register_form' => $form->createView());
@@ -339,6 +352,8 @@ class DefaultController extends Controller
         $em->remove($answer);
         $em->persist($question);
         $em->flush();
+        $this->get('session')->getFlashBag()->add(
+            'notice', 'Хариулт амжилттай устлаа!');
 
         return $this->redirect($request->headers->get('referer'));
     }
