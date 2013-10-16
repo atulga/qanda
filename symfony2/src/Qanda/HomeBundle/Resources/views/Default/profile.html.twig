@@ -7,7 +7,7 @@
         </div>
 {% endfor %}
 {% if app.session.get("id") == user.id  %}
-<a href="{{ path("edit_profile", {'user_id': user.id}) }}">
+<a href="{{ path("edit_profile", {'user_id': user.id}) }}" class="btn btn-primary">
     Хувийн мэдээлэл засах
 </a>
 {% endif %}
@@ -32,7 +32,7 @@
 <br/>
 <div>
     <label><b>Сүүлийн 5 хариулт: </b></label>
-    <ul>
+    <ol>
     {% for answer in answers %}
         <li>
             <a href="{{ path("question_show", {'question_id': answer.questionId}) }}">
@@ -40,10 +40,10 @@
             </a>
         </li>
     {% endfor %}
-    </ul>
+    </ol>
     <br>
     <label><b>Сүүлийн 5 асуулт: </b></label><br/>
-    <ul>
+    <ol>
     {% for question in questions %}
         <li>
         <a href="{{ path("question_show", {'question_id': question.id}) }}">
@@ -51,6 +51,6 @@
         </a>
         </li>
     {% endfor %}
-    </ul>
+    </ol>
 <div>
 {% endblock %}

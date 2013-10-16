@@ -4,6 +4,7 @@ namespace Qanda\HomeBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Query;
 use Symfony\Component\Validator\Constraints as Assert;
+use Qanda\HomeBundle\Validator\Constraints as QandaAssert;
 
 
 /**
@@ -42,8 +43,6 @@ class User
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
-
-
 
     /**
      * Get id

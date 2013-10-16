@@ -43,6 +43,7 @@ class DefaultController extends Controller
     {
         $session = $this->getRequest()->getSession();
         $session->clear();
+        $this->get('session')->getFlashBag()->add('notice', 'Амжилттай гарлаа!');
         return $this->redirect($this->generateUrl('question_list'));
     }
 
@@ -54,6 +55,7 @@ class DefaultController extends Controller
     {
         $form = $this->createForm(new LoginType(), new User());
         $form->handleRequest($request);
+
         if ($form->isValid()){
             $insert_value = $form->getData();
 
@@ -70,6 +72,8 @@ class DefaultController extends Controller
                 session_set('password', $user->getPassword());
                 $this->get('session')->getFlashBag()->add('notice', 'Амжилттай нэвтэрлээ!');
                     return $this->redirect($this->generateUrl('question_list'));
+            } else {
+                $this->get('session')->getFlashBag()->add('notice', 'Нэр эсвэл нууц үг буруу байна!');
             }
         }
         return array('login_form' => $form->createView());
@@ -119,6 +123,7 @@ class DefaultController extends Controller
             $em->persist($question);
             $em->persist($answer);
             $em->flush();
+            $this->get('session')->getFlashBag()->add('notice', 'Хариулт амжилттай нэмэгдлээ!');
 
             return $this->redirect($request->headers->get('referer'));
         }

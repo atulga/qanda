@@ -26,4 +26,5 @@ class LoginType extends AbstractType
     {
         return 'user';
     }
+
 }

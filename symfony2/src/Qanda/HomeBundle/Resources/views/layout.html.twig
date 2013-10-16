@@ -30,7 +30,7 @@
             </li>
             {% if app.session.get("id") %}
                 <li><a href="/qanda/index.php/profile?user_id={{ app.session.get("id") }}">{{ app.session.get("name") }}</a></li>
-                <li><a href="logout">Гарах</a></li>
+                <li><a href={{path("logout") }}>Гарах</a></li>
             {% else %}
             <li>
                 <a href="{{ path("login") }}">Нэвтрэх</a>
