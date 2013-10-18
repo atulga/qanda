@@ -1,7 +1,14 @@
 parameters:
 #    qanda_home.example.class: Qanda\HomeBundle\Example
 
-services:
+#services:
 #    qanda_home.example:
 #        class: %qanda_home.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+services:
+    validator.unique.UserCheckValidator:
+        class: Qanda\HomeBundle\Validator\Constraints\UserCheckValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: usercheck }

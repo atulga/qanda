@@ -12,7 +12,7 @@
 <div class="row">
     <div class="col-md-6">
         Нэр:
-        <a href="{{ path("profile", {'user_id': question.user.id}) }}">
+        <a href="{{ path("profile", {'user_name': question.user.name}) }}">
             {{ question.user.name }}
         </a>
     </div>
@@ -26,7 +26,7 @@
     <div class="col-md-12">{{ question.question }}</div>
 </div>
 
-{% if app.session.get("id") == question.user.id  %}
+{% if app.session.get("name") == question.user.name  %}
 <div class="row">
     <div class="col-md-6">
         <a href="{{ path("edit_question", {'question_id': question.id}) }}">
@@ -48,7 +48,7 @@
 <div class="row">
     <div class="col-md-6">
         Нэр:
-        <a href="{{ path("profile", {'user_id': answer.user.id}) }}">
+        <a href="{{ path("profile", {'user_name': answer.user.name}) }}">
             {{ answer.user.name }}
         </a>
     </div>
@@ -62,7 +62,7 @@
 </div>
 <div class="row">
     <div class="col-md-6">
-        {% if app.session.get("id") == answer.user.id  %}
+        {% if app.session.get("name") == answer.user.name  %}
             <a href="{{ path("delete_answer", {'answer_id': answer.id}) }}">
                 Хариултыг устгах
             </a>
@@ -85,7 +85,7 @@
 <hr>
 <h3>Хариулт бичих</h3>
 
-{% if app.session.get("id") %}
+{% if app.session.get("name") %}
     {{ form_start(answer_form, {'attr': {'novalidate': 'novalidate'}}) }}
         {{ form_errors(answer_form) }}
         <div class="form-group">
