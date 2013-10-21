@@ -4,10 +4,14 @@ Q and A сайтын тохируулга
 
 Хийгдсэн байх тохиргоонууд
 ====
+#. `app/cache`, `app.logs` гэсэн хавтасуудад бүрэн эрх өгнө:
+
+    sudo chmod 777 app/cache app/logs
+
 #. /etc/hosts - дээр host нэмэх:
 
     echo "127.0.0.1 qanda.dev" | sudo tee -a/etc/hosts
-
+    
 #. apache-server - дээр qanda.local virtualhost тохируулах:
 
     sudo cp qanda.local.def /etc/apache2/sites-available/qanda.local
