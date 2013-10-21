@@ -1,0 +1,34 @@
+{% extends 'QandaHomeBundle::layout.html.twig' %}
+
+{% block body %}
+<a href="{{ path("profile", {'user_name': user.name}) }}">
+    Буцах
+</a>
+<h3>Хувийн мэдээлэл засах хэсэг</h3>
+
+{{ form_start(user_form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_errors(user_form) }}
+{% block form_row %}
+{% spaceless %}
+<div class="form-group">
+    {{ form_label(user_form.nickname) }}
+    {{ form_widget(user_form.nickname, {'attr': {'class': 'form-control1'}}) }}
+    {{ form_errors(user_form.nickname) }}
+</div>
+<div class ="form-group">
+    {{ form_label(user_form.description) }}
+    {{ form_widget(user_form.description,{'attr': {'class': 'form-control1'}}) }}
+    {{ form_errors(user_form.description) }}
+</div>
+{% endspaceless %}
+{% endblock form_row %}
+{% block button_row %}
+{% spaceless %}
+<input type="submit" value="Засах" class="btn btn-primary">
+    {{ form_end(user_form) }}
+{% endspaceless %}
+{% endblock button_row %}
+
+{{ form_end(user_form) }}
+
+{% endblock %}

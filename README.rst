@@ -1,7 +1,15 @@
-How to setup local database settings
+Q and A сайтын тохируулга
 ====
-1. copy `local_settings.php.def` to `local_settings.php`.
+#. `app/config/parameters.yml` Файлд өөрийн database -ийн тохиргоог бичиж өгнө.
 
-2. change configurations in `local_settings.php` to work with your database.
+#. Хийгдсэн байх тохиргоонууд::
 
-3. Note that `local_settings.php` is ignored in `.gitignore`.
+    - htaccess:
+      cp htaccess.def web/.htaccess
+      .htaccess файл DOCUMENT_ROOT болон HTTP_HOST - ыг тохируулж өгнө.
+
+    - apache-server:
+      cp qanda.local.def /etc/apache2/sites-available/qanda.local
+      qanda.local - ыг тохируулж өгнө.
+      a2ensite qanda.local
+      a2enmod rewrite.  

@@ -1,0 +1,108 @@
+{% extends 'QandaHomeBundle::layout.html.twig' %}
+
+{% block body %}
+{% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+{% endfor %}
+<h2>{{ question.title }}</h2>
+
+
+<div class="row">
+    <div class="col-md-6">
+        Нэр:
+        <a href="{{ path("profile", {'user_name': question.user.name}) }}">
+            {{ question.user.name }}
+        </a>
+    </div>
+
+    <div class="col-md-6 text-right">
+        Огноо:
+        {{ question.createdDate.format('Y-m-d H:i:s')  }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">{{ question.question }}</div>
+</div>
+
+{% if app.session.get("name") == question.user.name  %}
+<div class="row">
+    <div class="col-md-6">
+        <a href="{{ path("edit_question", {'question_id': question.id}) }}">
+            Засах
+        </a>
+    </div>
+    <div class="col-md-6 text-right">
+        <a href="{{ path("delete_question", {'question_id': question.id}) }}">
+            Устгах
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<hr/>
+
+<h3>Хариултууд</h3>
+{% for answer in answers %}
+<div class="row">
+    <div class="col-md-6">
+        Нэр:
+        <a href="{{ path("profile", {'user_name': answer.user.name}) }}">
+            {{ answer.user.name }}
+        </a>
+    </div>
+    <div class="col-md-6 text-right">
+        {{ answer.createdDate.format('Y-m-d H:i:s') }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">{{ answer.answer }}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {% if app.session.get("name") == answer.user.name  %}
+            <a href="{{ path("delete_answer", {'answer_id': answer.id}) }}">
+                Хариултыг устгах
+            </a>
+        {% endif %}
+    </div>
+    <div class="col-md-6 text-right">
+        {% if answer.id == question.bestAnswerId  %}
+               <b>Зөв хариулт</b>
+        {% else %}
+            {% if app.session.get("name") == question.user.name %}
+            <a href="{{ path("best_answer", {'answer_id': answer.id}) }}">
+                 Хариулт зөв үү?
+            </a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+<br/>
+{% endfor %}
+<hr>
+<h3>Хариулт бичих</h3>
+
+{% if app.session.get("name") %}
+    {{ form_start(answer_form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_errors(answer_form) }}
+        <div class="form-group">
+            {{ form_label(answer_form.answer) }}
+            {{ form_widget(answer_form.answer,{'attr': {'class': 'form-control1'}}) }}
+            {{ form_errors(answer_form.answer) }}
+        </div>
+    {% block button_row %}
+    {% spaceless %}
+    <input type="submit" value="Оруулах" class="btn btn-primary">
+        {{ form_end(answer_form) }}
+    {% endspaceless %}
+    {% endblock button_row %}
+{{ form_end(answer_form) }}
+{% else %}
+    Хариулт бичхийн тулд нэр, нууц үгээрээ
+    <a href="{{ path("login") }}"> холбогдоно </a>уу!
+{% endif %}
+
+{% endblock %}
