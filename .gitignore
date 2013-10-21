@@ -4,8 +4,7 @@ local_settings.php
 
 # ignore vendor files
 /vendor
-/symfony2/vendor
 
 # ignore cache and logs
-/symfony2/app/cache
-/symfony2/app/logs
+/app/cache
+/app/logs

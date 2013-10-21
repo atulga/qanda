@@ -2,6 +2,10 @@ Q and A сайтын тохируулга
 ====
 #. `app/config/parameters.yml` Файлд өөрийн database -ийн тохиргоог бичиж өгнө.
 
+#. `app/cache`, `app.logs` гэсэн хавтасуудад бүрэн эрх өгнө::
+
+    sudo chmod 777 app/cache app/logs
+
 #. Хийгдсэн байх тохиргоонууд::
 
     - htaccess:
