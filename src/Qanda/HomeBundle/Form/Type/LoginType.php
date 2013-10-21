@@ -5,6 +5,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Qanda\HomeBundle\Validator\Constraints\UserCheck;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormError;
 
 class LoginType extends AbstractType
 {
@@ -17,6 +19,16 @@ class LoginType extends AbstractType
                //     new usercheck(),
                // ),
             ))
+            ->addEventListener(FormEvents::POST_BIND, function ($event) use ($builder) {
+                $form = $event->getForm();
+                $data = $form->getData();
+                $p = $data->getPassword();
+                $u = $data->getName();
+
+
+                $form['name']->addError(new FormError('Error: '. $p.' - '.$u));
+
+            })
             ->add('password', 'password', array(
                 'label' => 'Нууц үг:',
                // 'constraints' => array(
