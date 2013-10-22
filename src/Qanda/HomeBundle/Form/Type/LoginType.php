@@ -3,37 +3,54 @@ namespace Qanda\HomeBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Qanda\HomeBundle\Validator\Constraints\UserCheck;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 
+use Qanda\HomeBundle\Validator\Constraints\UserCheck;
+
+use Qanda\HomeBundle\Entity\User;
+use Doctrine\ORM\EntityManager;
+
 class LoginType extends AbstractType
 {
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $em = $this->em;
         $builder
             ->add('name', null, array(
                 'label' => 'Нэр:',
-               // 'constraints' => array(
-               //     new usercheck(),
-               // ),
             ))
-            ->addEventListener(FormEvents::POST_BIND, function ($event) use ($builder) {
-                $form = $event->getForm();
-                $data = $form->getData();
-                $p = $data->getPassword();
-                $u = $data->getName();
-
-
-                $form['name']->addError(new FormError('Error: '. $p.' - '.$u));
-
-            })
+            ->addEventListener(
+                FormEvents::POST_BIND,
+                function ($event) use ($em) {
+                    $form = $event->getForm();
+                    $data = $form->getData();
+                    $p = $data->getPassword();
+                    $u = $data->getName();
+                    $filter = array('name'=> $u);
+                    $user = $em->getRepository('QandaHomeBundle:User')
+                        ->findOneBy($filter);
+                    if ($user && ($user->getPassword() != $p)){
+                        $form['name']->addError(new FormError('Хэрэглэгчийн
+                            нэр эсвэл нууц дугаар буруу байна!'));
+                    } else {
+                        $event->setData($user);
+                    }
+                }
+            )
             ->add('password', 'password', array(
                 'label' => 'Нууц үг:',
-               // 'constraints' => array(
-               //     new usercheck(),
-               // ),
             ));
     }
 

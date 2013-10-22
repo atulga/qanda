@@ -12,3 +12,8 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: validator.constraint_validator, alias: usercheck }
+    qanda.form.type.login:
+        class: Qanda\HomeBundle\Form\Type\LoginType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type, alias: user }
