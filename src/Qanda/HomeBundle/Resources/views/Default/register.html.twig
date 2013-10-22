@@ -3,40 +3,23 @@
 {% block body %}
 
 {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="alert alert-danger">
-            {{ flashMessage }}
-        </div>
+<div class="alert alert-danger">
+    {{ flashMessage }}
+</div>
 {% endfor %}
 
 
 <h3>Шинээр бүртгүүлэх</h3>
-{{ form_start(register_form, {'attr': {'novalidate': 'novalidate'}}) }}
-{{ form_errors(register_form) }}
-{% block form_row %}
-{% spaceless %}
-<div class="form-group">
-    {{ form_label(register_form.name) }}
-    {{ form_widget(register_form.name, {'attr': {'class': 'form-control1'}}) }}
-    {{ form_errors(register_form.name) }}
-</div>
-<div class ="form-group">
-    {{ form_label(register_form.password.first) }}
-    {{ form_widget(register_form.password.first, {'attr': {'class': 'form-control1'}} ) }}
-    {{ form_errors(register_form.password.first) }}
-</div>
-<div class ="form-group">
-    {{ form_label(register_form.password.second) }}
-    {{ form_widget(register_form.password.second, {'attr': {'class': 'form-control1'}}) }}
-    {{ form_errors(register_form.password.second) }}
-</div>
-{% endspaceless %}
-{% endblock form_row %}
-{% block button_row %}
-{% spaceless %}
-<input type="submit" value="Бүртгүүлэх" class="btn btn-primary">
-    {{ form_end(register_form) }}
-{% endspaceless %}
-{% endblock button_row %}
+
+{{ form_start(register_form, {'attr': {'novalidate': 'novalidate', 'class': 'col-lg-4'}}) }}
+
+    {{ form_errors(register_form) }}
+
+    {{ form_row(register_form.name) }}
+    {{ form_row(register_form.password.first) }}
+    {{ form_row(register_form.password.second) }}
+
+    <input type="submit" value="Бүртгүүлэх" class="btn btn-primary">
 
 {{ form_end(register_form) }}
 {% endblock %}

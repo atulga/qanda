@@ -2,27 +2,19 @@
 
 {% block body %}
 
+
 <h1>Нэвтрэх</h1>
-{{ form_start(login_form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+{{ form_start(login_form, {'attr': {'novalidate': 'novalidate', 'class': 'col-lg-4'}}) }}
 {{ form_errors(login_form) }}
-{% block form_row %}
-<div class="form-group">
-    {{ form_label(login_form.name) }}
-    {{ form_widget(login_form.name, {'attr': {'class': 'form-control1'}}) }}
-    <p class="text-danger">{{ form_errors(login_form.name) }}
-    </p>
-</div>
-<div class ="form-group">
-    {{ form_label(login_form.password) }}
-    {{ form_widget(login_form.password, {'attr': {'class': 'form-control1'}}) }}
-    {{ form_errors(login_form.password) }}
-</div>
-{% endblock form_row %}
-{% block button_row %}
-<input type="submit" value="Нэвтрэх" class="btn btn-primary">
-    {{ form_end(login_form) }}
+
+{{ form_row(login_form.name) }}
+{{ form_row(login_form.password) }}
+
+<input type="submit" value="Нэвтрэх" class="btn btn-primary"/>
 <a href="{{ path("register") }}">Шинээр бүртгүүлэх</a>
-{% endblock button_row %}
+
+{{ form_end(login_form) }}
 
 
 {% endblock %}

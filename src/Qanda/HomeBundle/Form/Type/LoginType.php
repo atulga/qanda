@@ -37,7 +37,7 @@ class LoginType extends AbstractType
                     $data = $form->getData();
                     $p = $data->getPassword();
                     $u = $data->getName();
-                    if ($p == '' && $u == ''){
+                    if ($p == '' || $u == ''){
                        return; 
                     }
                     $filter = array('name'=> $u);
