@@ -38,14 +38,16 @@ class LoginType extends AbstractType
                     $data = $form->getData();
                     $p = $data->getPassword();
                     $u = $data->getName();
+                    if ($p == '' && $u == ''){
+                       return; 
+                    }
                     $filter = array('name'=> $u);
                     $user = $em->getRepository('QandaHomeBundle:User')
                         ->findOneBy($filter);
-                    if ($user && ($user->getPassword() != $p)){
-                        $form['name']->addError(new FormError('Хэрэглэгчийн
-                            нэр эсвэл нууц дугаар буруу байна!'));
+                    if ($user && ($user->getPassword() == $p)){
+                        $form->object = $user;
                     } else {
-                        $event->setData($user);
+                        $form['name']->addError(new FormError('Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!'));
                     }
                 }
             )

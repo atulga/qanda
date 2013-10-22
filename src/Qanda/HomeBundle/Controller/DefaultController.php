@@ -55,29 +55,15 @@ class DefaultController extends Controller
     {
         $form = $this->createForm('user');
         $form->handleRequest($request);
-//        $form = $this->createForm(new LoginType());
-//        $form->handleRequest($request);
 
         if ($form->isValid()){
-            //$insert_value = $form->getData();
-            //$name = $insert_value->getName();
-            //$pass = $insert_value->getPassword();
-            //$filter = array('name' => $name, 'password' => $pass);
-            //$user = $this->getDoctrine()
-            //    ->getRepository('QandaHomeBundle:User')
-            //    ->findOneBy($filter);
-
-                    var_dump($form->getData()); die();
+            $user = $form->object;
             $session = $request->getSession();
-            //if($user){
-                $session->set('name', $user->getName());
-                $session->set('password', $user->getPassword());
-                $flash = $session->getFlashBag();
-                $session->getFlashBag()->add('notice', 'Амжилттай нэвтэрлээ!');
-                return $this->redirect($this->generateUrl('question_list'));
-            //} else {
-            //    $session->getFlashBag()->add('notice', 'Нэр эсвэл нууц үг буруу байна!');
-            //}
+            $session->set('name', $user->getName());
+            $session->set('password', $user->getPassword());
+            $flash = $session->getFlashBag();
+            $session->getFlashBag()->add('notice', 'Амжилттай нэвтэрлээ!');
+            return $this->redirect($this->generateUrl('question_list'));
         }
         return array('login_form' => $form->createView());
     }
