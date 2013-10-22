@@ -43,9 +43,14 @@
         </div>
       </div>
     </div>
+        {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+        {% endfor %}
         <div class="container">
             {% block body %}{% endblock %}
-      </div>
+        </div>
     </div>
     {% javascripts '@QandaHomeBundle/Resources/public/js/bootstrap.min.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>

@@ -294,8 +294,8 @@ class DefaultController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()){
-            $this->get('session')->getFlashBag()->add(
-                        'notice', 'Хэрэглэгчийн нэр өмнө нь үүссэн байна!');
+            $user = $form->getData();
+            $this->get('session')->getFlashBag()->add('success', 'Амжилттай бүртгэгдлээ!');
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

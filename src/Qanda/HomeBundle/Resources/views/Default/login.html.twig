@@ -1,16 +1,11 @@
 {% extends 'QandaHomeBundle::layout.html.twig' %}
 
 {% block body %}
-<h1>Нэвтрэх хэсэг</h1>
-{% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="alert alert-danger">
-            {{ flashMessage }}
-        </div>
-{% endfor %}
+
+<h1>Нэвтрэх</h1>
 {{ form_start(login_form, {'attr': {'novalidate': 'novalidate'}}) }}
 {{ form_errors(login_form) }}
 {% block form_row %}
-{% spaceless %}
 <div class="form-group">
     {{ form_label(login_form.name) }}
     {{ form_widget(login_form.name, {'attr': {'class': 'form-control1'}}) }}
@@ -22,13 +17,12 @@
     {{ form_widget(login_form.password, {'attr': {'class': 'form-control1'}}) }}
     {{ form_errors(login_form.password) }}
 </div>
-{% endspaceless %}
 {% endblock form_row %}
 {% block button_row %}
-{% spaceless %}
 <input type="submit" value="Нэвтрэх" class="btn btn-primary">
     {{ form_end(login_form) }}
 <a href="{{ path("register") }}">Шинээр бүртгүүлэх</a>
-{% endspaceless %}
 {% endblock button_row %}
+
+
 {% endblock %}
