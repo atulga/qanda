@@ -28,9 +28,8 @@ class LoginType extends AbstractType
     {
         $em = $this->em;
         $builder
-            ->add('name', null, array(
-                'label' => 'Нэр:',
-            ))
+            ->add('name', null, array('label' => 'Нэр:'))
+            ->add('password', 'password', array('label' => 'Нууц үг:'))
             ->addEventListener(
                 FormEvents::POST_BIND,
                 function ($event) use ($em) {
@@ -42,16 +41,13 @@ class LoginType extends AbstractType
                     $user = $em->getRepository('QandaHomeBundle:User')
                         ->findOneBy($filter);
                     if ($user && ($user->getPassword() != $p)){
-                        $form['name']->addError(new FormError('Хэрэглэгчийн
-                            нэр эсвэл нууц дугаар буруу байна!'));
+                        $message = 'Хэрэглэгчийн нэр эсвэл нууц дугаар буруу байна!';
+                        $form['name']->addError(new FormError($message));
                     } else {
                         $event->setData($user);
                     }
                 }
-            )
-            ->add('password', 'password', array(
-                'label' => 'Нууц үг:',
-            ));
+            );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
