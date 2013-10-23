@@ -18,3 +18,8 @@ Q and A сайтын тохируулга
     sudo a2ensite qanda.local
     sudo a2enmod rewrite
     sudo service apache2 restart
+
+#. CSS, Javascript гэх мэт static файлууд дээр өөрчлөлт орсоны дараа `web`
+   дотор тэдгээрийг үүсгэж өгнө::
+
+    app/console assetic:dump

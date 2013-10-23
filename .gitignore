@@ -5,10 +5,6 @@ local_settings.php
 # ignore vendor files
 /vendor
 
-# ignore web/css and web/js files
-/web/css
-/web/js
-
 # ignore cache and logs
 /app/cache
 /app/logs
