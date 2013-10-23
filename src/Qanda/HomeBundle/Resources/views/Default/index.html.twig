@@ -1,11 +1,6 @@
 {% extends 'QandaHomeBundle::layout.html.twig' %}
 
 {% block body %}
-{% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="alert alert-success">
-            {{ flashMessage }}
-        </div>
-{% endfor %}
 {% for question in questions %}
 <div class="row">
     <div class="col-md-12">
@@ -20,7 +15,7 @@
     <div class="col-md-6">
         Нэр:
         <strong>
-            <a href="{{ path("profile", {'user_name': question.user.name}) }}">
+            <a href="{{ path("profile", {'user_id': question.user.id}) }}">
                 {{ question.user.name }}
             </a>
         </strong>

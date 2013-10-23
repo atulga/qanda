@@ -43,7 +43,7 @@ class DefaultController extends Controller
     {
         $session = $this->getRequest()->getSession();
         $session->clear();
-        $this->get('session')->getFlashBag()->add('notice', 'Амжилттай гарлаа!');
+        $this->get('session')->getFlashBag()->add('success', 'Амжилттай гарлаа!');
         return $this->redirect($this->generateUrl('question_list'));
     }
 
@@ -59,10 +59,11 @@ class DefaultController extends Controller
         if ($form->isValid()){
             $user = $form->object;
             $session = $request->getSession();
+            $session->set('id', $user->getId());
             $session->set('name', $user->getName());
             $session->set('password', $user->getPassword());
             $flash = $session->getFlashBag();
-            $session->getFlashBag()->add('notice', 'Амжилттай нэвтэрлээ!');
+            $session->getFlashBag()->add('success', 'Амжилттай нэвтэрлээ!');
             return $this->redirect($this->generateUrl('question_list'));
         }
         return array('login_form' => $form->createView());
@@ -93,8 +94,8 @@ class DefaultController extends Controller
         if ($form->isValid()){
             $answer = $form->getData();
 
-            $session_name = $request->getSession()->get('name');
-            $filter = array('name' => $session_name);
+            $session_id = $request->getSession()->get('id');
+            $filter = array('id' => $session_id);
 
             $user = $this->getDoctrine()
                 ->getRepository('QandaHomeBundle:User')
@@ -112,7 +113,7 @@ class DefaultController extends Controller
             $em->persist($question);
             $em->persist($answer);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('notice', 'Хариулт амжилттай нэмэгдлээ!');
+            $this->get('session')->getFlashBag()->add('success', 'Хариулт амжилттай нэмэгдлээ!');
 
             return $this->redirect($request->headers->get('referer'));
         }
@@ -130,8 +131,8 @@ class DefaultController extends Controller
      */
     public function profileAction()
     {
-        $user_name = $this->getRequest()->query->get('user_name');
-        $filter = array('name' => $user_name);
+        $user_id = $this->getRequest()->query->get('user_id');
+        $filter = array('id' => $user_id);
         $user = $this->getDoctrine()
             ->getRepository('QandaHomeBundle:User')
             ->findOneBy($filter);
@@ -171,10 +172,10 @@ class DefaultController extends Controller
      */
     public function editProfileAction(Request $request)
     {
-        $session_name = $request->getSession()->get('name');
-        if ($session_name){
-            $user_name = $this->getRequest()->query->get('user_name');
-            $filter = array('name' => $user_name);
+        $session_id = $request->getSession()->get('id');
+        if ($session_id){
+            $user_id = $this->getRequest()->query->get('user_id');
+            $filter = array('id' => $user_id);
             $user = $this->getDoctrine()
                 ->getRepository('QandaHomeBundle:User')
                 ->findOneBy($filter);
@@ -189,9 +190,9 @@ class DefaultController extends Controller
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add(
-                    'notice', 'Мэдээлэл амжилттай шинэчлэгдлээ!');
+                    'success', 'Мэдээлэл амжилттай шинэчлэгдлээ!');
 
-                return $this->redirect('profile?user_name='.$user->getName());
+                return $this->redirect('profile?user_id='.$user->getId());
             }
             return array('user' => $user, 'user_form' => $form->createView());
         } else {
@@ -205,15 +206,15 @@ class DefaultController extends Controller
      */
     public function addQuestionAction(Request $request)
     {
-        $session_name = $request->getSession()->get('name');
-        if ($session_name){
+        $session_id = $request->getSession()->get('id');
+        if ($session_id){
             $form = $this->createForm(new QuestionType(), new Question());
 
             $form->handleRequest($request);
 
             if ($form->isValid()){
                 $question = $form->getData();
-                $filter = array('name' => $session_name);
+                $filter = array('id' => $session_id);
                 $user = $this->getDoctrine()
                     ->getRepository('QandaHomeBundle:User')
                     ->findOneBy($filter);
@@ -224,7 +225,7 @@ class DefaultController extends Controller
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add(
-                    'notice', 'Асуулт амжилттай нэмэгдлээ!');
+                    'success', 'Асуулт амжилттай нэмэгдлээ!');
 
                 return $this->redirect($this->generateUrl('question_list'));
             }
@@ -241,8 +242,8 @@ class DefaultController extends Controller
      */
     public function editQuestionAction(Request $request)
     {
-        $session_name = $request->getSession()->get('name');
-        if ($session_name){
+        $session_id = $request->getSession()->get('id');
+        if ($session_id){
             $question_id = $this->getRequest()->query->get('question_id');
             $filter = array('id' => $question_id);
             $question = $this->getDoctrine()
@@ -259,7 +260,7 @@ class DefaultController extends Controller
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add(
-                    'notice', 'Асуулт амжилттай засагдлаа!');
+                    'success', 'Асуулт амжилттай засагдлаа!');
 
                 return $this->redirect('show?question_id='.$question->getId());
             }
@@ -315,6 +316,9 @@ class DefaultController extends Controller
         }
         $em->flush();
 
+        $this->get('session')->getFlashBag()->add(
+            'success', 'Асуулт амжилттай устлаа!');
+
         return $this->redirect($this->generateUrl('question_list'));
     }
 
@@ -349,7 +353,7 @@ class DefaultController extends Controller
         $em->persist($question);
         $em->flush();
         $this->get('session')->getFlashBag()->add(
-            'notice', 'Хариулт амжилттай устлаа!');
+            'success', 'Хариулт амжилттай устлаа!');
 
         return $this->redirect($request->headers->get('referer'));
     }
@@ -374,6 +378,8 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->persist($question);
         $em->flush();
+        $this->get('session')->getFlashBag()->add(
+            'success', 'Зөв хариулт сонгогдлоо!');
 
         return $this->redirect($request->headers->get('referer'));
     }

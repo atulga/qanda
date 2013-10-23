@@ -2,13 +2,6 @@
 
 {% block body %}
 
-{% for flashMessage in app.session.flashbag.get('notice') %}
-<div class="alert alert-danger">
-    {{ flashMessage }}
-</div>
-{% endfor %}
-
-
 <h3>Шинээр бүртгүүлэх</h3>
 
 {{ form_start(register_form, {'attr': {'novalidate': 'novalidate', 'class': 'col-lg-4'}}) }}

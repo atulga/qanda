@@ -8,27 +8,11 @@
 
 {{ form_start(question_form, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_errors(question_form) }}
-{% block form_row %}
-{% spaceless %}
-<div class="form-group">
-    {{ form_label(question_form.title) }}
-    {{ form_widget(question_form.title, {'attr': {'class': 'form-control1'}}) }}
-    {{ form_errors(question_form.title) }}
-</div>
-<div class ="form-group">
-    {{ form_label(question_form.question) }}
-    {{ form_widget(question_form.question,{'attr': {'class': 'form-control1'}}) }}
-    {{ form_errors(question_form.question) }}
-</div>
-{% endspaceless %}
-{% endblock form_row %}
-{% block button_row %}
-{% spaceless %}
-<input type="submit" value="Засах" class="btn btn-primary">
-    {{ form_end(question_form) }}
-{% endspaceless %}
-{% endblock button_row %}
 
+    {{ form_row(question_form.title) }}
+    {{ form_row(question_form.question) }}
+
+    <input type="submit" value="Засах" class="btn btn-primary">
 
 {{ form_end(question_form) }}
 

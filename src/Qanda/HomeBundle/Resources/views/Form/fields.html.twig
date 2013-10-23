@@ -35,3 +35,9 @@
     {% endif %}
 {% endspaceless %}
 {% endblock form_errors %}
+
+{% block textarea_widget %}
+{% spaceless %}
+    <textarea class="form-control" {{ block('widget_attributes') }}>{{ value }}</textarea>
+{% endspaceless %}
+{% endblock textarea_widget %}

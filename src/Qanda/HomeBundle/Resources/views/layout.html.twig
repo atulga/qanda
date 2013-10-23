@@ -31,8 +31,8 @@
             <li>
                 <a href="{{ path("question_add") }}">Асуулт оруулах</a>
             </li>
-            {% if app.session.get("name") %}
-                <li><a href="profile?user_name={{ app.session.get("name") }}">{{ app.session.get("name") }}</a></li>
+            {% if app.session.get("id") %}
+                <li><a href="profile?user_id={{ app.session.get("id") }}">{{ app.session.get("name") }}</a></li>
                 <li><a href={{path("logout") }}>Гарах</a></li>
             {% else %}
             <li>
@@ -45,6 +45,11 @@
     </div>
         {% for flashMessage in app.session.flashbag.get('success') %}
         <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger">
             {{ flashMessage }}
         </div>
         {% endfor %}
